@@ -1,0 +1,195 @@
+2025-05-07 12:45:23,236 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 12:45:23,236 - app.routes.agents - INFO - Running registration agent
+2025-05-07 12:45:24,186 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 12:45:24,186 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 12:45:24,687 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 12:45:24,687 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 12:45:25,026 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 12:45:25,026 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 12:45:28,286 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+2025-05-07 12:45:29,350 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=18
+2025-05-07 12:45:29,350 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-07 12:45:30,030 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-07 12:45:30,030 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-07 12:45:30,303 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=18
+2025-05-07 13:49:31,866 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 13:49:31,867 - app.routes.agents - INFO - Running registration agent
+2025-05-07 13:49:32,502 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 13:49:32,502 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 13:49:32,985 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 13:49:32,986 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 13:49:33,351 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 13:49:33,352 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 13:49:33,399 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Financial Fraud Prevention, sector=Banking, role=Bank Teller
+2025-05-07 13:49:33,457 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Financial Fraud Prevention
+2025-05-07 13:49:33,457 - app.agents.quiz_generator_agent - ERROR - Error generating quiz content: Invalid input type <class 'langchain_core.prompts.chat.ChatPromptTemplate'>. Must be a PromptValue, str, or list of BaseMessages.
+2025-05-07 13:49:33,504 - app.agents.quiz_generator_agent - INFO - Using fallback quiz due to exception
+2025-05-07 13:49:33,504 - app.agents.quiz_generator_agent - WARNING - Generating fallback quiz for topic: Financial Fraud Prevention
+2025-05-07 13:49:34,040 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics' with 5 questions
+2025-05-07 13:49:34,580 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller Specific Risks' with 5 questions
+2025-05-07 13:49:35,019 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking Specific Threats' with 5 questions
+2025-05-07 13:49:35,518 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-07 13:49:35,563 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=19
+2025-05-07 13:49:35,563 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-07 13:49:36,196 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-07 13:49:36,196 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-07 13:49:36,607 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=19
+2025-05-07 13:56:51,741 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 13:56:51,742 - app.routes.agents - INFO - Running registration agent
+2025-05-07 13:56:52,821 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 13:56:52,821 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 13:56:53,045 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 13:56:53,045 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 13:56:53,519 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 13:56:53,519 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 13:56:53,695 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Mobile Device Security, sector=Banking, role=Bank Teller
+2025-05-07 13:56:53,744 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Mobile Device Security
+2025-05-07 13:58:00,995 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9772 chars)
+2025-05-07 13:58:00,995 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Mobile Device Security",
+            "description": "This chapter covers the basic principles of mobile device secur...
+2025-05-07 13:58:00,995 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-07 13:58:00,996 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-07 13:58:01,504 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Mobile Device Security' with 5 questions
+2025-05-07 13:58:01,979 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-07 13:58:02,811 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-07 13:58:03,704 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-07 13:58:03,808 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=20
+2025-05-07 13:58:03,808 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-07 13:58:04,464 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-07 13:58:04,465 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-07 13:58:04,916 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=20
+2025-05-07 21:24:21,775 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 21:24:21,799 - app.routes.agents - INFO - Running registration agent
+2025-05-07 21:24:22,867 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 21:24:22,867 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 21:24:23,620 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 21:24:23,620 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 21:24:24,054 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 21:24:24,054 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 21:24:24,261 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Social Engineering Defense, sector=Banking, role=Bank Teller
+2025-05-07 21:24:24,375 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Social Engineering Defense
+2025-05-07 21:26:05,755 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 11167 chars)
+2025-05-07 21:26:05,755 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Social Engineering Defense",
+            "description": "This chapter covers the basic concepts of social engineerin...
+2025-05-07 21:26:05,755 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-07 21:26:05,755 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-07 21:26:06,385 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Social Engineering Defense' with 5 questions
+2025-05-07 21:26:07,281 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-07 21:26:07,776 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-07 21:26:08,372 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-07 21:26:08,471 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=21
+2025-05-07 21:26:08,471 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-07 21:26:09,277 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-07 21:26:09,277 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-07 21:26:09,553 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=21
+2025-05-07 21:28:39,300 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 21:28:39,300 - app.routes.agents - INFO - Running registration agent
+2025-05-07 21:28:41,095 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 21:28:41,095 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 21:28:41,523 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 21:28:41,523 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 21:28:41,856 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 21:28:41,856 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 21:28:42,043 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Social Engineering Defense, sector=Banking, role=Bank Teller
+2025-05-07 21:28:42,127 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Social Engineering Defense
+2025-05-07 21:30:12,017 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 10662 chars)
+2025-05-07 21:30:12,017 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Social Engineering Defense",
+            "description": "This chapter covers the fundamentals of cybersecurity and h...
+2025-05-07 21:30:12,017 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-07 21:30:12,017 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-07 21:30:12,810 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Social Engineering Defense' with 5 questions
+2025-05-07 21:30:13,575 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-07 21:30:14,130 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-07 21:30:14,692 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-07 21:30:14,886 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=22
+2025-05-07 21:30:14,886 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-07 21:30:16,804 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-07 21:30:16,804 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-07 21:30:17,122 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=22
+2025-05-07 21:32:09,666 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 21:32:09,666 - app.routes.agents - INFO - Running registration agent
+2025-05-07 21:32:11,025 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 21:32:11,025 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 21:32:11,621 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 21:32:11,622 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 21:32:12,178 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 21:32:12,178 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 21:32:12,251 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Travel Document Security, sector=Banking, role=Bank Teller
+2025-05-07 21:32:12,331 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Travel Document Security
+2025-05-07 21:33:53,035 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 10010 chars)
+2025-05-07 21:33:53,035 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Travel Document Security",
+            "description": "This chapter focuses on the fundamentals of securing travel d...
+2025-05-07 21:33:53,035 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-07 21:33:53,045 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-07 21:33:53,448 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Travel Document Security' with 5 questions
+2025-05-07 21:33:53,972 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-07 21:33:54,627 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-07 21:33:55,241 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-07 21:33:55,304 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=23
+2025-05-07 21:33:55,304 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-07 21:33:56,099 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-07 21:33:56,099 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-07 21:33:56,586 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=23
+2025-05-07 21:59:08,990 - app.routes.agents - INFO - Starting quiz evaluation: user_id=1, quiz_id=23
+2025-05-07 21:59:08,990 - app.routes.agents - INFO - Running evaluation agent
+2025-05-07 21:59:11,238 - app.routes.agents - INFO - Evaluation complete: next_agent=analytics
+2025-05-07 21:59:11,238 - app.routes.agents - INFO - Running analytics agent
+2025-05-07 21:59:11,790 - app.routes.agents - ERROR - Error in evaluate_quiz: tuple index out of range
+Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 133, in evaluate_quiz
+    analytics_result = analytics_agent.run(result)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\agents\base_agent.py", line 33, in run
+    result = self._execute(inputs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\agents\analytics_agent.py", line 69, in _execute
+    next_quiz_recommendations = self._recommend_next_quizzes(
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\agents\analytics_agent.py", line 299, in _recommend_next_quizzes
+    topics = db_service.fetch_all(query, tuple(query_params))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\db_service.py", line 29, in fetch_all
+    cur.execute(query, params or ())
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: tuple index out of range
+2025-05-07 22:08:15,547 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 22:08:15,547 - app.routes.agents - INFO - Running registration agent
+2025-05-07 22:08:16,338 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 22:08:16,338 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 22:08:16,689 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 22:08:16,689 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 22:08:16,989 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 22:08:16,989 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 22:08:17,035 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Phishing Attacks, sector=Banking, role=Bank Teller
+2025-05-07 22:08:17,080 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Phishing Attacks
+2025-05-07 22:09:42,328 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 10567 chars)
+2025-05-07 22:09:42,330 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Phishing Attacks",
+            "description": "This chapter covers the basic concepts and principles related to phis...
+2025-05-07 22:09:42,330 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-07 22:09:42,330 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-07 22:09:42,857 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Phishing Attacks' with 5 questions
+2025-05-07 22:09:43,574 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-07 22:09:44,176 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-07 22:09:44,617 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-07 22:09:44,669 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=24
+2025-05-07 22:09:44,669 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-07 22:09:45,578 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-07 22:09:45,578 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-07 22:09:45,956 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=24
