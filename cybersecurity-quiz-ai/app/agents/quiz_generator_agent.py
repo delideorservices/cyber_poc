@@ -22,7 +22,7 @@ class QuizGeneratorAgent(BaseAgent):
         
         # Initialize LLM using ChatOpenAI instead of the deprecated OpenAI
         self.llm = ChatOpenAI(
-            model="gpt-4",  # Use GPT-4 for better structured outputs
+            model="gpt-4.1-nano",  # Use GPT-4 for better structured outputs
             temperature=0.7,
             openai_api_key=OPENAI_API_KEY
         )

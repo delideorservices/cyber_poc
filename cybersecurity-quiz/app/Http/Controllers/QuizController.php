@@ -132,14 +132,51 @@ class QuizController extends Controller
             if ($response->successful()) {
                 $result = $response->json();
                 
-                if (isset($result['quiz_id'])) {
-                    // Quiz successfully generated
+                if (isset($result['quiz'])) {
+                    $quizData = $result['quiz'];
+                
+                    // 1️⃣ Save Quiz
+                    $quiz = Quiz::create([
+                        'title' => $quizData['title'],
+                        'description' => $quizData['description'] ?? '',
+                        'user_id' => $user->id,
+                        'topic_id' => $request->topic_id,
+                        'difficulty_level' => $quizData['difficulty_level'] ?? 1,
+                    ]);
+                
+                    // 2️⃣ Save Chapters + Questions
+                    $sequence = 1;
+                    foreach ($quizData['chapters'] as $chapterData) {
+                        $chapter = Chapter::create([
+                            'quiz_id' => $quiz->id,
+                            'title' => $chapterData['title'],
+                            'description' => $chapterData['description'] ?? '',
+                            'sequence' => $sequence++,
+                        ]);
+                
+                        $questionSeq = 1;
+                        foreach ($chapterData['questions'] as $questionData) {
+                            Question::create([
+                                'chapter_id' => $chapter->id,
+                                'type' => $questionData['type'],
+                                'content' => $questionData['content'],
+                                'options' => isset($questionData['options']) ? json_encode($questionData['options']) : null,
+                                'correct_answer' => $questionData['correct_answer'] ?? null,
+                                'explanation' => $questionData['explanation'] ?? null,
+                                'sequence' => $questionSeq++,
+                                'points' => $questionData['points'] ?? 1,
+                            ]);
+                        }
+                    }
+                
                     return response()->json([
                         'status' => 'success',
-                        'quiz_id' => $result['quiz_id'],
-                        'message' => 'Quiz generated successfully'
+                        'quiz_id' => $quiz->id,
+                        'message' => 'Quiz generated and saved successfully'
                     ]);
-                } else {
+                }
+                
+                else {
                     // Something went wrong
                     return response()->json([
                         'status' => 'error',

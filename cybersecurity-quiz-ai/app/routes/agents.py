@@ -1,7 +1,9 @@
-from fastapi import APIRouter, Body, HTTPException, Depends
+from fastapi import APIRouter, Body, HTTPException, Depends, Query
 from pydantic import BaseModel
 from typing import Dict, Any, List, Optional
 import logging
+import json
+import traceback
 from app.agents.registration_agent import RegistrationAgent
 from app.agents.profile_analyzer_agent import ProfileAnalyzerAgent
 from app.agents.topic_mapper_agent import TopicMapperAgent
@@ -12,12 +14,16 @@ from app.agents.evaluation_agent import EvaluationAgent
 from app.agents.analytics_agent import AnalyticsAgent
 from app.agents.feedback_agent import FeedbackAgent
 from app.services.db_service import db_service
+from app.services.crew_service import crew_service
 
 # Set up logging
 logging.basicConfig(
-    filename='app.log',   # 👈 yahan tum log file ka naam specify kar rahe ho
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('app.log', encoding='utf-8'),  # Ensure proper encoding
+        logging.StreamHandler()  # Add console output
+    ]
 )
 logger = logging.getLogger(__name__)
 
@@ -49,12 +55,13 @@ class RegistrationRequest(BaseModel):
     topic_id: int
     skills: Optional[List[Dict[str, Any]]] = []
     certifications: Optional[List[Dict[str, Any]]] = []
-    use_crew_ai: Optional[bool] = False  # Optional flag to use CrewAI (for future use)
+    use_crew_ai: Optional[bool] = True  # Flag to use CrewAI
 
 class QuizResponseRequest(BaseModel):
     user_id: int
     quiz_id: int
     responses: List[Dict[str, Any]]
+    use_crew_ai: Optional[bool] = True  # Flag to use CrewAI
 
 # Routes for agent interaction
 @router.post("/register")
@@ -62,10 +69,93 @@ async def register_user(request: RegistrationRequest):
     """Register a new user and start quiz generation process"""
     try:
         logger.info(f"Starting registration process for user {request.email}")
+        request_data = request.dict()
         
-        # Run registration agent
+        # Check if CrewAI should be used
+        if request.use_crew_ai:
+            # Use CrewAI for registration and subsequent processes
+            logger.info("Using CrewAI for registration process")
+            try:
+                # Step 1: Registration Crew
+                registration_result = crew_service.create_registration_crew(request_data)
+                logger.info(f"CrewAI registration result: {registration_result.get('status')}")
+                
+                # Log the successful registration
+                db_service.log_agent_action(
+                    agent_name="CrewAI",
+                    action="register_user",
+                    input_data={"email": request.email},
+                    output_data={"user_id": registration_result.get('user_id'), "status": registration_result.get('status')},
+                    status="success"
+                )
+                
+                # Step 2: Prepare data for Quiz Generation Crew
+                # Get the sector and role names
+                user = db_service.fetch_one(
+                    """
+                    SELECT u.*, s.name as sector_name, r.name as role_name
+                    FROM users u
+                    LEFT JOIN sectors s ON u.sector_id = s.id
+                    LEFT JOIN roles r ON u.role_id = r.id
+                    WHERE u.id = %s
+                    """,
+                    (registration_result.get('user_id', 1),)  # Default to 1 if not found
+                )
+                
+                # Create data for quiz generation
+                quiz_gen_data = {
+                    'user_id': registration_result.get('user_id', 1),
+                    'topic_id': registration_result.get('topic_id', request_data.get('topic_id')),
+                    'topic_name': registration_result.get('topic_name', "Cybersecurity Fundamentals"),
+                    'experience_level': registration_result.get('experience_level', 3),
+                    'user_sector': user.get('sector_name', 'General') if user else 'General',
+                    'user_role': user.get('role_name', 'General') if user else 'General',
+                    'focus_areas': registration_result.get('focus_areas', ['General Cybersecurity'])
+                }
+                
+                # Step 3: Generate Quiz using CrewAI
+                logger.info(f"Using CrewAI to generate quiz for topic: {quiz_gen_data.get('topic_name')}")
+                quiz_result = crew_service.create_quiz_generation_crew(quiz_gen_data)
+                logger.info(f"CrewAI quiz generation result: {quiz_result.get('status')}")
+                
+                # Log the successful quiz generation
+                db_service.log_agent_action(
+                    agent_name="CrewAI",
+                    action="generate_quiz",
+                    input_data={"user_id": quiz_gen_data.get('user_id'), "topic": quiz_gen_data.get('topic_name')},
+                    output_data={"quiz_id": quiz_result.get('quiz_id'), "status": quiz_result.get('status')},
+                    status="success"
+                )
+                
+                # Combine results and return
+                combined_result = {
+                    **registration_result,
+                    'quiz_id': quiz_result.get('quiz_id'),
+                    'quiz_title': quiz_result.get('quiz_title'),
+                    'quiz_generation_status': quiz_result.get('status')
+                }
+                
+                return combined_result
+                
+            except Exception as crew_err:
+                logger.error(f"CrewAI registration error: {str(crew_err)}")
+                logger.error(traceback.format_exc())
+                
+                # Log the error
+                db_service.log_agent_action(
+                    agent_name="CrewAI",
+                    action="register_user",
+                    input_data={"email": request.email},
+                    status="error",
+                    error_message=str(crew_err)
+                )
+                
+                # Fallback to traditional agent chain
+                logger.info("Falling back to traditional agent chain")
+        
+        # Use original agent chain
         logger.info("Running registration agent")
-        result = registration_agent.run(request.dict())
+        result = registration_agent.run(request_data)
         logger.info(f"Registration agent result: next_agent={result.get('next_agent')}")
         
         # Continue the agent chain
@@ -121,10 +211,45 @@ async def evaluate_quiz(request: QuizResponseRequest):
     """Process user quiz responses and provide feedback"""
     try:
         logger.info(f"Starting quiz evaluation: user_id={request.user_id}, quiz_id={request.quiz_id}")
+        request_data = request.dict()
+        
+        # Check if CrewAI should be used
+        if request.use_crew_ai:
+            # Use CrewAI for evaluation
+            logger.info("Using CrewAI for evaluation process")
+            try:
+                result = crew_service.create_evaluation_crew(request_data)
+                logger.info(f"CrewAI evaluation result: {result.get('status')}")
+                
+                # Log the successful evaluation
+                db_service.log_agent_action(
+                    agent_name="CrewAI",
+                    action="evaluate_quiz",
+                    input_data={"user_id": request.user_id, "quiz_id": request.quiz_id},
+                    output_data={"status": result.get('status'), "score": result.get('percentage_score')},
+                    status="success"
+                )
+                
+                return result
+            except Exception as crew_err:
+                logger.error(f"CrewAI evaluation error: {str(crew_err)}")
+                logger.error(traceback.format_exc())
+                
+                # Log the error
+                db_service.log_agent_action(
+                    agent_name="CrewAI",
+                    action="evaluate_quiz",
+                    input_data={"user_id": request.user_id, "quiz_id": request.quiz_id},
+                    status="error",
+                    error_message=str(crew_err)
+                )
+                
+                # Fallback to traditional agent chain
+                logger.info("Falling back to traditional agent chain")
         
         # Run evaluation agent
         logger.info("Running evaluation agent")
-        result = evaluation_agent.run(request.dict())
+        result = evaluation_agent.run(request_data)
         logger.info(f"Evaluation complete: next_agent={result.get('next_agent')}")
         
         # Continue the agent chain
@@ -154,13 +279,91 @@ async def evaluate_quiz(request: QuizResponseRequest):
         )
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.post("/generate-quiz-crew")
+async def generate_quiz_crew(data: Dict[str, Any] = Body(...)):
+    """Generate a quiz using CrewAI"""
+    try:
+        logger.info(f"Starting quiz generation with CrewAI for topic: {data.get('topic_name')}")
+        
+        # Validate required fields
+        required_fields = ['user_id', 'topic_id', 'topic_name']
+        for field in required_fields:
+            if field not in data:
+                msg = f"Missing required field: {field}"
+                logger.error(msg)
+                raise HTTPException(status_code=400, detail=msg)
+        
+        # Add defaults for optional fields if needed
+        if 'experience_level' not in data:
+            data['experience_level'] = 3
+        
+        # Get user sector and role if not provided
+        if 'user_sector' not in data or 'user_role' not in data:
+            user = db_service.fetch_one(
+                """
+                SELECT u.*, s.name as sector_name, r.name as role_name
+                FROM users u
+                LEFT JOIN sectors s ON u.sector_id = s.id
+                LEFT JOIN roles r ON u.role_id = r.id
+                WHERE u.id = %s
+                """,
+                (data['user_id'],)
+            )
+            
+            if user:
+                data['user_sector'] = user.get('sector_name', 'General')
+                data['user_role'] = user.get('role_name', 'General')
+        
+        # Generate quiz using CrewAI
+        result = crew_service.create_quiz_generation_crew(data)
+        logger.info(f"CrewAI quiz generation result: {result.get('status')}")
+        
+        # Log success
+        db_service.log_agent_action(
+            agent_name="CrewAI",
+            action="generate_quiz",
+            input_data={"user_id": data.get('user_id'), "topic": data.get('topic_name')},
+            output_data={"quiz_id": result.get('quiz_id'), "status": result.get('status')},
+            status="success"
+        )
+        
+        return result
+    except Exception as e:
+        logger.error(f"Error in generate_quiz_crew: {str(e)}", exc_info=True)
+        # Log the error in the database
+        db_service.log_agent_action(
+            agent_name="CrewAI",
+            action="generate_quiz_crew",
+            input_data={"topic": data.get('topic_name')},
+            status="error",
+            error_message=str(e)
+        )
+        raise HTTPException(status_code=500, detail=str(e))
+
 @router.post("/run-agent/{agent_name}")
 async def run_single_agent(agent_name: str, data: Dict[str, Any] = Body(...)):
     """Run a specific agent with provided data"""
     try:
         logger.info(f"Running single agent: {agent_name}")
-        agent = None
         
+        # Check if CrewAI should be used
+        use_crew_ai = data.get('use_crew_ai', True)
+        
+        if use_crew_ai and agent_name in ["registration", "quiz_generation", "evaluation"]:
+            logger.info(f"Using CrewAI for {agent_name}")
+            
+            if agent_name == "registration":
+                result = crew_service.create_registration_crew(data)
+            elif agent_name == "quiz_generation":
+                result = crew_service.create_quiz_generation_crew(data)
+            elif agent_name == "evaluation":
+                result = crew_service.create_evaluation_crew(data)
+            
+            logger.info(f"CrewAI {agent_name} completed successfully")
+            return result
+        
+        # Use traditional agents if not using CrewAI
+        agent = None
         if agent_name == "registration":
             agent = registration_agent
         elif agent_name == "profile_analyzer":
@@ -208,5 +411,47 @@ async def health_check():
             "registration", "profile_analyzer", "topic_mapper", 
             "quiz_generator", "quiz_formatter", "quiz_delivery",
             "evaluation", "analytics", "feedback"
-        ]
+        ],
+        "crewai_available": True,
+        "version": "0.1.0"
     }
+
+# Add a CrewAI status endpoint
+@router.get("/crew-status")
+async def crew_status():
+    """Check CrewAI status and availability"""
+    try:
+        # Simple test of CrewAI functionality
+        from crewai import Agent
+        
+        return {
+            "status": "available",
+            "crew_version": "0.28.2",  # Update with your actual version
+            "enabled": True
+        }
+    except Exception as e:
+        logger.error(f"CrewAI status check failed: {str(e)}")
+        return {
+            "status": "unavailable",
+            "error": str(e),
+            "enabled": False
+        }
+
+# Add endpoint to toggle CrewAI
+@router.post("/toggle-crew")
+async def toggle_crew(data: Dict[str, Any] = Body(...)):
+    """Toggle CrewAI functionality"""
+    try:
+        enabled = data.get('enabled', True)
+        
+        # In a real implementation, you might store this in a database or config file
+        # For now, we'll just return the status
+        
+        return {
+            "status": "success",
+            "crew_enabled": enabled,
+            "message": f"CrewAI has been {'enabled' if enabled else 'disabled'}"
+        }
+    except Exception as e:
+        logger.error(f"Error toggling CrewAI: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))

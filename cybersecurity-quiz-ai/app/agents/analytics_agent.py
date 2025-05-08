@@ -252,19 +252,28 @@ class AnalyticsAgent(BaseAgent):
                 
                 # Query topics based on weakness
                 query_params = []
-                query = """
-                SELECT id, name, description FROM topics 
-                WHERE id NOT IN (
-                """
                 
-                # Add completed topic IDs to exclusion list
-                for i, topic_id in enumerate(completed_topic_ids):
-                    query += "%s"
-                    if i < len(completed_topic_ids) - 1:
-                        query += ", "
-                    query_params.append(topic_id)
-                
-                query += ") AND ("
+                # Handle the case when no topics are completed yet
+                if not completed_topic_ids:
+                    query = """
+                    SELECT id, name, description FROM topics 
+                    WHERE (
+                    """
+                else:
+                    # Original code for when completed_topic_ids is not empty
+                    query = """
+                    SELECT id, name, description FROM topics 
+                    WHERE id NOT IN (
+                    """
+                    
+                    # Add completed topic IDs to exclusion list
+                    for i, topic_id in enumerate(completed_topic_ids):
+                        query += "%s"
+                        if i < len(completed_topic_ids) - 1:
+                            query += ", "
+                        query_params.append(topic_id)
+                    
+                    query += ") AND ("
                 
                 # Add search terms based on weakness area
                 search_terms = []
@@ -308,18 +317,24 @@ class AnalyticsAgent(BaseAgent):
             
             # If no specific recommendations, get general topics
             if not recommended_topics:
-                general_topics = db_service.fetch_all(
-                    """
+                if completed_topic_ids:
+                    general_query = """
                     SELECT id, name, description FROM topics 
                     WHERE id NOT IN ({}) 
                     ORDER BY RANDOM() LIMIT 3
-                    """.format(','.join(['%s'] * len(completed_topic_ids))),
-                    tuple(completed_topic_ids) if completed_topic_ids else ()
-                )
+                    """.format(','.join(['%s'] * len(completed_topic_ids)))
+                    general_topics = db_service.fetch_all(general_query, tuple(completed_topic_ids))
+                else:
+                    # No completed topics, get any random topics
+                    general_query = """
+                    SELECT id, name, description FROM topics 
+                    ORDER BY RANDOM() LIMIT 3
+                    """
+                    general_topics = db_service.fetch_all(general_query)
                 
                 recommended_topics = [
                     {'id': t['id'], 'name': t['name'], 'description': t['description']}
                     for t in general_topics
                 ]
             
-            return recommended_topics[:3] 
+            return recommended_topics[:3]

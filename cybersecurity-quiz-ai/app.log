@@ -193,3 +193,1494 @@ IndexError: tuple index out of range
 2025-05-07 22:09:45,578 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
 2025-05-07 22:09:45,578 - app.routes.agents - INFO - Running quiz delivery agent
 2025-05-07 22:09:45,956 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=24
+2025-05-07 23:58:50,684 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-07 23:58:50,684 - app.routes.agents - INFO - Running registration agent
+2025-05-07 23:58:52,194 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-07 23:58:52,194 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-07 23:58:52,538 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-07 23:58:52,538 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-07 23:58:52,850 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-07 23:58:52,850 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-07 23:58:53,007 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Safe Internet Browsing, sector=Banking, role=Bank Teller
+2025-05-07 23:58:53,055 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Safe Internet Browsing
+2025-05-08 00:00:40,928 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9593 chars)
+2025-05-08 00:00:40,928 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Safe Internet Browsing",
+            "description": "This chapter covers the fundamentals of safe internet browsing ...
+2025-05-08 00:00:40,928 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 00:00:40,928 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 00:00:41,197 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Safe Internet Browsing' with 5 questions
+2025-05-08 00:00:41,715 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 00:00:42,105 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 00:00:42,605 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 00:00:42,668 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=25
+2025-05-08 00:00:42,668 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 00:00:43,472 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 00:00:43,472 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 00:00:43,608 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=25
+2025-05-08 00:40:22,249 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 00:40:22,252 - app.routes.agents - INFO - Running registration agent
+2025-05-08 00:40:23,363 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 00:40:23,363 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 00:40:23,840 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 00:40:23,840 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 00:40:24,301 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 00:40:24,301 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 00:40:24,350 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Customer Data Protection, sector=Banking, role=Bank Teller
+2025-05-08 00:40:24,501 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Customer Data Protection
+2025-05-08 00:41:43,755 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9884 chars)
+2025-05-08 00:41:43,755 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Customer Data Protection",
+            "description": "This chapter covers basic cybersecurity knowledge, focusing o...
+2025-05-08 00:41:43,755 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 00:41:43,755 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 00:41:44,045 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Customer Data Protection' with 5 questions
+2025-05-08 00:41:44,459 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 00:41:44,730 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 00:41:45,247 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 00:41:45,412 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=26
+2025-05-08 00:41:45,412 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 00:41:45,905 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 00:41:45,906 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 00:41:46,060 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=26
+2025-05-08 00:42:53,355 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 00:42:53,355 - app.routes.agents - INFO - Running registration agent
+2025-05-08 00:42:54,049 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 00:42:54,049 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 00:42:54,387 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 00:42:54,387 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 00:42:54,733 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 00:42:54,733 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 00:42:54,779 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Hotel Wi-Fi Safety, sector=Banking, role=Bank Teller
+2025-05-08 00:42:54,944 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Hotel Wi-Fi Safety
+2025-05-08 00:44:15,587 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9881 chars)
+2025-05-08 00:44:15,588 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Hotel Wi-Fi Safety",
+            "description": "This chapter focuses on the basic knowledge required to stay safe w...
+2025-05-08 00:44:15,588 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 00:44:15,588 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 00:44:16,123 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Hotel Wi-Fi Safety' with 5 questions
+2025-05-08 00:44:16,597 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 00:44:17,143 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 00:44:17,850 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 00:44:17,909 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=27
+2025-05-08 00:44:17,909 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 00:44:18,602 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 00:44:18,602 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 00:44:18,877 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=27
+2025-05-08 00:45:48,418 - app.routes.agents - INFO - Starting quiz evaluation: user_id=1, quiz_id=27
+2025-05-08 00:45:48,418 - app.routes.agents - INFO - Running evaluation agent
+2025-05-08 00:45:50,906 - app.routes.agents - INFO - Evaluation complete: next_agent=analytics
+2025-05-08 00:45:50,906 - app.routes.agents - INFO - Running analytics agent
+2025-05-08 00:45:51,256 - app.routes.agents - ERROR - Error in evaluate_quiz: tuple index out of range
+Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 210, in evaluate_quiz
+    analytics_result = analytics_agent.run(result)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\agents\base_agent.py", line 33, in run
+    result = self._execute(inputs)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\agents\analytics_agent.py", line 69, in _execute
+    next_quiz_recommendations = self._recommend_next_quizzes(
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\agents\analytics_agent.py", line 308, in _recommend_next_quizzes
+    topics = db_service.fetch_all(query, tuple(query_params))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\db_service.py", line 29, in fetch_all
+    cur.execute(query, params or ())
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\psycopg2\extras.py", line 146, in execute
+    return super().execute(query, vars)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: tuple index out of range
+2025-05-08 00:49:20,389 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:49:33,109 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:49:43,150 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 00:49:49,602 - watchfiles.main - INFO - 6 changes detected
+2025-05-08 00:49:52,234 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:49:56,873 - watchfiles.main - INFO - 6 changes detected
+2025-05-08 00:52:04,654 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:52:24,401 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 00:52:24,401 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 00:52:24,401 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 00:52:24,401 - app.routes.agents - ERROR - CrewAI registration error: Can't instantiate abstract class BaseTool without an implementation for abstract method '_run'
+2025-05-08 00:52:24,433 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 79, in register_user
+    result = crew_service.create_registration_crew(request_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 67, in create_registration_crew
+    registration_agent = Agent(
+                         ^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\pydantic\main.py", line 214, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Can't instantiate abstract class BaseTool without an implementation for abstract method '_run'
+
+2025-05-08 00:52:24,527 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 00:52:24,527 - app.routes.agents - INFO - Running registration agent
+2025-05-08 00:52:25,439 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 00:52:25,439 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 00:52:25,839 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 00:52:25,839 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 00:52:26,064 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 00:52:26,064 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 00:52:26,109 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Mobile Device Security, sector=Banking, role=Bank Teller
+2025-05-08 00:52:26,288 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Mobile Device Security
+2025-05-08 00:53:38,219 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 10509 chars)
+2025-05-08 00:53:38,219 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+    "chapters": [
+        {
+            "title": "Cybersecurity Basics related to Mobile Device Security",
+            "description": "This chapter covers the fundamental concepts and best practices...
+2025-05-08 00:53:38,219 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 00:53:38,219 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 00:53:38,745 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Mobile Device Security' with 5 questions
+2025-05-08 00:53:39,103 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 00:53:39,566 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 00:53:39,942 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 00:53:39,995 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=28
+2025-05-08 00:53:39,995 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 00:53:40,725 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 00:53:40,725 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 00:53:41,022 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=28
+2025-05-08 00:53:42,203 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 00:53:43,906 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:53:46,237 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 00:53:47,346 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 00:53:55,674 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:53:56,027 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:53:56,484 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:53:56,837 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:57:31,737 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:58:42,220 - watchfiles.main - INFO - 1 change detected
+2025-05-08 00:58:43,732 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:11:27,961 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 01:11:27,967 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 01:11:27,967 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 01:11:27,970 - app.routes.agents - ERROR - CrewAI registration error: 1 validation error for Agent
+tools.0
+  Input should be a valid dictionary or instance of BaseTool [type=model_type, input_value=DatabaseExecuteTool(), input_type=DatabaseExecuteTool]
+    For further information visit https://errors.pydantic.dev/2.10/v/model_type
+2025-05-08 01:11:27,976 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 79, in register_user
+    result = crew_service.create_registration_crew(request_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 183, in create_registration_crew
+    registration_agent = Agent(
+                         ^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\pydantic\main.py", line 214, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for Agent
+tools.0
+  Input should be a valid dictionary or instance of BaseTool [type=model_type, input_value=DatabaseExecuteTool(), input_type=DatabaseExecuteTool]
+    For further information visit https://errors.pydantic.dev/2.10/v/model_type
+
+2025-05-08 01:11:28,040 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 01:11:28,040 - app.routes.agents - INFO - Running registration agent
+2025-05-08 01:11:29,248 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 01:11:29,248 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 01:11:29,798 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 01:11:29,798 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 01:11:30,278 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 01:11:30,278 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 01:11:30,337 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=ATM Security, sector=Banking, role=Bank Teller
+2025-05-08 01:11:30,385 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: ATM Security
+2025-05-08 01:11:40,898 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9405 chars)
+2025-05-08 01:11:40,898 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+  "chapters": [
+    {
+      "title": "Cybersecurity Basics related to ATM Security",
+      "description": "Fundamental cybersecurity principles that underpin ATM security to prevent unauthorized acc...
+2025-05-08 01:11:40,898 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 01:11:40,898 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 01:11:41,326 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to ATM Security' with 5 questions
+2025-05-08 01:11:41,761 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 01:11:42,315 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 01:11:42,776 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 01:11:42,832 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=29
+2025-05-08 01:11:42,832 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 01:11:43,318 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 01:11:43,318 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 01:11:43,562 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=29
+2025-05-08 01:19:46,683 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:20:30,391 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:20:35,437 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:20:35,795 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:21:05,419 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:21:09,362 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 01:21:15,240 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:21:15,594 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:21:15,945 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:21:19,070 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:22:00,017 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:22:19,023 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 01:22:19,023 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 01:22:19,023 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 01:22:19,023 - app.routes.agents - ERROR - CrewAI registration error: 1 validation error for Agent
+tools.0
+  Input should be a valid dictionary or instance of BaseTool [type=model_type, input_value=StructuredTool(name='exec... at 0x00000182842FBE20>), input_type=StructuredTool]
+    For further information visit https://errors.pydantic.dev/2.10/v/model_type
+2025-05-08 01:22:19,042 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 79, in register_user
+    result = crew_service.create_registration_crew(request_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 142, in create_registration_crew
+    registration_agent = Agent(
+                         ^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\pydantic\main.py", line 214, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for Agent
+tools.0
+  Input should be a valid dictionary or instance of BaseTool [type=model_type, input_value=StructuredTool(name='exec... at 0x00000182842FBE20>), input_type=StructuredTool]
+    For further information visit https://errors.pydantic.dev/2.10/v/model_type
+
+2025-05-08 01:22:19,196 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 01:22:19,196 - app.routes.agents - INFO - Running registration agent
+2025-05-08 01:22:20,020 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 01:22:20,020 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 01:22:20,454 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 01:22:20,454 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 01:22:20,742 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 01:22:20,742 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 01:22:20,924 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Customer Data Protection, sector=Banking, role=Bank Teller
+2025-05-08 01:22:21,110 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Customer Data Protection
+2025-05-08 01:22:38,017 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9292 chars)
+2025-05-08 01:22:38,019 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+  "chapters": [
+    {
+      "title": "Cybersecurity Basics related to Customer Data Protection",
+      "description": "Fundamental concepts and practices to safeguard customer financial information ...
+2025-05-08 01:22:38,019 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 01:22:38,020 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 01:22:38,280 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Customer Data Protection' with 5 questions
+2025-05-08 01:22:38,783 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 01:22:39,155 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 01:22:39,582 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 01:22:39,633 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=30
+2025-05-08 01:22:39,633 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 01:22:40,328 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 01:22:40,328 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 01:22:40,567 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=30
+2025-05-08 01:22:41,557 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:22:44,386 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 01:22:49,590 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:22:50,144 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:22:50,501 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:08,713 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:25,737 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:27,568 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:30,838 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 01:26:36,629 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:36,984 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:37,388 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:37,747 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:26:54,654 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:27:33,952 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 01:27:33,952 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 01:27:33,952 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 01:27:33,952 - app.routes.agents - ERROR - CrewAI registration error: 'CrewService' object has no attribute 'db_execute_tool'
+2025-05-08 01:27:33,952 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 79, in register_user
+    result = crew_service.create_registration_crew(request_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 151, in create_registration_crew
+    "func": self.db_execute_tool._run
+            ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CrewService' object has no attribute 'db_execute_tool'
+
+2025-05-08 01:27:34,036 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 01:27:34,036 - app.routes.agents - INFO - Running registration agent
+2025-05-08 01:27:34,878 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 01:27:34,878 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 01:27:35,240 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 01:27:35,240 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 01:27:35,613 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 01:27:35,613 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 01:27:35,681 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Password Security, sector=Banking, role=Bank Teller
+2025-05-08 01:27:35,763 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Password Security
+2025-05-08 01:27:45,625 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9420 chars)
+2025-05-08 01:27:45,625 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+  "chapters": [
+    {
+      "title": "Cybersecurity Basics related to Password Security",
+      "description": "Fundamental principles and best practices for creating and managing passwords to ensur...
+2025-05-08 01:27:45,625 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 01:27:45,625 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 01:27:46,147 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Password Security' with 5 questions
+2025-05-08 01:27:46,640 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 01:27:47,252 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 01:27:47,630 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 01:27:47,708 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=31
+2025-05-08 01:27:47,708 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 01:27:48,599 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 01:27:48,599 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 01:27:48,976 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=31
+2025-05-08 01:28:04,462 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:30:59,360 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 01:31:01,312 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 01:31:03,240 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:05,592 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:07,390 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:09,507 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:10,390 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:13,836 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:14,189 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:22,357 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:25,604 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:26,873 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:29,851 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:30,206 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:33,052 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:36,332 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:36,706 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:42,347 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:44,305 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:45,155 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:46,211 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:47,396 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 01:31:48,705 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:50,118 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:50,939 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:52,422 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:53,380 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:53,747 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:54,663 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:56,783 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:57,963 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:58,941 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:31:59,505 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:02,682 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:03,047 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:04,787 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:08,062 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:08,422 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:11,702 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:15,553 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:15,911 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:45,172 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:48,347 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:48,706 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:49,523 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:51,550 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:53,494 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 01:32:55,013 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:58,141 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:32:58,513 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:33:04,170 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:33:07,858 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:33:08,212 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:38:55,772 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 01:38:55,780 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 01:38:55,780 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 01:38:55,788 - app.routes.agents - ERROR - CrewAI registration error: 1 validation error for Crew
+verbose
+  Input should be a valid boolean, unable to interpret input [type=bool_parsing, input_value=2, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.10/v/bool_parsing
+2025-05-08 01:38:55,789 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 79, in register_user
+    result = crew_service.create_registration_crew(request_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 137, in create_registration_crew
+    crew = Crew(
+           ^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\pydantic\main.py", line 214, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for Crew
+verbose
+  Input should be a valid boolean, unable to interpret input [type=bool_parsing, input_value=2, input_type=int]
+    For further information visit https://errors.pydantic.dev/2.10/v/bool_parsing
+
+2025-05-08 01:38:55,876 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 01:38:55,877 - app.routes.agents - INFO - Running registration agent
+2025-05-08 01:38:56,729 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 01:38:56,730 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 01:38:57,399 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 01:38:57,401 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 01:38:57,806 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 01:38:57,806 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 01:38:57,852 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Healthcare Compliance, sector=Banking, role=Bank Teller
+2025-05-08 01:38:57,914 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Healthcare Compliance
+2025-05-08 01:39:09,622 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9774 chars)
+2025-05-08 01:39:09,622 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+  "chapters": [
+    {
+      "title": "Cybersecurity Basics related to Healthcare Compliance",
+      "description": "Fundamental cybersecurity principles and their importance in healthcare compliance...
+2025-05-08 01:39:09,622 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 01:39:09,622 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 01:39:09,931 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Healthcare Compliance' with 5 questions
+2025-05-08 01:39:10,689 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 01:39:11,146 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 01:39:11,785 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 01:39:11,833 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=32
+2025-05-08 01:39:11,833 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 01:39:12,695 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 01:39:12,695 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 01:39:13,243 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=32
+2025-05-08 01:40:22,552 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:40:58,333 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 01:41:00,609 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:41:04,688 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 01:41:10,387 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:41:10,745 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:41:10,930 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 01:41:10,930 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 01:41:10,930 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 01:41:11,097 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:41:11,214 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 01:41:11,344 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4; provider = openai
+2025-05-08 01:41:11,453 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:41:11,811 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:41:22,900 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 01:41:22,939 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4; provider = openai
+2025-05-08 01:41:38,837 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 01:41:38,874 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4; provider = openai
+2025-05-08 01:42:03,087 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 01:42:03,174 - app.services.crew_service - INFO - Crew result: ```
+{
+  "topic_priorities": [
+    {"topic": "Financial Cybersecurity Threats", "relevance_score": 1.0},
+    {"topic": "Information Security", "relevance_score": 0.8},
+    {"topic": "Network Security", "relevance_score": 0.6}
+  ],
+  "sector_threats": ["Phishing Attacks", "Ransomware Threats", "Data Breaches", "Insider Threats"],
+  "focus_areas": ["Understanding Phishing Attacks", "Mitigating Ransomware Threats", "Preventing Data Breaches", "Detecting Insider Threats"],
+  "recommended_topic_id": 12
+}
+```
+2025-05-08 01:42:03,176 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 01:42:03,276 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 01:42:03,276 - app.services.crew_service - ERROR - Error parsing registration result: expected string or bytes-like object, got 'CrewOutput'
+2025-05-08 01:42:03,276 - app.services.crew_service - ERROR - Error in registration crew: "Key 'slice(None, 500, None)' not found in CrewOutput."
+2025-05-08 01:42:03,334 - app.routes.agents - ERROR - CrewAI registration error: "Key 'slice(None, 500, None)' not found in CrewOutput."
+2025-05-08 01:42:03,393 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 494, in _parse_registration_result
+    json_matches = re.findall(r'```json\s*(.*?)\s*```', result, re.DOTALL)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\re\__init__.py", line 217, in findall
+    return _compile(pattern, flags).findall(string)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected string or bytes-like object, got 'CrewOutput'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 79, in register_user
+    result = crew_service.create_registration_crew(request_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 160, in create_registration_crew
+    return self._parse_registration_result(result, user_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 554, in _parse_registration_result
+    logger.debug(f"Raw result that failed parsing: {result[:500]}...")
+                                                    ~~~~~~^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\crews\crew_output.py", line 50, in __getitem__
+    raise KeyError(f"Key '{key}' not found in CrewOutput.")
+KeyError: "Key 'slice(None, 500, None)' not found in CrewOutput."
+
+2025-05-08 01:42:03,442 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 01:42:03,442 - app.routes.agents - INFO - Running registration agent
+2025-05-08 01:42:04,381 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 01:42:04,395 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 01:42:05,023 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 01:42:05,034 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 01:42:05,760 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 01:42:05,760 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 01:42:05,912 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Financial Fraud Prevention, sector=Banking, role=Bank Teller
+2025-05-08 01:42:05,975 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Financial Fraud Prevention
+2025-05-08 01:42:19,683 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9339 chars)
+2025-05-08 01:42:19,683 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+  "chapters": [
+    {
+      "title": "Cybersecurity Basics related to Financial Fraud Prevention",
+      "description": "Fundamental cybersecurity principles that help prevent financial fraud, inclu...
+2025-05-08 01:42:19,684 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 01:42:19,684 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 01:42:20,106 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Financial Fraud Prevention' with 5 questions
+2025-05-08 01:42:20,503 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 01:42:21,052 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 01:42:21,601 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 01:42:21,651 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=33
+2025-05-08 01:42:21,652 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 01:42:22,037 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 01:42:22,037 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 01:42:22,422 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=33
+2025-05-08 01:43:09,388 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:43:22,243 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 01:43:23,914 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:43:27,433 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 01:43:33,663 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:43:34,015 - watchfiles.main - INFO - 1 change detected
+2025-05-08 01:43:34,373 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:45:06,146 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:45:27,673 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:45:29,681 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:45:34,061 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 08:45:42,104 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:45:42,464 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:45:42,823 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:45:43,197 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:46:14,552 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 08:46:14,552 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 08:46:14,552 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 08:46:14,603 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 08:46:14,771 - root - ERROR - LiteLLM call failed: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=gpt-4.1-naNO
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+2025-05-08 08:46:14,771 - app.services.crew_service - ERROR - Error in registration crew: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=gpt-4.1-naNO
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+2025-05-08 08:46:14,853 - app.routes.agents - ERROR - CrewAI registration error: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=gpt-4.1-naNO
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+2025-05-08 08:46:14,940 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 79, in register_user
+    result = crew_service.create_registration_crew(request_data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 147, in create_registration_crew
+    result = crew.kickoff()
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\crew.py", line 640, in kickoff
+    result = self._run_sequential_process()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\crew.py", line 752, in _run_sequential_process
+    return self._execute_tasks(self.tasks)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\crew.py", line 850, in _execute_tasks
+    task_output = task.execute_sync(
+                  ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\task.py", line 310, in execute_sync
+    return self._execute_core(agent, context, tools)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\task.py", line 454, in _execute_core
+    raise e  # Re-raise the exception after emitting the event
+    ^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\task.py", line 374, in _execute_core
+    result = agent.execute_task(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agent.py", line 266, in execute_task
+    raise e
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agent.py", line 247, in execute_task
+    result = self.agent_executor.invoke(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 119, in invoke
+    raise e
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 108, in invoke
+    formatted_answer = self._invoke_loop()
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 166, in _invoke_loop
+    raise e
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 146, in _invoke_loop
+    answer = self._get_llm_response()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 216, in _get_llm_response
+    raise e
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\agents\crew_agent_executor.py", line 207, in _get_llm_response
+    answer = self.llm.call(
+             ^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\llm.py", line 739, in call
+    return self._handle_non_streaming_response(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\crewai\llm.py", line 575, in _handle_non_streaming_response
+    response = litellm.completion(**params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\utils.py", line 1154, in wrapper
+    raise e
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\utils.py", line 1032, in wrapper
+    result = original_function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\main.py", line 3068, in completion
+    raise exception_type(
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\main.py", line 979, in completion
+    model, custom_llm_provider, dynamic_api_key, api_base = get_llm_provider(
+                                                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\get_llm_provider_logic.py", line 356, in get_llm_provider
+    raise e
+  File "C:\Users\Gameapp\AppData\Local\Programs\Python\Python312\Lib\site-packages\litellm\litellm_core_utils\get_llm_provider_logic.py", line 333, in get_llm_provider
+    raise litellm.exceptions.BadRequestError(  # type: ignore
+litellm.exceptions.BadRequestError: litellm.BadRequestError: LLM Provider NOT provided. Pass in the LLM provider you are trying to call. You passed model=gpt-4.1-naNO
+ Pass model as E.g. For 'Huggingface' inference endpoints pass in `completion(model='huggingface/starcoder',..)` Learn more: https://docs.litellm.ai/docs/providers
+
+2025-05-08 08:46:15,136 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 08:46:15,136 - app.routes.agents - INFO - Running registration agent
+2025-05-08 08:46:16,412 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 08:46:16,412 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 08:46:16,827 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 08:46:16,827 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 08:46:17,327 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 08:46:17,327 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 08:46:17,390 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Patient Data Privacy, sector=Banking, role=Bank Teller
+2025-05-08 08:46:17,548 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Patient Data Privacy
+2025-05-08 08:46:27,069 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9824 chars)
+2025-05-08 08:46:27,085 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+  "chapters": [
+    {
+      "title": "Cybersecurity Basics related to Patient Data Privacy",
+      "description": "Fundamental cybersecurity concepts essential for understanding how to protect sensi...
+2025-05-08 08:46:27,085 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 08:46:27,085 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 08:46:27,411 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Patient Data Privacy' with 5 questions
+2025-05-08 08:46:27,899 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 08:46:28,442 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 08:46:29,083 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 08:46:29,137 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=34
+2025-05-08 08:46:29,137 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 08:46:29,513 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 08:46:29,513 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 08:46:29,910 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=34
+2025-05-08 08:46:44,903 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:46:53,370 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 08:46:54,854 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:46:58,027 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 08:47:03,038 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:47:03,402 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:47:03,754 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:47:04,108 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:47:25,902 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 08:47:25,902 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 08:47:25,902 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 08:47:25,917 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 08:47:25,964 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:47:27,395 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:47:27,503 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:47:28,599 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:47:28,623 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:47:30,029 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:47:30,072 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 11,
+      "relevance_score": 0.95,
+      "description": "Financial cybersecurity threats and banking system vulnerabilities, highly relevant given user's role in banking with advanced skills and focus on threats and risk management."
+    },
+    {
+      "topic_id": 5,
+      "relevance_score": 0.85,
+      "description": "Regulatory compliance and secure transaction protocols are critical in banking sector, aligned with user's interests in GDPR, PSD2, and secure operations."
+    },
+    {
+      "topic_id": 8,
+      "relevance_score": 0.80,
+      "description": "Fraud detection and prevention, a key focus area for banking professionals to mitigate financial crimes."
+    }
+  ],
+  "sector_threats": [
+    "Phishing and spear-phishing attacks targeting banking credentials",
+    "Banking malware and ransomware attacks on financial infrastructure",
+    "Fraudulent transaction schemes and account takeovers",
+    "Data breaches exposing sensitive customer information",
+    "Emerging threats from AI-driven fraud and synthetic identities"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques in finance",
+    "Implementation of multi-factor authentication in banking systems",
+    "Incident response planning for financial institutions",
+    "Emerging cybersecurity trends in banking",
+    "Data encryption and secure transaction protocols"
+  ],
+  "recommended_topic_id": 11
+}
+2025-05-08 08:47:30,073 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 08:47:30,138 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 08:47:30,138 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 08:47:30,138 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 08:48:11,931 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 08:48:11,931 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 08:48:11,931 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 08:48:11,944 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 08:48:11,969 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:48:13,149 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:48:13,175 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:48:15,036 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:48:15,052 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:48:16,675 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:48:16,703 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 11,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Banking sector-specific security protocols",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 13,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 14,
+      "topic_name": "Regulatory compliance (e.g., PCI DSS, GDPR)",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 15,
+      "topic_name": "Risk management in financial institutions",
+      "relevance_score": 0.83
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware and hacking",
+    "SWIFT system cyber intrusions",
+    "Account takeover and identity theft",
+    "Ransomware targeting financial data",
+    "Insider threats and fraud within banking institutions",
+    "Data breaches exposing customer information",
+    "Regulatory non-compliance leading to sanctions"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques specific to banking",
+    "Implementation of secure banking application protocols",
+    "Regulatory compliance strategies for financial cybersecurity",
+    "Detection and mitigation of fraud in banking systems",
+    "Incident response planning tailored to financial institutions"
+  ],
+  "recommended_topic_id": 11
+}
+2025-05-08 08:48:16,703 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 08:48:16,866 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 08:48:16,866 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 08:48:16,866 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 08:57:16,288 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:57:25,845 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 08:57:25,857 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 08:57:25,870 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 08:57:25,965 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 08:57:26,044 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:57:27,556 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:57:27,615 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:57:29,068 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:57:29,130 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 08:57:31,071 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 08:57:31,103 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 11,
+      "topic_name": "Financial Cybersecurity Threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Banking Systems Security",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Fraud Detection Mechanisms",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Data Protection and Encryption in Finance",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Regulatory Compliance (e.g., FFIEC, GDPR)",
+      "relevance_score": 0.80
+    }
+  ],
+  "sector_threats": [
+    "Financial fraud schemes (e.g., account takeover, payment fraud)",
+    "Cyberattacks on banking infrastructure (e.g., DDoS, malware)",
+    "Data breaches exposing sensitive financial information",
+    "Emerging threats like deepfake scams and social engineering",
+    "Regulatory non-compliance penalties"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques for financial systems",
+    "Emerging cyber threats in the financial sector",
+    "Risk management and mitigation strategies for banking cybersecurity",
+    "Secure financial transaction protocols",
+    "Regulatory compliance and adapting to evolving cybersecurity laws"
+  ],
+  "recommended_topic_id": 11
+}
+2025-05-08 08:57:31,103 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 08:57:31,284 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 08:57:31,284 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 08:57:31,285 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 08:57:33,183 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:57:33,758 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 08:57:43,127 - watchfiles.main - INFO - 1 change detected
+2025-05-08 08:57:43,687 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:00:55,520 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 09:00:55,521 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 09:00:55,521 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 09:00:55,565 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 09:00:55,606 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:00:57,005 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:00:57,031 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:00:58,240 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:00:58,271 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:01:00,169 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:01:00,183 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 2,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Banking security protocols",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Data encryption and secure transactions",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 6,
+      "topic_name": "Regulatory compliance (e.g., GDPR, PCI DSS)",
+      "relevance_score": 0.80
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware and skimming devices",
+    "Internal fraud and insider threats",
+    "Ransomware attacks on financial institutions",
+    "Data breaches involving sensitive customer information",
+    "Man-in-the-middle attacks on online banking platforms",
+    "Distributed Denial of Service (DDoS) attacks impacting banking services"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques in financial environments",
+    "Emerging cybersecurity challenges in banking",
+    "Implementation of security frameworks and standards",
+    "Risk management and mitigation strategies",
+    "Security awareness tailored for banking professionals"
+  ],
+  "recommended_topic_id": 2
+}
+2025-05-08 09:01:00,183 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 09:01:00,356 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 09:01:00,370 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 09:01:00,370 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 09:01:00,688 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 09:01:00,690 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 09:01:00,698 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 09:01:00,747 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:01:11,556 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:01:11,564 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:01:22,216 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:01:22,287 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:01:37,698 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:01:37,732 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:01:38,477 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:01:38,500 - app.services.crew_service - ERROR - Error in quiz generation crew: object of type 'CrewOutput' has no len()
+2025-05-08 09:01:38,545 - app.routes.agents - ERROR - CrewAI registration error: object of type 'CrewOutput' has no len()
+2025-05-08 09:01:38,545 - app.routes.agents - ERROR - Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\routes\agents.py", line 118, in register_user
+    quiz_result = crew_service.create_quiz_generation_crew(quiz_gen_data)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 336, in create_quiz_generation_crew
+    logger.info(f"Quiz generation crew completed with result length: {len(result) if result else 0}")
+                                                                      ^^^^^^^^^^^
+TypeError: object of type 'CrewOutput' has no len()
+
+2025-05-08 09:01:38,709 - app.routes.agents - INFO - Falling back to traditional agent chain
+2025-05-08 09:01:38,709 - app.routes.agents - INFO - Running registration agent
+2025-05-08 09:01:39,301 - app.routes.agents - INFO - Registration agent result: next_agent=profile_analyzer
+2025-05-08 09:01:39,301 - app.routes.agents - INFO - Running profile analyzer agent
+2025-05-08 09:01:39,642 - app.routes.agents - INFO - Profile analyzer result: next_agent=topic_mapper
+2025-05-08 09:01:39,642 - app.routes.agents - INFO - Running topic mapper agent
+2025-05-08 09:01:40,143 - app.routes.agents - INFO - Topic mapper result: next_agent=quiz_generator
+2025-05-08 09:01:40,143 - app.routes.agents - INFO - Running quiz generator agent
+2025-05-08 09:01:40,202 - app.agents.quiz_generator_agent - INFO - Generating quiz for user_id=1, topic=Password Security, sector=Banking, role=Bank Teller
+2025-05-08 09:01:40,250 - app.agents.quiz_generator_agent - INFO - Requesting quiz generation from OpenAI for topic: Password Security
+2025-05-08 09:01:48,285 - app.agents.quiz_generator_agent - INFO - Received response from OpenAI (length: 9229 chars)
+2025-05-08 09:01:48,286 - app.agents.quiz_generator_agent - DEBUG - Response preview: {
+  "chapters": [
+    {
+      "title": "Cybersecurity Basics related to Password Security",
+      "description": "Fundamental principles of password security and online safety for banking staff.",
+   ...
+2025-05-08 09:01:48,286 - app.agents.quiz_generator_agent - INFO - Successfully parsed quiz JSON with 4 chapters
+2025-05-08 09:01:48,286 - app.agents.quiz_generator_agent - INFO - Quiz has 4 chapters with 20 total questions
+2025-05-08 09:01:48,812 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Cybersecurity Basics related to Password Security' with 5 questions
+2025-05-08 09:01:49,332 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Bank Teller-specific Risks' with 5 questions
+2025-05-08 09:01:49,620 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Banking-specific Threats' with 5 questions
+2025-05-08 09:01:49,973 - app.agents.quiz_generator_agent - INFO - Saved chapter 'Advanced Challenges' with 5 questions
+2025-05-08 09:01:50,030 - app.routes.agents - INFO - Quiz generator result: next_agent=quiz_formatter, quiz_id=35
+2025-05-08 09:01:50,030 - app.routes.agents - INFO - Running quiz formatter agent
+2025-05-08 09:01:50,818 - app.routes.agents - INFO - Quiz formatter result: next_agent=quiz_delivery
+2025-05-08 09:01:50,818 - app.routes.agents - INFO - Running quiz delivery agent
+2025-05-08 09:01:51,213 - app.routes.agents - INFO - Quiz delivery complete: quiz_id=35
+2025-05-08 09:03:57,050 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:04:55,860 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 09:04:59,330 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 09:05:04,613 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:05:05,274 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:08:21,618 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:09:55,894 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:09:57,331 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:09:59,948 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:10:11,128 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:10:14,374 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:10:27,474 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:10:30,668 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 09:10:36,460 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:10:36,963 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:13:25,431 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 09:13:25,445 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 09:13:25,445 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 09:13:25,494 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 09:13:25,524 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:13:27,404 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:13:27,433 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:13:29,257 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:13:29,280 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:13:31,238 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:13:31,263 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 4,
+      "topic_name": "Financial Cybersecurity Threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Fraud Detection and Prevention",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Regulatory Compliance in Finance",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Data Protection and Encryption in Banking",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Cyberattack Mitigation Strategies",
+      "relevance_score": 0.82
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware and skimming",
+    "Business Email Compromise (BEC) affecting financial transactions",
+    "Ransomware attacks disrupting banking operations",
+    "Insider threats related to fraud and data theft",
+    "Data breaches exposing sensitive customer information",
+    "Advanced persistent threats (APTs) aimed at financial institutions"
+  ],
+  "focus_areas": [
+    "Emerging financial cyber threats and attack vectors",
+    "Advanced fraud detection techniques and anti-fraud controls",
+    "Regulatory standards compliance (PCI DSS, GDPR, FFIEC)",
+    "Incident response planning specific to banking environments",
+    "Encryption protocols and secure data transmission"
+  ],
+  "recommended_topic_id": 4
+}
+2025-05-08 09:13:31,263 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 09:13:31,446 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 09:13:31,446 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 09:13:31,446 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 09:13:31,551 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 09:13:31,552 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 09:13:31,559 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 09:13:31,576 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:13:41,175 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:13:41,191 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:13:51,963 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:13:52,015 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:14:05,978 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:14:06,010 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:14:06,813 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:14:06,836 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 12345,
+  "quiz_title": "Cybersecurity Fundamentals Quiz",
+  "chapter_count": 4,
+  "qu...
+2025-05-08 09:14:06,837 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 09:14:06,906 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 09:14:06,906 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 09:14:06,906 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 09:14:58,378 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:15:01,572 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:15:04,673 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:15:05,495 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:15:18,701 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:15:21,850 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:16:01,256 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:16:43,930 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:16:44,285 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:19:31,436 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:19:32,371 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:19:59,242 - watchfiles.main - INFO - 1 change detected
+2025-05-08 09:26:48,994 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 09:26:49,005 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 09:26:49,005 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 09:26:49,223 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 09:26:49,362 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:26:51,062 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:26:51,129 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:26:52,330 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:26:52,381 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:26:54,183 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:26:54,208 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 14,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 15,
+      "topic_name": "Data privacy and compliance in banking",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 18,
+      "topic_name": "Threat intelligence specific to financial institutions",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 20,
+      "topic_name": "Secure transaction protocols",
+      "relevance_score": 0.83
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking customers",
+    "ATM and online banking fraud",
+    "Business Email Compromise (BEC) in banking institutions",
+    "Malware and ransomware targeting financial data",
+    "Insider threats within banking organizations",
+    "Data breaches compromising sensitive customer information",
+    "Emerging threats from cryptocurrency and blockchain vulnerabilities"
+  ],
+  "focus_areas": [
+    "Emerging financial cyber threats and attack vectors",
+    "Advanced online banking security measures",
+    "Regulatory compliance frameworks (PCI DSS, GDPR, FFIEC guidelines)",
+    "Incident response strategies for banking cyber incidents",
+    "Security awareness for banking staff and customers"
+  ],
+  "recommended_topic_id": 14
+}
+2025-05-08 09:26:54,208 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 09:26:54,313 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 09:26:54,313 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 09:26:54,313 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 09:26:54,505 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 09:26:54,505 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 09:26:54,525 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 09:26:54,575 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:27:06,661 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:27:06,661 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:27:18,111 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:27:18,151 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:27:33,239 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:27:33,269 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:27:33,932 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:27:33,959 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals in Banking and Finance",
+  "chapter_...
+2025-05-08 09:27:33,960 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 09:27:34,016 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 09:27:34,016 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 09:27:34,016 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 09:44:25,617 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 09:44:25,631 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 09:44:25,632 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 09:44:25,724 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 09:44:25,852 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:44:27,094 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:44:27,122 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:44:28,352 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:44:28,392 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:44:30,543 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:44:30,560 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 2,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 9.5
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Banking sector-specific security protocols",
+      "relevance_score": 9.0
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 8.8
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Regulatory compliance (e.g., GDPR, FFIEC guidelines)",
+      "relevance_score": 8.5
+    },
+    {
+      "topic_id": 6,
+      "topic_name": "Secure transaction systems",
+      "relevance_score": 8.3
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware and skimming devices",
+    "Business Email Compromise (BEC) scams",
+    "Ransomware attacks on financial institutions",
+    "Data breaches involving customer financial data",
+    "Internal fraud and insider threats",
+    "Advanced persistent threats (APTs) targeting banking infrastructure",
+    "Cryptojacking and cyber-enabled financial crimes"
+  ],
+  "focus_areas": [
+    "Emerging cyber threats in banking",
+    "Advanced encryption and data security measures",
+    "Incident response planning tailored for financial institutions",
+    "Regulatory compliance and audit readiness",
+    "Innovative cybersecurity solutions for banking environments"
+  ],
+  "recommended_topic_id": 2
+}
+2025-05-08 09:44:30,561 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 09:44:30,754 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 09:44:30,755 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 09:44:30,755 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 09:44:30,848 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 09:44:30,848 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 09:44:30,857 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 09:44:30,877 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:44:40,392 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:44:40,419 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:45:14,832 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:45:14,884 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 09:45:15,511 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 09:45:15,528 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Banking and Financial Institutio...
+2025-05-08 09:45:15,528 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 09:45:15,577 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 09:45:15,578 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 09:45:15,578 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 10:00:24,997 - watchfiles.main - INFO - 1 change detected
+2025-05-08 10:00:26,534 - watchfiles.main - INFO - 1 change detected
+2025-05-08 10:01:38,749 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 10:01:38,757 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 10:01:38,758 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 10:01:38,807 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 10:01:38,934 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:01:40,426 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:01:40,502 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:01:42,311 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:01:42,405 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:01:44,101 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:01:44,127 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 7,
+      "topic_name": "Financial Cybersecurity Threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Fraud Detection and Prevention",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Regulatory Compliance (PCI DSS, GDPR)",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Risk Management in Financial Institutions",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 6,
+      "topic_name": "Secure Transaction Systems",
+      "relevance_score": 0.82
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "Advanced persistent threats (APTs) aimed at financial data",
+    "Malware and ransomware attacks on banking infrastructure",
+    "Fraudulent transactions and payment fraud",
+    "Data breaches compromising customer and institution information",
+    "Insider threats within banking organizations",
+    "Regulatory non-compliance leading to penalties"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques in banking",
+    "Emerging cyber threats in financial services",
+    "Security architecture for banking transaction systems",
+    "Cybersecurity incident response planning in finance",
+    "Data privacy and regulatory compliance in banking"
+  ],
+  "recommended_topic_id": 7
+}
+2025-05-08 10:01:44,127 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 10:01:44,174 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 10:01:44,174 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 10:01:44,174 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 10:01:44,406 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 10:01:44,406 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 10:01:44,418 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 10:01:44,431 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:01:53,913 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:01:53,976 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:02:06,463 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:02:06,509 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:02:07,426 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:02:07,442 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals in Banking and Financial Services",
+...
+2025-05-08 10:02:07,442 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 10:02:07,588 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 10:02:07,588 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 10:02:07,588 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 10:02:24,885 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 10:02:24,887 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 10:02:24,887 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 10:02:24,898 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 10:02:24,925 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:02:25,878 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:02:25,898 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:02:27,371 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:02:27,397 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:02:28,973 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:02:28,989 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 12,
+      "topic_name": "Financial Sector Cybersecurity",
+      "relevance_score": 95
+    },
+    {
+      "topic_id": 7,
+      "topic_name": "Regulatory Compliance & Legal Aspects",
+      "relevance_score": 85
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Fraud Detection & Prevention",
+      "relevance_score": 80
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Incident Response & Threat Mitigation",
+      "relevance_score": 75
+    },
+    {
+      "topic_id": 9,
+      "topic_name": "Emerging Technologies in Financial Security (AI/ML, Blockchain)",
+      "relevance_score": 70
+    }
+  ],
+  "sector_threats": [
+    "Phishing and spear-phishing attacks targeting banking credentials",
+    "Banking malware and ransomware campaigns",
+    "Data breaches exposing sensitive financial data",
+    "Fraudulent transactions and account takeovers",
+    "Insider threats impacting financial data integrity",
+    "Regulatory non-compliance leading to fines and reputational damage"
+  ],
+  "focus_areas": [
+    "Advanced techniques in detecting and preventing financial fraud",
+    "Deep dive into compliance standards such as GDPR, PCI DSS, and FFIEC guidelines",
+    "Incident response strategies tailored for banking environments",
+    "Emerging AI and machine learning methods for fraud detection",
+    "Securing transaction protocols and data encryption methods"
+  ],
+  "recommended_topic_id": 12
+}
+2025-05-08 10:02:28,989 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 10:02:29,153 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 10:02:29,153 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 10:02:29,153 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 10:02:29,360 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 10:02:29,360 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 10:02:29,375 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 10:02:29,393 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:02:39,837 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:02:41,797 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:02:51,781 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:02:51,834 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:03:03,246 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:03:03,283 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:03:16,088 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:03:16,101 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Environments",
+  "chap...
+2025-05-08 10:03:16,101 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 10:03:16,148 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 10:03:16,148 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id', 'chapters'])
+2025-05-08 10:03:16,148 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 10:07:44,882 - watchfiles.main - INFO - 1 change detected
+2025-05-08 10:08:12,846 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 10:08:12,854 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 10:08:12,856 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 10:08:13,005 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 10:08:13,225 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:08:14,334 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:08:14,437 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:08:16,442 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:08:16,673 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:08:18,675 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:08:18,922 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 9,
+      "topic_name": "Financial Cybersecurity Threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 10,
+      "topic_name": "Banking Sector-Specific Security Protocols",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 11,
+      "topic_name": "Regulatory Compliance in Financial Services",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Risk Management in Financial Institutions",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 13,
+      "topic_name": "Threat Detection and Incident Response",
+      "relevance_score": 0.83
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware and skimming devices",
+    "Fraudulent wire transfer schemes",
+    "Ransomware attacks on banking infrastructure",
+    "Data breaches exposing customer information",
+    "Insider threats within financial institutions",
+    "Distributed Denial of Service (DDoS) attacks disrupting banking services",
+    "Supply chain vulnerabilities affecting banking software and hardware"
+  ],
+  "focus_areas": [
+    "Emerging financial cyber threats and attack vectors",
+    "Advanced threat detection techniques tailored for banking",
+    "Incident response planning and execution in financial contexts",
+    "Compliance with evolving financial industry cybersecurity regulations",
+    "Implementation of secure communication and data protection protocols"
+  ],
+  "recommended_topic_id": 9
+}
+2025-05-08 10:08:18,928 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 10:08:19,060 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 10:08:19,064 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 10:08:19,064 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 10:08:19,344 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 10:08:19,352 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 10:08:19,398 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 10:08:19,517 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:08:29,386 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:08:29,396 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:08:38,728 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:08:39,001 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:08:53,418 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:08:53,796 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:08:54,629 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:08:54,860 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Sectors",
+  "chapter_c...
+2025-05-08 10:08:54,860 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 10:08:55,088 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 10:08:55,094 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 10:08:55,095 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 10:09:15,182 - watchfiles.main - INFO - 1 change detected
