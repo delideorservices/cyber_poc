@@ -339,6 +339,46 @@ async def generate_quiz_crew(data: Dict[str, Any] = Body(...)):
             error_message=str(e)
         )
         raise HTTPException(status_code=500, detail=str(e))
+@router.get("/test-db")
+async def test_database():
+    """Test database connection and quiz creation"""
+    try:
+        from app.services.db_service import db_service
+        
+        # Test connection
+        conn_test = db_service.execute_with_return("SELECT 1 as test")
+        if not conn_test or conn_test[0][0] != 1:
+            return {"status": "error", "message": "Database connection test failed"}
+        
+        # Test quiz creation
+        quiz_result = db_service.execute_with_return(
+            """
+            INSERT INTO quizzes 
+            (title, user_id, topic_id, status) 
+            VALUES (%s, %s, %s, %s) 
+            RETURNING id
+            """,
+            (
+                "Test Quiz",
+                0,
+                1,
+                'test'
+            )
+        )
+        
+        if not quiz_result or not quiz_result[0]:
+            return {"status": "error", "message": "Failed to create test quiz"}
+        
+        quiz_id = quiz_result[0][0]
+        
+        # Clean up test quiz
+        db_service.execute(f"DELETE FROM quizzes WHERE id = {quiz_id}")
+        
+        return {"status": "success", "message": f"Database test successful. Created and deleted quiz with ID {quiz_id}"}
+        
+    except Exception as e:
+        logger.error(f"Database test failed: {str(e)}", exc_info=True)
+        return {"status": "error", "message": f"Database test failed: {str(e)}"}
 
 @router.post("/run-agent/{agent_name}")
 async def run_single_agent(agent_name: str, data: Dict[str, Any] = Body(...)):

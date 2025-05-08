@@ -1684,3 +1684,1663 @@ LiteLLM completion() model= gpt-4.1-nano; provider = openai
 2025-05-08 10:08:55,094 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
 2025-05-08 10:08:55,095 - app.routes.agents - INFO - CrewAI quiz generation result: success
 2025-05-08 10:09:15,182 - watchfiles.main - INFO - 1 change detected
+2025-05-08 10:12:38,798 - watchfiles.main - INFO - 1 change detected
+2025-05-08 10:43:43,249 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 10:43:43,253 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 10:43:43,253 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 10:43:43,379 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 10:43:43,423 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:43:44,855 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:43:44,885 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:43:46,586 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:43:46,614 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:43:48,383 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:43:48,406 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 11,
+      "topic_name": "Financial Cybersecurity Threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Banking Sector Security Protocols",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Fraud Detection and Prevention",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 7,
+      "topic_name": "Regulatory Compliance (GDPR, PCI DSS)",
+      "relevance_score": 0.80
+    },
+    {
+      "topic_id": 9,
+      "topic_name": "Cryptography in Finance",
+      "relevance_score": 0.75
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and online banking fraud schemes",
+    "Malware and ransomware targeting financial data",
+    "Insider threats within banking institutions",
+    "Data breaches exposing customer financial information",
+    "Man-in-the-middle attacks on secure transactions",
+    "Advanced persistent threats (APTs) aimed at financial infrastructure"
+  ],
+  "focus_areas": [
+    "Deepening understanding of financial cyber threats",
+    "Advanced threat detection techniques in banking",
+    "Emerging cybersecurity technologies for financial institutions",
+    "Regulatory compliance strategies and frameworks",
+    "Incident response and recovery processes tailored for financial environments"
+  ],
+  "recommended_topic_id": 11
+}
+2025-05-08 10:43:48,407 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 10:43:48,576 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 10:43:48,576 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 10:43:48,577 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 10:43:48,670 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 10:43:48,670 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 10:43:48,676 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 10:43:48,694 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:43:58,717 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:43:58,721 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:44:08,539 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:44:08,597 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:44:22,050 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:44:22,089 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:44:22,709 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:44:22,731 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Institutions",
+  "chap...
+2025-05-08 10:44:22,731 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 10:44:22,785 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 10:44:22,785 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 10:44:22,785 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 10:45:13,402 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 10:45:13,402 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 10:45:13,402 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 10:45:13,410 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 10:45:13,432 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:45:14,395 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:45:14,421 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:45:16,330 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:45:16,370 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:45:18,160 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:45:18,185 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 11,
+      "topic_name": "Financial Cybersecurity Threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Fraud Detection and Prevention",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 13,
+      "topic_name": "Data Encryption and Secure Transactions",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 14,
+      "topic_name": "Regulatory Compliance (GDPR, PCI DSS)",
+      "relevance_score": 0.80
+    },
+    {
+      "topic_id": 15,
+      "topic_name": "Risk Management in Banking Systems",
+      "relevance_score": 0.75
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware infections",
+    "Data breaches involving sensitive financial data",
+    "Unauthorized access to banking databases",
+    "Emerging threats from cybercriminals exploiting new vulnerabilities in financial apps",
+    "Ransomware targeting financial institutions"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques specific to banking systems",
+    "Incident response strategies for financial cyber incidents",
+    "Latest regulatory compliance requirements and strategies",
+    "Secure transaction protocols and encryption methods",
+    "Emerging cyber threats and mitigation strategies in financial services"
+  ],
+  "recommended_topic_id": 11
+}
+2025-05-08 10:45:18,185 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 10:45:18,233 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 10:45:18,234 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 10:45:18,234 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 10:45:18,327 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 10:45:18,328 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 10:45:18,335 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 10:45:18,352 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:45:28,458 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:45:28,461 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:45:38,363 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:45:38,394 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:45:53,477 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:45:53,525 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 10:45:54,218 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 10:45:54,251 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,  // Mocked quiz ID
+  "quiz_title": "Cybersecurity Fundamentals in Financial Serv...
+2025-05-08 10:45:54,251 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 10:45:54,298 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 10:45:54,298 - app.services.crew_service - ERROR - Error parsing quiz generation result: cannot access local variable 'result_json' where it is not associated with a value
+2025-05-08 10:45:54,300 - app.services.crew_service - DEBUG - Raw result that failed parsing: {
+  "quiz_id": 101,  // Mocked quiz ID
+  "quiz_title": "Cybersecurity Fundamentals in Financial Services",
+  "chapter_count": 4,
+  "question_count": 20,
+  "user_id": 0
+}...
+2025-05-08 10:45:54,300 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 11:32:13,622 - app.routes.agents - INFO - Starting registration process for user travel@example.com
+2025-05-08 11:32:13,622 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 11:32:13,622 - app.services.crew_service - INFO - Creating registration crew for user: travel@example.com
+2025-05-08 11:32:13,667 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 11:32:13,688 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 11:32:15,666 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 11:32:15,788 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 11:32:16,826 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 11:32:16,896 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 11:32:18,546 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 11:32:18,571 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 11,
+      "topic_name": "Cybersecurity in Travel Industry",
+      "relevance_score": 0.9
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Travel Booking System Security Protocols",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Data Protection and Privacy in Travel Services",
+      "relevance_score": 0.8
+    }
+  ],
+  "sector_threats": [
+    "Data breaches exposing customer personal and payment information",
+    "Fraudulent booking or payment attacks",
+    "Phishing campaigns targeting travel customers and employees",
+    "Unauthorized access to booking and customer data systems",
+    "Malware attacks on travel websites and apps"
+  ],
+  "focus_areas": [
+    "Vulnerabilities in travel booking platforms",
+    "Securing customer data via encryption and access controls",
+    "Implementing multi-factor authentication for user access",
+    "Risk assessment and mitigation strategies in travel tech",
+    "Compliance with GDPR, PCI DSS, and other regulations"
+  ],
+  "recommended_topic_id": 11
+}
+2025-05-08 11:32:18,571 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 11:32:18,791 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 11:32:18,791 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 11:32:18,791 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 11:32:18,886 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 11:32:18,886 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 11:32:18,886 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 11:32:18,909 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 11:32:27,444 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 11:32:27,499 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 11:32:38,487 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 11:32:38,534 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 11:32:39,179 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 11:32:39,233 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,  // Mock ID assigned to the quiz
+  "quiz_title": "Cybersecurity Fundamentals in ...
+2025-05-08 11:32:39,233 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 11:32:39,286 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 11:32:39,286 - app.services.crew_service - ERROR - Error parsing quiz generation result: cannot access local variable 'result_json' where it is not associated with a value
+2025-05-08 11:32:39,286 - app.services.crew_service - DEBUG - Raw result that failed parsing: {
+  "quiz_id": 101,  // Mock ID assigned to the quiz
+  "quiz_title": "Cybersecurity Fundamentals in Travel Tech",
+  "chapter_count": 4,
+  "question_count": 20,
+  "user_id": 0
+}...
+2025-05-08 11:32:39,286 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 12:13:30,158 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:14:19,324 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:14:23,959 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 12:14:30,004 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:14:30,618 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:14:30,971 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:14:32,622 - app.routes.agents - INFO - Starting registration process for user travel@example.com
+2025-05-08 12:14:32,622 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 12:14:32,622 - app.services.crew_service - INFO - Creating registration crew for user: travel@example.com
+2025-05-08 12:14:32,666 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 12:14:32,697 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:14:34,164 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:14:34,188 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:14:35,788 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:14:35,821 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:14:37,682 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:14:37,698 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 6,
+      "topic_name": "Travel and Hospitality Cybersecurity",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Data Privacy and Compliance",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Payment Security Measures",
+      "relevance_score": 0.80
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "User Authentication and Access Control",
+      "relevance_score": 0.75
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Incident Response Strategies",
+      "relevance_score": 0.70
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting travel booking systems",
+    "Data breaches compromising customer personal and payment information",
+    "Ransomware attacks on travel platforms causing service disruptions",
+    "Payment fraud and credit card skimming",
+    "Insider threats leading to data leaks or system sabotage",
+    "Compliance violations related to GDPR, PCI DSS, and other industry standards"
+  ],
+  "focus_areas": [
+    "Travel-specific cybersecurity vulnerabilities",
+    "Secure payment processing techniques",
+    "Compliance standards like GDPR and PCI DSS",
+    "Best practices for securing user data in booking systems",
+    "Incident response and mitigation strategies for travel industry cyber incidents"
+  ],
+  "recommended_topic_id": 6
+}
+2025-05-08 12:14:37,698 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 12:14:37,749 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 12:14:37,761 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 12:14:37,761 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 12:14:37,845 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 12:14:37,845 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 12:14:37,856 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 12:14:37,872 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:14:48,737 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:14:48,778 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:14:59,739 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:14:59,780 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:15:00,430 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:15:00,453 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for the Travel Industry",
+  "chapter...
+2025-05-08 12:15:00,453 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 12:15:00,501 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 12:15:00,501 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 12:15:00,501 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 12:16:56,680 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:17:05,300 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 12:17:37,510 - app.routes.agents - INFO - Starting registration process for user travel@example.com
+2025-05-08 12:17:37,510 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 12:17:37,510 - app.services.crew_service - INFO - Creating registration crew for user: travel@example.com
+2025-05-08 12:17:37,533 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 12:17:37,561 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:17:39,006 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:17:39,028 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:17:40,545 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:17:40,576 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:17:42,221 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:17:42,243 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 1,
+      "topic_name": "Cybersecurity in Travel and Hospitality",
+      "relevance_score": 95
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Data Privacy and Protection",
+      "relevance_score": 90
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Authentication and Authorization Mechanisms",
+      "relevance_score": 85
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Secure Transaction Processing",
+      "relevance_score": 80
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Incident Response and Threat Management",
+      "relevance_score": 75
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting travel booking platforms",
+    "Data breaches exposing customer personal and payment information",
+    "Credential stuffing attacks on user authentication systems",
+    "Man-in-the-middle attacks on transaction data",
+    "Insider threats within travel organizations"
+  ],
+  "focus_areas": [
+    "Vulnerabilities in travel booking systems",
+    "Best practices for data privacy in travel platforms",
+    "Multi-factor authentication implementation",
+    "Secure payment and transaction protocols",
+    "Incident response planning specific to travel services"
+  ],
+  "recommended_topic_id": 1
+}
+2025-05-08 12:17:42,243 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 12:17:42,303 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 12:17:42,304 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 12:17:42,304 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 12:17:42,557 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 12:17:42,557 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 12:17:42,570 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 12:17:42,588 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:17:52,484 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:17:52,499 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:18:03,967 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:18:04,011 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:18:17,331 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:18:17,367 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:18:18,076 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:18:18,118 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 12345,
+  "quiz_title": "Cybersecurity Fundamentals in Travel Services",
+  "chapter_co...
+2025-05-08 12:18:18,118 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 12:18:18,174 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 12:18:18,174 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 12:18:18,174 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 12:20:40,538 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:21:01,264 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:21:03,591 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 12:21:08,022 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:21:08,531 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:26:40,351 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:27:16,055 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 12:27:21,706 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:27:22,070 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:27:47,411 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:31:13,919 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 12:31:13,919 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 12:31:13,919 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 12:31:13,953 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 12:31:13,979 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:31:16,008 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:31:16,046 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:31:17,818 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:31:17,844 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:31:19,678 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:31:19,714 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 3,
+      "topic_name": "Cybersecurity incident response in banking",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Banking security protocols",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Regulatory compliance (e.g., GDPR, PSD2)",
+      "relevance_score": 0.80
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Risk management in financial institutions",
+      "relevance_score": 0.75
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "Ransomware attacks on financial infrastructure",
+    "Fraudulent transactions and account takeovers",
+    "Data breaches exposing sensitive customer information",
+    "Insider threats compromising financial data",
+    "Advanced persistent threats (APTs) aimed at financial institutions"
+  ],
+  "focus_areas": [
+    "Emerging cyber threats specific to financial services",
+    "Advanced encryption and secure communication methods",
+    "Regulatory frameworks and compliance standards (GDPR, PSD2)",
+    "Threat detection tools and analytics",
+    "Incident response planning and management in banking"
+  ],
+  "recommended_topic_id": 3
+}
+2025-05-08 12:31:19,714 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 12:31:19,770 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 12:31:19,770 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 12:31:19,770 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 12:31:19,868 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 12:31:19,868 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 12:31:19,868 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 12:31:19,894 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:31:31,061 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:31:31,076 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:31:44,551 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:31:44,586 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:32:00,599 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:32:00,633 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:32:01,476 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:32:01,512 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for General Sector",
+  "chapter_coun...
+2025-05-08 12:32:01,513 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 12:32:01,658 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 12:32:01,658 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 12:32:01,658 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 12:32:03,509 - watchfiles.main - INFO - 2 changes detected
+2025-05-08 12:32:04,933 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:32:07,306 - watchfiles.main - INFO - 5 changes detected
+2025-05-08 12:32:11,845 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:32:12,359 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:41:48,330 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:42:18,356 - watchfiles.main - INFO - 6 changes detected
+2025-05-08 12:42:19,542 - watchfiles.main - INFO - 1 change detected
+2025-05-08 12:43:33,231 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 12:43:33,231 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 12:43:33,231 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 12:43:33,266 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 12:43:33,291 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:43:34,745 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:43:34,770 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:43:36,544 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:43:36,590 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:43:38,789 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:43:38,817 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 2,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Regulatory compliance (e.g., GDPR, PCI DSS)",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Risk management in banking",
+      "relevance_score": 0.80
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Secure transaction protocols",
+      "relevance_score": 0.75
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Cryptography in banking",
+      "relevance_score": 0.70
+    }
+  ],
+  "sector_threats": [
+    "Phishing and spear-phishing attacks targeting banking credentials",
+    "Banking malware and ransomware campaigns",
+    "Fraudulent transactions and account takeover",
+    "Insider threats and fraudulent employee activities",
+    "Data breaches involving customer financial data",
+    "Emerging threats from AI-driven social engineering"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques specific to financial institutions",
+    "Emerging cybersecurity trends in banking and finance",
+    "Security architecture and incident response strategies for banks",
+    "Regulatory updates and compliance strategies for financial cybersecurity",
+    "Secure application development and transaction protocols in banking"
+  ],
+  "recommended_topic_id": 2
+}
+2025-05-08 12:43:38,817 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 12:43:38,879 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 12:43:38,884 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 12:43:38,884 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 12:43:38,969 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 12:43:38,969 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 12:43:38,977 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 12:43:38,988 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:43:51,689 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:43:51,706 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:44:04,199 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:44:04,246 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:44:18,738 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:44:18,775 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:44:19,541 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:44:19,562 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Institutions",
+  "chap...
+2025-05-08 12:44:19,562 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 12:44:19,610 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 12:44:19,610 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 12:44:19,610 - app.services.crew_service - INFO - Detected hardcoded quiz ID, generating a real database ID
+2025-05-08 12:44:19,610 - app.services.crew_service - ERROR - Error generating real quiz ID: 'DatabaseService' object has no attribute 'execute_with_return'
+2025-05-08 12:44:19,610 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 12:49:00,665 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 12:49:00,665 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 12:49:00,665 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 12:49:00,681 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 12:49:00,699 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:49:02,456 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:49:02,481 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:49:04,371 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:49:04,421 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:49:06,322 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:49:06,351 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 2,
+      "relevance_score": 0.95,
+      "topic_name": "Financial Cybersecurity Threats and Banking Security Protocols"
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware infections",
+    "Fraudulent transactions and account takeovers",
+    "Insider threats within financial institutions",
+    "Ransomware attacks on banking infrastructure",
+    "Data breaches compromising customer financial data",
+    "Advanced persistent threats (APTs) targeting financial systems",
+    "Regulatory non-compliance risks leading to penalties"
+  ],
+  "focus_areas": [
+    "Emerging financial cyber threats and attack vectors",
+    "Advanced incident response in banking environments",
+    "Secure transaction systems including blockchain security",
+    "Fraud detection methodologies and prevention techniques",
+    "Regulatory compliance frameworks (PCI DSS, Basel III, GDPR)"
+  ],
+  "recommended_topic_id": 2
+}
+2025-05-08 12:49:06,351 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 12:49:06,532 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 12:49:06,533 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 12:49:06,533 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 12:49:06,628 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 12:49:06,628 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 12:49:06,639 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 12:49:06,653 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:49:17,819 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:49:17,819 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:49:30,556 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:49:30,592 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:49:42,011 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:49:42,042 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:49:42,730 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:49:42,752 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 1,
+  "quiz_title": "Cybersecurity Fundamentals: Comprehensive Quiz for General Sector...
+2025-05-08 12:49:42,752 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 12:49:42,904 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 12:49:42,904 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['quiz_id', 'quiz_title', 'chapter_count', 'question_count', 'user_id'])
+2025-05-08 12:49:42,904 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 12:59:24,015 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 12:59:24,015 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 12:59:24,015 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 12:59:24,035 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 12:59:24,056 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:59:25,547 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:59:25,569 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:59:27,287 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:59:27,311 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:59:30,387 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:59:30,403 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 8,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Data protection and encryption in banking",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 7,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Regulatory compliance (e.g., GDPR, PCI DSS)",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 6,
+      "topic_name": "Secure online banking protocols",
+      "relevance_score": 0.83
+    },
+    {
+      "topic_id": 9,
+      "topic_name": "Threat modeling specific to financial institutions",
+      "relevance_score": 0.80
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking customers",
+    "Advanced persistent threats (APTs) aimed at financial data theft",
+    "Ransomware attacks compromising banking infrastructure",
+    "Data breaches exposing sensitive customer information",
+    "Fraudulent transactions and account takeovers"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques in banking",
+    "Emerging cybersecurity trends affecting finance sector",
+    "Regulatory updates and compliance strategies",
+    "Incident response planning for financial institutions",
+    "Implementation of multi-factor authentication and biometric security"
+  ],
+  "recommended_topic_id": 8
+}
+2025-05-08 12:59:30,403 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 12:59:30,466 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 12:59:30,466 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 12:59:30,466 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 12:59:30,789 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 12:59:30,789 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 12:59:30,801 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 12:59:30,816 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:59:41,126 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:59:41,145 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 12:59:51,127 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 12:59:51,153 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:00:06,506 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:00:06,549 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:00:07,211 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:00:07,242 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Sector",
+  "chapter_co...
+2025-05-08 13:00:07,242 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:00:07,294 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:00:07,294 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:00:07,294 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 13:01:33,163 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 13:01:33,163 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:01:33,163 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 13:01:33,182 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:01:33,210 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:01:34,564 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:01:34,592 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:01:36,481 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:01:36,529 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:01:38,458 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:01:38,492 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 4,
+      "topic_name": "Financial cybersecurity frameworks",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Threat detection and mitigation in banking",
+      "relevance_score": 0.92
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Secure banking applications and infrastructure",
+      "relevance_score": 0.89
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Regulatory compliance (e.g., GDPR, PCI DSS)",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 6,
+      "topic_name": "Risk management in financial institutions",
+      "relevance_score": 0.80
+    }
+  ],
+  "sector_threats": [
+    "Ransomware attacks targeting banking infrastructure",
+    "Phishing scams aimed at banking personnel and customers",
+    "Fraudulent transactions and account takeover schemes",
+    "Data breaches exposing sensitive financial information",
+    "Insider threats compromising banking systems"
+  ],
+  "focus_areas": [
+    "Emerging threats like ransomware and phishing in finance",
+    "Advanced security protocols and encryption methods for banking",
+    "Incident response planning tailored to financial sector attacks",
+    "Keeping up with regulatory updates and compliance requirements",
+    "Security awareness and training for banking staff"
+  ],
+  "recommended_topic_id": 4
+}
+2025-05-08 13:01:38,492 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:01:38,540 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:01:38,540 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:01:38,540 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:01:38,901 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:01:38,901 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:01:38,901 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:01:38,930 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:01:50,918 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:01:50,950 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:02:04,706 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:02:04,746 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:02:05,362 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:02:05,404 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 0,
+  "quiz_title": "Cybersecurity Fundamentals for the Financial Sector",
+  "chapter_...
+2025-05-08 13:02:05,404 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:02:05,571 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:02:05,571 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:02:05,571 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 13:08:52,085 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 13:08:52,085 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:08:52,085 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 13:08:52,106 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:08:52,131 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:08:53,581 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:08:53,613 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:08:55,172 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:08:55,204 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:08:57,874 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:08:57,894 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 12,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 9.5
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Banking infrastructure security",
+      "relevance_score": 9.0
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 8.8
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Data encryption and secure transactions",
+      "relevance_score": 8.5
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Regulatory compliance (e.g., PSD2, GDPR)",
+      "relevance_score": 8.2
+    }
+  ],
+  "sector_threats": [
+    "Phishing and spear-phishing targeted at banking customers",
+    "Ransomware attacks on banking infrastructure",
+    "Advanced persistent threats (APTs) targeting financial data",
+    "Fraudulent transactions and account takeover schemes",
+    "Data breaches exposing sensitive financial information",
+    "Money laundering facilitated through digital channels",
+    "Emerging cyber attack methods exploiting new banking technologies"
+  ],
+  "focus_areas": [
+    "Emerging financial cyber attack methods",
+    "Advanced cyber threat detection techniques",
+    "Incident response and recovery strategies in banking",
+    "Regulatory and compliance challenges in financial cybersecurity",
+    "Securing banking infrastructure against targeted attacks"
+  ],
+  "recommended_topic_id": 12
+}
+2025-05-08 13:08:57,895 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:08:57,945 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:08:57,946 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:08:57,946 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:08:58,149 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:08:58,149 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:08:58,158 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:08:58,178 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:09:08,414 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:09:08,423 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:09:19,991 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:09:20,021 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:09:35,791 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:09:35,818 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:09:36,581 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:09:36,612 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Sector",
+  "chapter_co...
+2025-05-08 13:09:36,612 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:09:36,691 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:09:36,693 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:09:36,743 - app.services.crew_service - ERROR - Error parsing quiz generation result: 'DatabaseService' object has no attribute 'logger'
+2025-05-08 13:09:36,743 - app.services.crew_service - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\db_service.py", line 46, in execute_with_return
+    cursor.execute(query, params)
+psycopg2.errors.UndefinedColumn: column "status" of relation "quizzes" does not exist
+LINE 3:                 (title, user_id, topic_id, status, metadata)...
+                                                   ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 689, in _parse_quiz_generation_result
+    quiz_result = db_service.execute_with_return(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\db_service.py", line 51, in execute_with_return
+    self.logger.error(f"Database error in execute_with_return: {str(e)}", exc_info=True)
+    ^^^^^^^^^^^
+AttributeError: 'DatabaseService' object has no attribute 'logger'
+2025-05-08 13:09:36,789 - app.services.crew_service - ERROR - Error creating fallback quiz: 'DatabaseService' object has no attribute 'logger'
+2025-05-08 13:09:36,789 - app.routes.agents - INFO - CrewAI quiz generation result: error
+2025-05-08 13:15:22,932 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 13:15:22,932 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:15:22,932 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 13:15:22,941 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:15:22,969 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:15:24,082 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:15:24,113 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:15:26,457 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:15:26,490 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:15:28,760 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:15:28,801 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 4,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 95
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Banking sector-specific security protocols",
+      "relevance_score": 90
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Threat detection in financial systems",
+      "relevance_score": 88
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 85
+    },
+    {
+      "topic_id": 6,
+      "topic_name": "Regulatory compliance (e.g., GDPR, PSD2)",
+      "relevance_score": 80
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and online banking fraud",
+    "Money laundering through digital channels",
+    "Malware and ransomware attacks on banking infrastructure",
+    "Man-in-the-middle attacks on financial transactions",
+    "Insider threats involving unauthorized access",
+    "SIM swapping and account takeover scams"
+  ],
+  "focus_areas": [
+    "Evolving financial cyber threats and attack vectors",
+    "Advanced security protocols for transaction authentication",
+    "Detection and mitigation of financial system anomalies",
+    "Secure implementation of digital banking infrastructure",
+    "Incident response strategies specific to banking cyber incidents"
+  ],
+  "recommended_topic_id": 4
+}
+2025-05-08 13:15:28,801 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:15:28,952 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:15:28,960 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:15:28,960 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:15:29,171 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:15:29,171 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:15:29,181 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:15:29,202 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:15:45,637 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:15:45,686 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:16:01,641 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:16:01,691 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:16:02,506 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:16:02,550 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 1,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Systems",
+  "chapter_cou...
+2025-05-08 13:16:02,550 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:16:02,700 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:16:02,700 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:16:02,748 - app.services.crew_service - ERROR - Error parsing quiz generation result: 'DatabaseService' object has no attribute 'logger'
+2025-05-08 13:16:02,748 - app.services.crew_service - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\db_service.py", line 46, in execute_with_return
+psycopg2.errors.ForeignKeyViolation: insert or update on table "quizzes" violates foreign key constraint "quizzes_user_id_foreign"
+DETAIL:  Key (user_id)=(0) is not present in table "users".
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\crew_service.py", line 689, in _parse_quiz_generation_result
+    quiz_result = db_service.execute_with_return(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Gameapp\Desktop\CY-X Reseach Doc\CYX_POC\cybersecurity-quiz-ai\app\services\db_service.py", line 51, in execute_with_return
+    Args:
+        ^^
+AttributeError: 'DatabaseService' object has no attribute 'logger'
+2025-05-08 13:16:02,807 - app.services.crew_service - ERROR - Error creating fallback quiz: 'DatabaseService' object has no attribute 'logger'
+2025-05-08 13:16:02,807 - app.routes.agents - INFO - CrewAI quiz generation result: error
+2025-05-08 13:18:54,283 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 13:18:54,283 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:18:54,283 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 13:18:54,306 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:18:54,347 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:18:55,824 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:18:55,856 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:18:58,023 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:18:58,039 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:18:59,506 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:18:59,537 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 7,
+      "topic_name": "Cybersecurity in Banking Sector",
+      "relevance_score": 0.95
+    }
+  ],
+  "sector_threats": [
+    "Banking-specific phishing attacks targeting customer accounts",
+    "ATM and POS malware and skimming devices",
+    "Internal fraud and insider threats",
+    "Data breaches involving customer financial data",
+    "Advanced persistent threats (APTs) aimed at banking infrastructure",
+    "Ransomware attacks on banking IT systems",
+    "Supply chain vulnerabilities affecting banking software vendors",
+    "Regulatory non-compliance leading to legal penalties"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques specific to financial institutions",
+    "AI/ML-based fraud detection and prevention methods",
+    "Incident response planning tailored to banking cybersecurity incidents",
+    "Regulatory compliance and audit readiness in financial cybersecurity",
+    "Secure transaction processing protocols and encryption methods"
+  ],
+  "recommended_topic_id": 7
+}
+2025-05-08 13:18:59,538 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:18:59,539 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:18:59,539 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:18:59,540 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:18:59,578 - app.services.db_service - ERROR - Error connecting to database: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:18:59,578 - app.services.db_service - ERROR - Error fetching one row: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:18:59,579 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:18:59,579 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:18:59,585 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:18:59,602 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:19:10,216 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:19:10,222 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:19:22,388 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:19:22,425 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:19:37,629 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:19:37,667 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:19:38,323 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:19:38,344 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 1,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Institutions",
+  "chapte...
+2025-05-08 13:19:38,344 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:19:38,345 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:19:38,346 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:19:38,388 - app.services.db_service - ERROR - Error connecting to database: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:19:38,389 - app.services.db_service - ERROR - Database error in execute_with_return: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:19:38,389 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 13:21:05,052 - app.routes.agents - INFO - Starting registration process for user travel@example.com
+2025-05-08 13:21:05,052 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:21:05,052 - app.services.crew_service - INFO - Creating registration crew for user: travel@example.com
+2025-05-08 13:21:05,068 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:21:05,084 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:21:06,374 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:21:06,394 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:21:08,236 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:21:08,292 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:21:10,455 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:21:10,477 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 5,
+      "topic_name": "Security protocols in travel technology",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Cybersecurity fundamentals",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Data privacy and protection",
+      "relevance_score": 0.80
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Risk management in online booking systems",
+      "relevance_score": 0.75
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Threat assessment and mitigation",
+      "relevance_score": 0.70
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting travel booking platforms",
+    "Data breaches compromising customer information",
+    "Man-in-the-middle attacks on travel transactions",
+    "Malware infections in travel-related software",
+    "Credential stuffing attacks on travel portals"
+  ],
+  "focus_areas": [
+    "Implementing secure authentication and authorization in travel systems",
+    "Protecting customer data during online transactions",
+    "Recognizing and mitigating phishing and social engineering attacks in travel",
+    "Ensuring compliance with data privacy regulations (e.g., GDPR, CCPA)",
+    "Incident response planning specific to travel booking and payment systems"
+  ],
+  "recommended_topic_id": 5
+}
+2025-05-08 13:21:10,477 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:21:10,487 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:21:10,487 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:21:10,487 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:21:10,520 - app.services.db_service - ERROR - Error connecting to database: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:21:10,520 - app.services.db_service - ERROR - Error fetching one row: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:21:10,520 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:21:10,520 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:21:10,520 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:21:10,544 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:21:20,937 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:21:20,978 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:21:36,224 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:21:36,255 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:21:36,985 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:21:37,000 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals for Travel Systems",
+  "chapter_coun...
+2025-05-08 13:21:37,000 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:21:37,005 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:21:37,005 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:21:37,148 - app.services.db_service - ERROR - Error connecting to database: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:21:37,148 - app.services.db_service - ERROR - Database error in execute_with_return: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+
+2025-05-08 13:21:37,148 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 13:25:46,380 - app.routes.agents - INFO - Starting registration process for user travel@example.com
+2025-05-08 13:25:46,380 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:25:46,380 - app.services.crew_service - INFO - Creating registration crew for user: travel@example.com
+2025-05-08 13:25:46,402 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:25:46,430 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:25:47,872 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:25:47,888 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:25:49,912 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:25:49,947 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:25:52,374 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:25:52,401 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 5,
+      "topic_name": "Cybersecurity in Travel & Hospitality",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Application Security & Secure Coding",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Data Privacy & Regulatory Compliance",
+      "relevance_score": 0.80
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Threat Detection & Incident Response",
+      "relevance_score": 0.75
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Payment Security & User Authentication",
+      "relevance_score": 0.70
+    }
+  ],
+  "sector_threats": [
+    "Data breaches compromising customer personal and payment information",
+    "Fraudulent travel bookings and payment fraud",
+    "Phishing attacks targeting travel platform users and admins",
+    "Insider threats within travel organizations",
+    "Malware and ransomware attacks on booking systems",
+    "Non-compliance with GDPR, PCI DSS, and other regulations leading to legal penalties"
+  ],
+  "focus_areas": [
+    "Secure travel booking system architectures",
+    "Implementing strong user authentication and authorization",
+    "Data privacy protocols and compliance standards (GDPR, PCI DSS)",
+    "Incident response planning specific to travel platforms",
+    "Threat detection techniques in travel IT environments"
+  ],
+  "recommended_topic_id": 5
+}
+2025-05-08 13:25:52,402 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:25:52,404 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:25:52,404 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:25:52,404 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:25:52,572 - app.services.db_service - ERROR - Error fetching one row: module 'psycopg2' has no attribute 'extras'
+2025-05-08 13:25:52,574 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:25:52,574 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:25:52,574 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:25:52,597 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:26:05,882 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:26:05,902 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:26:22,995 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:26:23,035 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:26:40,275 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:26:40,314 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:26:40,941 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:26:40,972 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 101,
+  "quiz_title": "Cybersecurity Fundamentals in Travel Platforms",
+  "chapter_cou...
+2025-05-08 13:26:40,972 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:26:40,973 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:26:40,973 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:26:41,025 - app.services.db_service - ERROR - Database error in execute_with_return: insert or update on table "quizzes" violates foreign key constraint "quizzes_user_id_foreign"
+DETAIL:  Key (user_id)=(0) is not present in table "users".
+
+2025-05-08 13:26:41,025 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 13:29:56,316 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 13:29:56,316 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:29:56,316 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 13:29:56,325 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:29:56,342 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:29:57,441 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:29:57,477 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:29:59,560 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:29:59,607 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:30:02,679 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:30:02,705 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 9,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 9.5
+    },
+    {
+      "topic_id": 1,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 9.0
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Data encryption and secure communication",
+      "relevance_score": 8.5
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Regulatory compliance (GDPR, PCI DSS)",
+      "relevance_score": 8.0
+    }
+  ],
+  "sector_threats": [
+    "Payment card fraud and card-not-present fraud",
+    "Account takeovers via credential stuffing",
+    "Phishing attacks targeting banking customers",
+    "Insider threats compromising sensitive financial data",
+    "Emerging threats from fintech innovations and mobile banking apps"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques for financial services",
+    "Emerging cybersecurity risks in banking and finance",
+    "Secure development practices for banking applications",
+    "Incident response and recovery specific to financial institutions",
+    "Regulatory updates and compliance strategies in banking"
+  ],
+  "recommended_topic_id": 9
+}
+2025-05-08 13:30:02,705 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:30:02,707 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:30:02,707 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:30:02,707 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:30:02,878 - app.services.db_service - ERROR - Error fetching one row: module 'psycopg2' has no attribute 'extras'
+2025-05-08 13:30:02,878 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:30:02,878 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:30:02,887 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:30:02,910 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:30:13,570 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:30:13,591 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:30:23,620 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:30:23,648 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:30:37,881 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:30:37,927 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:30:38,642 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:30:38,669 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_id": 1,
+  "quiz_title": "Cybersecurity Fundamentals for Financial Services",
+  "chapter_co...
+2025-05-08 13:30:38,669 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:30:38,669 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:30:38,669 - app.services.crew_service - WARNING - Could not extract proper quiz data, using fallback
+2025-05-08 13:30:38,717 - app.services.db_service - ERROR - Database error in execute_with_return: insert or update on table "quizzes" violates foreign key constraint "quizzes_user_id_foreign"
+DETAIL:  Key (user_id)=(0) is not present in table "users".
+
+2025-05-08 13:30:38,717 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 13:56:43,033 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 13:56:43,033 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 13:56:43,033 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 13:56:43,100 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 13:56:43,126 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:56:44,677 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:56:44,700 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:56:46,746 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:56:46,762 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:56:49,863 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:56:49,885 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 7,
+      "topic_name": "Financial Cybersecurity Threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Banking Sector-Specific Security Protocols",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 9,
+      "topic_name": "Threat Detection and Mitigation Strategies",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 12,
+      "topic_name": "Regulatory Compliance and Standards in Finance",
+      "relevance_score": 0.80
+    }
+  ],
+  "sector_threats": [
+    "Phishing and spear-phishing attacks targeting banking credentials",
+    "ATM and POS malware and skimming schemes",
+    "Internal fraud and insider threats",
+    "Ransomware attacks on banking infrastructure",
+    "Data breaches exposing customer financial data",
+    "Emerging threats like deepfake fraud and synthetic identity theft"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques in banking",
+    "Emerging cybersecurity threats in finance",
+    "Secure banking infrastructure and network security",
+    "Risk management and incident response strategies",
+    "Updates on regulatory standards and compliance frameworks"
+  ],
+  "recommended_topic_id": 7
+}
+2025-05-08 13:56:49,885 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 13:56:49,885 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 13:56:49,885 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 13:56:49,885 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 13:56:50,063 - app.services.db_service - ERROR - Error fetching one row: module 'psycopg2' has no attribute 'extras'
+2025-05-08 13:56:50,063 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 13:56:50,063 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 13:56:50,063 - app.services.crew_service - WARNING - No user_id provided in quiz_data, attempting to find a valid user
+2025-05-08 13:56:50,114 - app.services.crew_service - INFO - Found valid user_id: 1
+2025-05-08 13:56:50,121 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 13:56:50,138 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:56:59,777 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:56:59,797 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:57:08,835 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:57:08,874 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:57:22,008 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:57:22,053 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 13:57:22,664 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 13:57:22,693 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_title": "Cybersecurity Fundamentals for General Sector",
+  "chapter_count": 4,
+  "question...
+2025-05-08 13:57:22,693 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 13:57:22,693 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 13:57:22,840 - app.services.crew_service - INFO - Created fallback quiz with ID: 5
+2025-05-08 13:57:22,840 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 14:02:20,544 - app.routes.agents - INFO - Starting registration process for user travel@example.com
+2025-05-08 14:02:20,544 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 14:02:20,544 - app.services.crew_service - INFO - Creating registration crew for user: travel@example.com
+2025-05-08 14:02:20,552 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 14:02:20,579 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:02:21,725 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:02:21,747 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:02:23,524 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:02:23,563 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:02:25,976 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:02:25,994 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 6,
+      "topic_name": "Cybersecurity in the Travel Sector",
+      "relevance_score": 0.95,
+      "justification": "Directly aligns with user's sector (Travel) and learning focus on industry-specific cybersecurity challenges."
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Web Application Security",
+      "relevance_score": 0.85,
+      "justification": "Supports understanding of security risks in online travel booking systems and web-based platforms."
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Payment Security and Fraud Prevention",
+      "relevance_score": 0.80,
+      "justification": "Addresses secure payment processing, a key concern in online travel transactions."
+    },
+    {
+      "topic_id": 7,
+      "topic_name": "Data Privacy and Compliance",
+      "relevance_score": 0.75,
+      "justification": "Related to data privacy laws and regulations affecting travel data management."
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Threat Detection & Incident Response",
+      "relevance_score": 0.70,
+      "justification": "Enhances skills in identifying and mitigating emerging threats specific to e-commerce and travel platforms."
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting travel booking platforms",
+    "Payment card fraud and unauthorized transactions",
+    "Data breaches exposing traveler information",
+    "Account hijacking and unauthorized access to booking accounts",
+    "Malware and ransomware targeting travel service providers"
+  ],
+  "focus_areas": [
+    "Security risks related to online travel booking systems",
+    "Implementing secure payment processing in travel platforms",
+    "Understanding travel industry-specific cybersecurity challenges",
+    "Emerging threats in online travel services",
+    "Incident response strategies for travel sector cyber incidents"
+  ],
+  "recommended_topic_id": 6
+}
+2025-05-08 14:02:25,994 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 14:02:25,998 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 14:02:25,998 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 14:02:25,998 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 14:02:26,051 - app.services.db_service - ERROR - Error fetching one row: module 'psycopg2' has no attribute 'extras'
+2025-05-08 14:02:26,052 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 14:02:26,052 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 14:02:26,052 - app.services.crew_service - WARNING - No user_id provided in quiz_data, attempting to find a valid user
+2025-05-08 14:02:26,227 - app.services.crew_service - INFO - Found valid user_id: 1
+2025-05-08 14:02:26,237 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 14:02:26,253 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:02:37,061 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:02:37,104 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:02:50,912 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:02:50,961 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:02:51,492 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:02:51,532 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_title": "Cybersecurity Fundamentals in the Travel Industry",
+  "chapter_count": 4,
+  "ques...
+2025-05-08 14:02:51,532 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 14:02:51,533 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 14:02:51,713 - app.services.crew_service - INFO - Created fallback quiz with ID: 6
+2025-05-08 14:02:51,713 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-08 14:10:26,418 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-08 14:10:26,418 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-08 14:10:26,418 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-08 14:10:26,443 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-08 14:10:26,469 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:10:31,500 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:10:31,528 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:10:33,203 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:10:33,235 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:10:36,581 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:10:36,601 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 3,
+      "relevance_score": 0.95,
+      "topic_name": "Financial cybersecurity threats"
+    },
+    {
+      "topic_id": 4,
+      "relevance_score": 0.90,
+      "topic_name": "Banking sector-specific security protocols"
+    },
+    {
+      "topic_id": 7,
+      "relevance_score": 0.85,
+      "topic_name": "Fraud detection and prevention"
+    },
+    {
+      "topic_id": 6,
+      "relevance_score": 0.80,
+      "topic_name": "Regulatory compliance (e.g., GDPR, PCI DSS)"
+    },
+    {
+      "topic_id": 8,
+      "relevance_score": 0.75,
+      "topic_name": "Threat detection and incident response"
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking credentials",
+    "ATM and POS malware attacks",
+    "Advanced persistent threats (APTs) aimed at financial data",
+    "Wire transfer fraud schemes",
+    "Insider threats and fraud within banking institutions"
+  ],
+  "focus_areas": [
+    "Emerging financial cyber threats and attack vectors",
+    "Advanced fraud detection techniques and anomaly analysis",
+    "Compliance strategies for GDPR and PCI DSS in banking",
+    "Incident response planning specific to financial institutions",
+    "Secure transaction methods and encryption protocols"
+  ],
+  "recommended_topic_id": 3
+}
+2025-05-08 14:10:36,602 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-08 14:10:36,602 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-08 14:10:36,603 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-08 14:10:36,603 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-08 14:10:36,652 - app.services.db_service - ERROR - Error fetching one row: module 'psycopg2' has no attribute 'extras'
+2025-05-08 14:10:36,652 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-08 14:10:36,652 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-08 14:10:36,652 - app.services.crew_service - WARNING - No user_id provided in quiz_data, attempting to find a valid user
+2025-05-08 14:10:36,704 - app.services.crew_service - INFO - Found valid user_id: 1
+2025-05-08 14:10:36,713 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-08 14:10:36,729 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:10:48,256 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:10:48,278 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:10:58,360 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:10:58,386 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:11:12,067 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:11:12,083 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-08 14:11:12,721 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-08 14:11:12,752 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_title": "Cybersecurity Fundamentals for Financial Sectors",
+  "chapter_count": 4,
+  questi...
+2025-05-08 14:11:12,752 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-08 14:11:12,752 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-08 14:11:12,760 - app.services.crew_service - WARNING - Could not extract or process formatted quiz, creating basic quiz entry
+2025-05-08 14:11:12,839 - app.services.crew_service - INFO - Created basic quiz with ID: 7
+2025-05-08 14:11:12,839 - app.routes.agents - INFO - CrewAI quiz generation result: success

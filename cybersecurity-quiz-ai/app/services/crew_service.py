@@ -183,6 +183,20 @@ class CrewService:
         """
         logger.info(f"Creating quiz generation crew for topic: {quiz_data.get('topic_name')}")
         
+        # Ensure we have a valid user_id
+        user_id = quiz_data.get('user_id')
+        if not user_id:
+            logger.warning("No user_id provided in quiz_data, attempting to find a valid user")
+            # Get a valid user ID from the database
+            try:
+                user_result = db_service.execute_with_return("SELECT id FROM users LIMIT 1")
+                if user_result and len(user_result) > 0:
+                    user_id = user_result[0][0]
+                    logger.info(f"Found valid user_id: {user_id}")
+                    quiz_data['user_id'] = user_id
+            except Exception as e:
+                logger.error(f"Error finding valid user_id: {str(e)}")
+        
         # Create agents (without tools for compatibility)
         quiz_generator_agent = Agent(
             role="Quiz Generator Agent",
@@ -284,41 +298,25 @@ class CrewService:
             expected_output="A properly formatted JSON object with all quiz content structured for the application",
         )
         
+        # Modified task description - removed user_id from the output JSON
         quiz_delivery_task = Task(
             description=(
                 "Prepare the quiz for delivery to the user:\n\n"
-                "Imagine you are saving this quiz to a database with the following steps:\n\n"
-                "1. Create the quiz record in the 'quizzes' table with:\n"
-                "   - title\n"
-                "   - description\n"
-                "   - user_id\n"
-                "   - topic_id\n"
-                "   - difficulty_level\n\n"
-                "2. Create each chapter in the 'chapters' table with:\n"
-                "   - quiz_id\n"
-                "   - title\n"
-                "   - description\n"
-                "   - sequence\n\n"
-                "3. Create each question in the 'questions' table with:\n"
-                "   - chapter_id\n"
-                "   - type\n"
-                "   - content\n"
-                "   - options\n"
-                "   - correct_answer\n"
-                "   - explanation\n"
-                "   - sequence\n"
-                "   - points\n\n"
-                "4. Return a summary of the saved quiz including:\n"
-                "   - quiz_id: (Provide a mock ID)\n"
+                "1. Create a summary of the quiz with the following information:\n"
                 "   - quiz_title: The title of the quiz\n"
                 "   - chapter_count: Number of chapters\n"
-                "   - question_count: Total number of questions\n"
-                f"   - user_id: {quiz_data.get('user_id')}\n\n"
-                "Return this summary as a JSON object."
+                "   - question_count: Total number of questions\n\n"
+                "2. Return a clean, valid JSON object without any comments or trailing commas. For example:\n"
+                "{\n"
+                '  "quiz_title": "Cybersecurity Fundamentals",\n'
+                '  "chapter_count": 4,\n'
+                '  "question_count": 20\n'
+                "}\n\n"
+                "IMPORTANT: Do NOT include any explanatory comments in your JSON. The response must be a valid, parseable JSON object."
             ),
             agent=quiz_delivery_agent,
             context=[quiz_formatting_task],
-            expected_output="A JSON object with details of the saved quiz including IDs and counts",
+            expected_output="A clean JSON object with quiz summary information",
         )
         
         # Create crew
@@ -518,7 +516,8 @@ class CrewService:
                     result_json = {}
 
             # Extract key information, with fallbacks
-            user_id = result_json.get('user_id', user_data.get('user_id', 0))
+            # Use user_id from the authenticated user (from user_data)
+            user_id = user_data.get('user_id')
             experience_level = result_json.get('experience_level', 3)
 
             if 'topic_mapping' in result_json:
@@ -562,7 +561,7 @@ class CrewService:
 
             # Fallback to basic structure
             return {
-                'user_id': user_data.get('user_id', 0),
+                'user_id': user_data.get('user_id'),
                 'user_name': user_data.get('name'),
                 'experience_level': 3,
                 'topic_id': user_data.get('topic_id'),
@@ -572,92 +571,335 @@ class CrewService:
                 'error_parsing': True,
                 'raw_result_preview': result_text[:100] + "..." if result_text else "No result"
             }
-    
+            
+    def _debug_json_parsing(self, text: str) -> None:
+        """Debug JSON parsing issues"""
+        logger.debug("=== DEBUG: JSON PARSING ===")
+        logger.debug(f"Original text length: {len(text)}")
+        logger.debug(f"First 100 chars: {text[:100]}")
+        logger.debug(f"Last 100 chars: {text[-100:] if len(text) > 100 else text}")
+        
+        # Look for JSON markers
+        json_start = text.find("{")
+        json_end = text.rfind("}")
+        if json_start != -1 and json_end != -1:
+            logger.debug(f"Potential JSON found at positions {json_start} to {json_end}")
+            potential_json = text[json_start:json_end+1]
+            logger.debug(f"Potential JSON length: {len(potential_json)}")
+            
+            # Look for common issues
+            comment_pos = potential_json.find("//")
+            if comment_pos != -1:
+                logger.debug(f"Comment found at position {comment_pos}")
+                logger.debug(f"Context around comment: {potential_json[max(0, comment_pos-10):min(len(potential_json), comment_pos+30)]}")
+            
+            trailing_comma = re.search(r',\s*[}\]]', potential_json)
+            if trailing_comma:
+                logger.debug(f"Trailing comma found at position {trailing_comma.start()}")
+                logger.debug(f"Context around trailing comma: {potential_json[max(0, trailing_comma.start()-10):min(len(potential_json), trailing_comma.start()+10)]}")
+        else:
+            logger.debug("No JSON-like structure found")
+        
+        logger.debug("=== END DEBUG ===")
+
     def _parse_quiz_generation_result(self, result, quiz_data: Dict[str, Any]) -> Dict[str, Any]:
         """Parse and structure the quiz generation crew result"""
         logger.info("Parsing quiz generation crew result")
         
         try:
-            # Convert result to text if it's a CrewOutput object
+            # Extract the entire result string
             result_text = result.output if hasattr(result, 'output') else str(result)
             
-            # Try to extract JSON from the result text
-            json_matches = re.findall(r'```json\s*(.*?)\s*```', result_text, re.DOTALL)
-            if json_matches:
-                result_json = json.loads(json_matches[0])
-                logger.info(f"Successfully extracted JSON from result: {result_json.keys()}")
-            else:
-                # Try to find JSON objects in the text
-                json_pattern = r'({[\s\S]*})'
-                json_matches = re.findall(json_pattern, result_text)
-                
-                if json_matches:
-                    for match in json_matches:
+            # Get the authenticated user ID from quiz_data
+            user_id = quiz_data.get('user_id')
+            if not user_id:
+                logger.warning("No user_id in quiz_data, trying to find a valid user")
+                try:
+                    user_result = db_service.execute_with_return("SELECT id FROM users LIMIT 1")
+                    if user_result and len(user_result) > 0:
+                        user_id = user_result[0][0]
+                        logger.info(f"Found valid user_id: {user_id}")
+                except Exception as e:
+                    logger.error(f"Error finding valid user ID: {str(e)}")
+                    user_id = 1  # Fallback
+            
+            # Find the formatted quiz from the Formatter agent
+            formatted_quiz = None
+            if hasattr(result, 'agent_outputs'):
+                for agent_name, output in result.agent_outputs.items():
+                    if 'Formatter' in agent_name:
+                        formatter_output = output
                         try:
-                            result_json = json.loads(match)
-                            logger.info(f"Found JSON in text: {result_json.keys()}")
-                            break
-                        except json.JSONDecodeError:
-                            continue
-                else:
-                    logger.warning("No JSON found in response, using fallback structure")
-                    result_json = {}
+                            # Extract JSON from formatter output
+                            json_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', formatter_output)
+                            if json_match:
+                                formatted_quiz = json.loads(json_match.group(1))
+                                logger.info("Found formatted quiz in JSON code block")
+                            else:
+                                # Try to find a JSON object
+                                json_match = re.search(r'({[\s\S]*})', formatter_output)
+                                if json_match:
+                                    clean_json = re.sub(r'//.*', '', json_match.group(1))
+                                    clean_json = re.sub(r',\s*}', '}', clean_json)
+                                    clean_json = re.sub(r',\s*]', ']', clean_json)
+                                    formatted_quiz = json.loads(clean_json)
+                                    logger.info("Found formatted quiz in text")
+                        except Exception as json_err:
+                            logger.error(f"Error parsing formatter output: {str(json_err)}")
             
-            # Extract key information, with fallbacks
-            quiz_id = result_json.get('quiz_id', 0)
-            quiz_title = result_json.get('quiz_title', f"{quiz_data.get('topic_name')} - Cybersecurity Quiz")
+            # If we found a formatted quiz with chapters, save it
+            if formatted_quiz and 'chapters' in formatted_quiz:
+                logger.info(f"Found formatted quiz with {len(formatted_quiz['chapters'])} chapters")
+                
+                # Insert the quiz
+                title = formatted_quiz.get('title', 'Untitled Quiz')
+                description = formatted_quiz.get('description', '')
+                difficulty_level = formatted_quiz.get('difficulty_level', 3)
+                topic_id = quiz_data.get('topic_id', 1)
+                
+                # Log the data we're about to insert
+                logger.info(f"Inserting quiz: title={title}, user_id={user_id}, topic_id={topic_id}")
+                
+                # Insert the quiz and get the ID
+                try:
+                    quiz_result = db_service.execute_with_return(
+                        """
+                        INSERT INTO quizzes 
+                        (title, description, user_id, topic_id, difficulty_level, metadata) 
+                        VALUES (%s, %s, %s, %s, %s, %s::jsonb) 
+                        RETURNING id
+                        """,
+                        (
+                            title,
+                            description,
+                            user_id,
+                            topic_id,
+                            difficulty_level,
+                            json.dumps(formatted_quiz)
+                        )
+                    )
+                    
+                    if not quiz_result or len(quiz_result) == 0:
+                        logger.error("Failed to insert quiz")
+                        return {
+                            'status': 'error',
+                            'message': 'Failed to insert quiz record',
+                            'user_id': user_id
+                        }
+                    
+                    quiz_id = quiz_result[0][0]
+                    logger.info(f"Successfully inserted quiz with ID: {quiz_id}")
+                    
+                    # Now insert chapters and questions
+                    chapters = formatted_quiz.get('chapters', [])
+                    chapter_count = len(chapters)
+                    question_count = 0
+                    
+                    # Process each chapter
+                    for i, chapter in enumerate(chapters):
+                        chapter_title = chapter.get('title', f'Chapter {i+1}')
+                        chapter_description = chapter.get('description', '')
+                        
+                        logger.info(f"Inserting chapter {i+1}: {chapter_title}")
+                        
+                        try:
+                            # Insert chapter
+                            chapter_result = db_service.execute_with_return(
+                                """
+                                INSERT INTO chapters 
+                                (quiz_id, title, description, sequence) 
+                                VALUES (%s, %s, %s, %s) 
+                                RETURNING id
+                                """,
+                                (
+                                    quiz_id,
+                                    chapter_title,
+                                    chapter_description,
+                                    i+1
+                                )
+                            )
+                            
+                            if not chapter_result or len(chapter_result) == 0:
+                                logger.error(f"Failed to insert chapter {i+1}")
+                                continue
+                            
+                            chapter_id = chapter_result[0][0]
+                            logger.info(f"Successfully inserted chapter with ID: {chapter_id}")
+                            
+                            # Insert questions for this chapter
+                            questions = chapter.get('questions', [])
+                            question_count += len(questions)
+                            
+                            for j, question in enumerate(questions):
+                                q_type = question.get('type', 'mcq')
+                                content = question.get('content', '')
+                                options = question.get('options', [])
+                                correct_answer = question.get('correct_answer', '')
+                                explanation = question.get('explanation', '')
+                                difficulty = question.get('difficulty', 3)
+                                points = question.get('points', 1)
+                                knowledge_area = question.get('knowledge_area', '')
+                                
+                                try:
+                                    # Try to insert question with full metadata
+                                    db_service.execute(
+                                        """
+                                        INSERT INTO questions 
+                                        (chapter_id, type, content, options, correct_answer, explanation, 
+                                        sequence, points, difficulty, metadata) 
+                                        VALUES (%s, %s, %s, %s::jsonb, %s, %s, %s, %s, %s, %s::jsonb)
+                                        """,
+                                        (
+                                            chapter_id,
+                                            q_type,
+                                            content,
+                                            json.dumps(options),
+                                            correct_answer,
+                                            explanation,
+                                            j+1,
+                                            points,
+                                            difficulty,
+                                            json.dumps({'knowledge_area': knowledge_area})
+                                        )
+                                    )
+                                except Exception as q_err:
+                                    logger.error(f"Error inserting question with metadata: {str(q_err)}")
+                                    
+                                    # Try simpler insertion without points, difficulty, metadata
+                                    try:
+                                        db_service.execute(
+                                            """
+                                            INSERT INTO questions 
+                                            (chapter_id, type, content, options, correct_answer, explanation, sequence) 
+                                            VALUES (%s, %s, %s, %s::jsonb, %s, %s, %s)
+                                            """,
+                                            (
+                                                chapter_id,
+                                                q_type,
+                                                content,
+                                                json.dumps(options),
+                                                correct_answer,
+                                                explanation,
+                                                j+1
+                                            )
+                                        )
+                                    except Exception as simple_q_err:
+                                        logger.error(f"Error inserting question with simple schema: {str(simple_q_err)}")
+                        
+                        except Exception as ch_err:
+                            logger.error(f"Error processing chapter: {str(ch_err)}")
+                    
+                    # Return success with the actual quiz ID
+                    return {
+                        'status': 'success',
+                        'quiz_id': quiz_id,
+                        'quiz_title': title,
+                        'chapter_count': chapter_count,
+                        'question_count': question_count,
+                        'user_id': user_id
+                    }
+                    
+                except Exception as db_err:
+                    logger.error(f"Database error when inserting quiz: {str(db_err)}")
             
-            # Check if we have chapter and question information
-            if 'chapters' in result_json:
-                chapter_count = len(result_json.get('chapters', []))
-                question_count = sum(len(chapter.get('questions', [])) for chapter in result_json.get('chapters', []))
-            else:
-                chapter_count = result_json.get('chapter_count', 0)
-                question_count = result_json.get('question_count', 0)
+            # If we got here, we couldn't find or process the formatted quiz
+            logger.warning("Could not extract or process formatted quiz, creating basic quiz entry")
             
-            # Create structured response
-            response = {
-                'user_id': quiz_data.get('user_id'),
-                'quiz_id': quiz_id,
-                'quiz_title': quiz_title,
-                'chapter_count': chapter_count,
-                'question_count': question_count,
-                'status': 'success',
-                'next_agent': 'quiz_formatter'
-            }
+            # Extract a title from the result text
+            quiz_title = "Cybersecurity Quiz"
+            title_match = re.search(r'"title":\s*"([^"]+)"', result_text)
+            if title_match:
+                quiz_title = title_match.group(1)
             
-            # If we have the full quiz content, include it
-            if 'chapters' in result_json:
-                response['quiz_content'] = {
-                    'title': quiz_title,
-                    'chapters': result_json.get('chapters', [])
+            # Create a basic quiz
+            try:
+                quiz_result = db_service.execute_with_return(
+                    """
+                    INSERT INTO quizzes 
+                    (title, user_id, topic_id, metadata) 
+                    VALUES (%s, %s, %s, %s::jsonb) 
+                    RETURNING id
+                    """,
+                    (
+                        quiz_title,
+                        user_id,
+                        quiz_data.get('topic_id', 1),
+                        json.dumps({'raw_result': True})
+                    )
+                )
+                
+                if not quiz_result or len(quiz_result) == 0:
+                    logger.error("Failed to insert basic quiz")
+                    return {
+                        'status': 'error',
+                        'message': 'Failed to insert basic quiz',
+                        'user_id': user_id
+                    }
+                
+                quiz_id = quiz_result[0][0]
+                logger.info(f"Created basic quiz with ID: {quiz_id}")
+                
+                return {
+                    'status': 'success',
+                    'quiz_id': quiz_id,
+                    'quiz_title': quiz_title,
+                    'chapter_count': 0,
+                    'question_count': 0,
+                    'user_id': user_id
                 }
-            
-            # Add any additional metadata that might be useful
-            if 'difficulty_level' in result_json:
-                response['difficulty_level'] = result_json['difficulty_level']
-            
-            if 'description' in result_json:
-                response['description'] = result_json['description']
-            
-            return response
-            
+                
+            except Exception as fallback_err:
+                logger.error(f"Error creating basic quiz: {str(fallback_err)}")
+                return {
+                    'status': 'error',
+                    'message': f'Failed to create quiz: {str(fallback_err)}',
+                    'user_id': user_id
+                }
+        
         except Exception as e:
-            logger.error(f"Error parsing quiz generation result: {str(e)}")
-            # Define result_text variable for the error log if not already defined
-            result_text = result.output if hasattr(result, 'output') else str(result)
-            logger.debug(f"Raw result that failed parsing: {result_text[:500]}...")
+            logger.error(f"Error in _parse_quiz_generation_result: {str(e)}")
+            logger.exception("Full stack trace:")
             
-            # Fallback to basic structure
             return {
-                'user_id': quiz_data.get('user_id'),
-                'quiz_id': 0,  # Will need to be set by the calling code
-                'quiz_title': f"{quiz_data.get('topic_name')} - Cybersecurity Quiz",
-                'status': 'success',
-                'next_agent': 'quiz_formatter',
-                'error_parsing': True,
-                'raw_result_preview': result_text[:100] + "..." if result_text else "No result"
+                'status': 'error',
+                'message': f'Error generating quiz: {str(e)}',
+                'user_id': quiz_data.get('user_id', 1)
             }
+
+
+    def _extract_json(self, text: str) -> Optional[Dict[str, Any]]:
+        """Extract JSON from text"""
+        if not text:
+            return None
+        
+        try:
+            # Try direct JSON parsing first
+            try:
+                return json.loads(text)
+            except:
+                pass
+            
+            # Clean up the text
+            clean_text = re.sub(r'//.*', '', text)
+            clean_text = re.sub(r',\s*}', '}', clean_text)
+            clean_text = re.sub(r',\s*]', ']', clean_text)
+            
+            # Try to find JSON in code blocks
+            json_match = re.search(r'```(?:json)?\s*([\s\S]*?)\s*```', clean_text)
+            if json_match:
+                json_str = json_match.group(1)
+                return json.loads(json_str)
+            
+            # Try to find JSON objects
+            json_obj_match = re.search(r'({[\s\S]*})', clean_text)
+            if json_obj_match:
+                json_str = json_obj_match.group(1)
+                return json.loads(json_str)
+            
+            return None
+        except Exception as e:
+            logger.error(f"Error extracting JSON: {str(e)}")
+            return None
     
     def _parse_evaluation_result(self, result, evaluation_data: Dict[str, Any]) -> Dict[str, Any]:
         """Parse and structure the evaluation crew result"""

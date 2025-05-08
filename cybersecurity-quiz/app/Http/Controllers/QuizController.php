@@ -128,7 +128,7 @@ class QuizController extends Controller
         // Call AI backend to generate quiz
         try {
             $response = Http::timeout(300)->post(config('services.ai_backend.url') . '/api/agents/register', $requestData);
-            dd($response->json());
+            // dd($response->json());
             if ($response->successful()) {
                 $result = $response->json();
                 
