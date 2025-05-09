@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+
 class QuizController extends Controller
 {
     public function index(Request $request)
@@ -30,7 +31,7 @@ class QuizController extends Controller
         if ($quiz->user_id !== $request->user()->id && !$request->user()->is_admin) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
-        
+        // dd($quiz);
         // Load quiz relationships
         $quiz->load(['chapters.questions', 'topic', 'sector', 'role']);
         
@@ -41,7 +42,9 @@ class QuizController extends Controller
             'description' => $quiz->description,
             'topic' => $quiz->topic->name,
             'difficulty_level' => $quiz->difficulty_level,
-            'created_at' => $quiz->created_at->format('Y-m-d H:i:s'),
+            'created_at' => $quiz->created_at 
+                ? $quiz->created_at->format('Y-m-d H:i:s') 
+                : null,
             'chapters' => []
         ];
         
@@ -60,6 +63,8 @@ class QuizController extends Controller
                     'type' => $question->type,
                     'content' => $question->content,
                     'options' => $question->options,
+                    'correct_answer' => $question->correct_answer, // Added correct answer
+                    'explanation' => $question->explanation, // Added explanation
                     'sequence' => $question->sequence,
                     'points' => $question->points
                 ];
@@ -86,7 +91,7 @@ class QuizController extends Controller
         }
         
         $user = $request->user();
-        // dd($user);
+        
         // Prepare data for AI backend
         $requestData = [
             'name' => $user->name,
@@ -118,7 +123,6 @@ class QuizController extends Controller
                 'obtained_date' => $cert->pivot->obtained_date 
                     ? Carbon::parse($cert->pivot->obtained_date)->format('Y-m-d') 
                     : null,
-
                 'expiry_date' => $cert->pivot->expiry_date 
                     ? Carbon::parse($cert->pivot->expiry_date)->format('Y-m-d') 
                     : null,
@@ -128,60 +132,86 @@ class QuizController extends Controller
         // Call AI backend to generate quiz
         try {
             $response = Http::timeout(300)->post(config('services.ai_backend.url') . '/api/agents/register', $requestData);
-            // dd($response->json());
+            
             if ($response->successful()) {
                 $result = $response->json();
                 
-                if (isset($result['quiz'])) {
-                    $quizData = $result['quiz'];
-                
-                    // 1️⃣ Save Quiz
+                // Check if the result indicates success and contains a quiz_id
+                if ($result['status'] === 'success' && isset($result['quiz_id'])) {
+                    $quiz_id = $result['quiz_id'];
+                    
+                    // Try to find the quiz in our database (it may have been saved by the Python backend)
+                    $quiz = Quiz::find($quiz_id);
+                    
+                    if ($quiz) {
+                        // Quiz already exists in our database
+                        return response()->json([
+                            'status' => 'success',
+                            'quiz_id' => $quiz->id,
+                            'message' => 'Quiz retrieved successfully'
+                        ]);
+                    } else {
+                        // Quiz doesn't exist in our database yet, create it
+                        $quiz = Quiz::create([
+                            'id' => $quiz_id, // Use the same ID provided by the backend
+                            'title' => $result['quiz_title'] ?? 'Cybersecurity Quiz',
+                            'description' => '',
+                            'user_id' => $user->id,
+                            'topic_id' => $request->topic_id,
+                            'difficulty_level' => 3,
+                        ]);
+                        
+                        // If metadata is available, try to create chapters and questions
+                        if (isset($result['complete_quiz'])) {
+                            $completeQuiz = $result['complete_quiz'];
+                            
+                            // Create chapters and questions
+                            $sequence = 1;
+                            foreach ($completeQuiz['chapters'] ?? [] as $chapterData) {
+                                $chapter = Chapter::create([
+                                    'quiz_id' => $quiz->id,
+                                    'title' => $chapterData['title'] ?? "Chapter $sequence",
+                                    'description' => $chapterData['description'] ?? '',
+                                    'sequence' => $sequence++,
+                                ]);
+                                
+                                $questionSeq = 1;
+                                foreach ($chapterData['questions'] ?? [] as $questionData) {
+                                    Question::create([
+                                        'chapter_id' => $chapter->id,
+                                        'type' => $questionData['type'] ?? 'mcq',
+                                        'content' => $questionData['content'] ?? '',
+                                        'options' => isset($questionData['options']) ? json_encode($questionData['options']) : '[]',
+                                        'correct_answer' => $questionData['correct_answer'] ?? '',
+                                        'explanation' => $questionData['explanation'] ?? '',
+                                        'sequence' => $questionSeq++,
+                                        'points' => $questionData['points'] ?? 1,
+                                    ]);
+                                }
+                            }
+                        }
+                        
+                        return response()->json([
+                            'status' => 'success',
+                            'quiz_id' => $quiz->id,
+                            'message' => 'Quiz generated and saved successfully'
+                        ]);
+                    }
+                } else {
+                    // Response doesn't match expected format - create a basic quiz
                     $quiz = Quiz::create([
-                        'title' => $quizData['title'],
-                        'description' => $quizData['description'] ?? '',
+                        'title' => $result['quiz_title'] ?? 'Cybersecurity Quiz',
+                        'description' => '',
                         'user_id' => $user->id,
                         'topic_id' => $request->topic_id,
-                        'difficulty_level' => $quizData['difficulty_level'] ?? 1,
+                        'difficulty_level' => 3,
                     ]);
-                
-                    // 2️⃣ Save Chapters + Questions
-                    $sequence = 1;
-                    foreach ($quizData['chapters'] as $chapterData) {
-                        $chapter = Chapter::create([
-                            'quiz_id' => $quiz->id,
-                            'title' => $chapterData['title'],
-                            'description' => $chapterData['description'] ?? '',
-                            'sequence' => $sequence++,
-                        ]);
-                
-                        $questionSeq = 1;
-                        foreach ($chapterData['questions'] as $questionData) {
-                            Question::create([
-                                'chapter_id' => $chapter->id,
-                                'type' => $questionData['type'],
-                                'content' => $questionData['content'],
-                                'options' => isset($questionData['options']) ? json_encode($questionData['options']) : null,
-                                'correct_answer' => $questionData['correct_answer'] ?? null,
-                                'explanation' => $questionData['explanation'] ?? null,
-                                'sequence' => $questionSeq++,
-                                'points' => $questionData['points'] ?? 1,
-                            ]);
-                        }
-                    }
-                
+                    
                     return response()->json([
                         'status' => 'success',
                         'quiz_id' => $quiz->id,
-                        'message' => 'Quiz generated and saved successfully'
+                        'message' => 'Basic quiz created from available data'
                     ]);
-                }
-                
-                else {
-                    // Something went wrong
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Failed to generate quiz: Invalid response format'
-                    ], 500);
                 }
             } else {
                 // Error response from AI backend
