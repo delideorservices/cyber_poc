@@ -18,7 +18,7 @@ class QuizController extends Controller
     {
         $user = $request->user();
         $quizzes = Quiz::with(['topic'])
-            ->where('user_id', $user->id)
+            // ->where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
             
@@ -28,9 +28,9 @@ class QuizController extends Controller
     public function show(Quiz $quiz, Request $request)
     {
         // Check if quiz belongs to user
-        if ($quiz->user_id !== $request->user()->id && !$request->user()->is_admin) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+        // if ($quiz->user_id !== $request->user()->id && !$request->user()->is_admin) {
+        //     return response()->json(['error' => 'Unauthorized'], 403);
+        // }
         // dd($quiz);
         // Load quiz relationships
         $quiz->load(['chapters.questions', 'topic', 'sector', 'role']);
@@ -94,6 +94,7 @@ class QuizController extends Controller
         
         // Prepare data for AI backend
         $requestData = [
+            'user_id' => $user->id, 
             'name' => $user->name,
             'email' => $user->email,
             'gender' => $user->gender,

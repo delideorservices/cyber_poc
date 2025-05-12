@@ -2,6 +2,10 @@ import logging
 import sys
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.agents.skill_improvement_agent import SkillImprovementAgent
+from app.services.progressive_difficulty_engine import ProgressiveDifficultyEngine
+from app.services.spaced_repetition_scheduler import SpacedRepetitionScheduler
+from fastapi import Request
 
 # Configure more detailed logging
 logging.basicConfig(
@@ -43,3 +47,40 @@ async def root():
 async def health():
     return {"status": "healthy"}
 
+@app.post("/api/skill-improvement")
+async def generate_skill_improvement(request: Request):
+    """Generate skill improvement activities"""
+    data = await request.json()
+    result = agent_executor.execute_agent("SkillImprovementAgent", data)
+    return result
+@app.post("/api/spaced-repetition/schedule")
+async def schedule_repetition(request: Request):
+    """Schedule a spaced repetition session"""
+    data = await request.json()
+    scheduler = SpacedRepetitionScheduler()
+    result = scheduler.schedule_repetition(
+        data.get('user_id'),
+        data.get('skill_id'),
+        data.get('difficulty', 3),
+        data.get('performance_rating')
+    )
+    return {"status": "success", "schedule": result}
+
+@app.post("/api/spaced-repetition/complete")
+async def complete_repetition(request: Request):
+    """Complete a spaced repetition session"""
+    data = await request.json()
+    scheduler = SpacedRepetitionScheduler()
+    result = scheduler.complete_repetition(
+        data.get('schedule_id'),
+        data.get('performance_rating')
+    )
+    return {"status": "success", "next_schedule": result}
+def setup_agents():
+    # Register existing agents
+    # ...
+    
+    # Register new agent
+    agent_executor.register_agent(SkillImprovementAgent())
+    
+    return agent_executor

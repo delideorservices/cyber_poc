@@ -21,6 +21,10 @@ class QuizDeliveryAgent:
     def run(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """Process inputs and deliver quiz"""
         try:
+            # Add validation for user_id
+            if 'user_id' not in inputs or not inputs.get('user_id'):
+                self.logger.warning(f"Missing or invalid user_id in inputs: {inputs.get('user_id', 'Not provided')}")
+            
             return self._execute(inputs)
         except Exception as e:
             self.logger.error(f"Error in {self.name}: {str(e)}", exc_info=True)
@@ -44,6 +48,9 @@ class QuizDeliveryAgent:
             # Get formatted quiz data
             quiz_data = inputs.get('quiz')
             user_id = inputs.get('user_id', 0)
+            
+            # Log user_id for debugging
+            self.logger.info(f"Processing quiz with user_id: {user_id}")
             
             self.logger.info(f"Got quiz data with title: {quiz_data.get('title', 'Untitled Quiz')}")
             
@@ -92,13 +99,27 @@ class QuizDeliveryAgent:
             difficulty_level = quiz_data.get('difficulty_level', 3)
             topic_id = quiz_data.get('topic_id', 1)  # Default topic ID
             
+            # Get sector_id and role_id from quiz_data or from the user profile
+            sector_id = quiz_data.get('sector_id')
+            role_id = quiz_data.get('role_id')
+            
+            # Log the values for debugging
+            self.logger.info(f"Initial values - user_id: {user_id}, sector_id: {sector_id}, role_id: {role_id}")
+            
+            # If sector_id or role_id is not available in quiz_data, fetch from user profile
+            if sector_id is None or role_id is None:
+                user_profile = self._get_user_profile(db_service, user_id)
+                sector_id = sector_id or user_profile.get('sector_id')
+                role_id = role_id or user_profile.get('role_id')
+                self.logger.info(f"After profile lookup - sector_id: {sector_id}, role_id: {role_id}")
+            
             # Insert quiz record
-            self.logger.info(f"Inserting quiz '{title}' into database")
+            self.logger.info(f"Inserting quiz '{title}' into database with user_id: {user_id}, sector_id: {sector_id}, role_id: {role_id}")
             result = db_service.execute_with_return(
                 """
                 INSERT INTO quizzes 
-                (title, description, user_id, topic_id, difficulty_level, status, metadata) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s::jsonb) 
+                (title, description, user_id, topic_id, difficulty_level, sector_id, role_id, status, metadata) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s::jsonb) 
                 RETURNING id
                 """,
                 (
@@ -107,6 +128,8 @@ class QuizDeliveryAgent:
                     user_id,
                     topic_id,
                     difficulty_level,
+                    sector_id,
+                    role_id,
                     'ready',
                     json.dumps(quiz_data)
                 )
@@ -127,6 +150,34 @@ class QuizDeliveryAgent:
         except Exception as e:
             self.logger.error(f"Error storing quiz in database: {str(e)}", exc_info=True)
             return 0
+
+    def _get_user_profile(self, db_service, user_id: int) -> Dict[str, Any]:
+        """Fetch user profile data including sector_id and role_id"""
+        try:
+            self.logger.info(f"Fetching profile data for user_id: {user_id}")
+            
+            result = db_service.execute_with_return(
+                """
+                SELECT sector_id, role_id FROM users WHERE id = %s
+                """,
+                (user_id,)
+            )
+            
+            if not result or len(result) == 0:
+                self.logger.warning(f"User profile not found for user_id: {user_id}")
+                return {'sector_id': None, 'role_id': None}
+            
+            profile_data = {
+                'sector_id': result[0][0],
+                'role_id': result[0][1]
+            }
+            
+            self.logger.info(f"Retrieved profile data: {profile_data}")
+            return profile_data
+        
+        except Exception as e:
+            self.logger.error(f"Error fetching user profile: {str(e)}", exc_info=True)
+            return {'sector_id': None, 'role_id': None}
     
     def _store_chapters_and_questions(self, db_service, quiz_id: int, chapters: list) -> None:
         """Store chapters and questions"""

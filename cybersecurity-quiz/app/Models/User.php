@@ -74,4 +74,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserResponse::class);
     }
+    public function learningPlans()
+    {
+        return $this->hasMany(LearningPlan::class);
+    }
+
+    /**
+     * Get the skill analytics for the user.
+     */
+    public function skillAnalytics()
+    {
+        return $this->hasMany(SkillAnalytic::class);
+    }
+
+    /**
+     * Get the resource recommendations for the user.
+     */
+    public function resourceRecommendations()
+    {
+        return $this->hasMany(ResourceRecommendation::class);
+    }
 }

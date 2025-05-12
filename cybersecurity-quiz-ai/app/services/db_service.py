@@ -112,6 +112,146 @@ class DatabaseService:
         except Exception as e:
             logger.error(f"Error logging agent action: {str(e)}")
             return False
+    def get_skill_performance(self, user_id, topic_id=None, time_period=None):
+        """
+        Get detailed skill performance metrics for a user
+        Optionally filtered by topic or time period
+        """
+        query_params = [user_id]
+        
+        query = """
+            SELECT 
+                s.id as skill_id,
+                s.name as skill_name,
+                COUNT(DISTINCT ur.question_id) as total_questions,
+                SUM(CASE WHEN ur.is_correct THEN 1 ELSE 0 END) as correct_answers,
+                SUM(ur.points_earned) as points_earned,
+                AVG(CASE WHEN ur.is_correct THEN 1 ELSE 0 END) * 100 as score_percentage
+            FROM user_responses ur
+            JOIN questions q ON ur.question_id = q.id
+            JOIN chapters c ON q.chapter_id = c.id
+            JOIN quizzes qz ON c.quiz_id = qz.id
+            JOIN skills s ON q.skill_id = s.id
+            WHERE ur.user_id = %s
+        """
+        
+        if topic_id:
+            query += " AND qz.topic_id = %s"
+            query_params.append(topic_id)
+        
+        if time_period:
+            query += " AND ur.created_at >= NOW() - INTERVAL %s"
+            query_params.append(time_period)
+        
+        query += " GROUP BY s.id, s.name"
+        
+        return self.fetch_all(query, tuple(query_params))
 
+    def get_topic_performance(self, user_id, sector_id=None):
+        """
+        Get performance metrics aggregated by topic
+        Optionally filtered by sector
+        """
+        query_params = [user_id]
+        
+        query = """
+            SELECT 
+                t.id as topic_id,
+                t.name as topic_name,
+                COUNT(DISTINCT qz.id) as quiz_count,
+                AVG(uqr.percentage_score) as avg_score,
+                MAX(uqr.created_at) as last_attempt
+            FROM user_quiz_results uqr
+            JOIN quizzes qz ON uqr.quiz_id = qz.id
+            JOIN topics t ON qz.topic_id = t.id
+            WHERE uqr.user_id = %s
+        """
+        
+        if sector_id:
+            query += " AND t.sector_id = %s"
+            query_params.append(sector_id)
+        
+        query += " GROUP BY t.id, t.name"
+        
+        return self.fetch_all(query, tuple(query_params))
+
+    def get_learning_resources(self, skill_ids):
+        """
+        Get learning resources for specific skills
+        """
+        if not skill_ids:
+            return []
+            
+        placeholders = ', '.join(['%s'] * len(skill_ids))
+        query = f"""
+            SELECT * FROM learning_resources
+            WHERE skill_id IN ({placeholders})
+            ORDER BY skill_id, effectiveness_rating DESC
+        """
+        
+        return self.fetch_all(query, tuple(skill_ids))
+
+    def get_peer_performance(self, user_id, similar_criteria):
+        """
+        Get performance metrics for peers with similar criteria
+        similar_criteria should be a dict with keys like sector_id, role_id, etc.
+        """
+        where_clauses = []
+        query_params = []
+        
+        for key, value in similar_criteria.items():
+            if isinstance(value, tuple) and len(value) == 2:
+                # Range values (e.g., years_experience between min and max)
+                where_clauses.append(f"{key} BETWEEN %s AND %s")
+                query_params.extend(value)
+            else:
+                # Exact match
+                where_clauses.append(f"{key} = %s")
+                query_params.append(value)
+        
+        # Exclude the current user
+        where_clauses.append("id != %s")
+        query_params.append(user_id)
+        
+        # Create the WHERE clause
+        where_clause = " AND ".join(where_clauses)
+        
+        # Get similar users
+        similar_users_query = f"""
+            SELECT id FROM users 
+            WHERE {where_clause}
+            LIMIT 100
+        """
+        
+        similar_users = self.fetch_all(similar_users_query, tuple(query_params))
+        similar_user_ids = [u['id'] for u in similar_users]
+        
+        if not similar_user_ids:
+            return {
+                'status': 'no_peers',
+                'users': []
+            }
+        
+        # Get aggregate performance for these users
+        performance_query = """
+            SELECT 
+                s.id as skill_id,
+                s.name as skill_name,
+                AVG(CASE WHEN ur.is_correct THEN 1 ELSE 0 END) * 100 as avg_score,
+                COUNT(DISTINCT ur.user_id) as user_count
+            FROM user_responses ur
+            JOIN questions q ON ur.question_id = q.id
+            JOIN skills s ON q.skill_id = s.id
+            WHERE ur.user_id IN %s
+            GROUP BY s.id, s.name
+        """
+        
+        performance = self.fetch_all(performance_query, (tuple(similar_user_ids),))
+        
+        return {
+            'status': 'success',
+            'user_count': len(similar_user_ids),
+            'performance': performance
+        }
 # Create a singleton instance
 db_service = DatabaseService()

@@ -206,79 +206,112 @@ async def register_user(request: RegistrationRequest):
         )
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/evaluate")
-async def evaluate_quiz(request: QuizResponseRequest):
-    """Process user quiz responses and provide feedback"""
+@router.post("/evaluate-quiz/{quiz_id}")
+async def evaluate_quiz(quiz_id: int):
+    """Endpoint to trigger quiz evaluation process"""
     try:
-        logger.info(f"Starting quiz evaluation: user_id={request.user_id}, quiz_id={request.quiz_id}")
-        request_data = request.dict()
-        
-        # Check if CrewAI should be used
-        if request.use_crew_ai:
-            # Use CrewAI for evaluation
-            logger.info("Using CrewAI for evaluation process")
-            try:
-                result = crew_service.create_evaluation_crew(request_data)
-                logger.info(f"CrewAI evaluation result: {result.get('status')}")
-                
-                # Log the successful evaluation
-                db_service.log_agent_action(
-                    agent_name="CrewAI",
-                    action="evaluate_quiz",
-                    input_data={"user_id": request.user_id, "quiz_id": request.quiz_id},
-                    output_data={"status": result.get('status'), "score": result.get('percentage_score')},
-                    status="success"
-                )
-                
-                return result
-            except Exception as crew_err:
-                logger.error(f"CrewAI evaluation error: {str(crew_err)}")
-                logger.error(traceback.format_exc())
-                
-                # Log the error
-                db_service.log_agent_action(
-                    agent_name="CrewAI",
-                    action="evaluate_quiz",
-                    input_data={"user_id": request.user_id, "quiz_id": request.quiz_id},
-                    status="error",
-                    error_message=str(crew_err)
-                )
-                
-                # Fallback to traditional agent chain
-                logger.info("Falling back to traditional agent chain")
-        
-        # Run evaluation agent
-        logger.info("Running evaluation agent")
-        result = evaluation_agent.run(request_data)
-        logger.info(f"Evaluation complete: next_agent={result.get('next_agent')}")
-        
-        # Continue the agent chain
-        if result.get('next_agent') == 'analytics':
-            logger.info("Running analytics agent")
-            analytics_result = analytics_agent.run(result)
-            logger.info(f"Analytics complete: next_agent={analytics_result.get('next_agent')}")
-            
-            if analytics_result.get('next_agent') == 'feedback':
-                logger.info("Running feedback agent")
-                feedback_result = feedback_agent.run(analytics_result)
-                logger.info("Feedback complete")
-                return feedback_result
-            
-            return analytics_result
-        
-        return result
-    except Exception as e:
-        logger.error(f"Error in evaluate_quiz: {str(e)}", exc_info=True)
-        # Log the error in the database
-        db_service.log_agent_action(
-            agent_name="api_route",
-            action="evaluate_quiz",
-            input_data={"user_id": request.user_id, "quiz_id": request.quiz_id},
-            status="error",
-            error_message=str(e)
+        # Fetch the quiz
+        quiz = db_service.fetch_one(
+            "SELECT * FROM quizzes WHERE id = %s",
+            (quiz_id,)
         )
+        
+        if not quiz:
+            raise HTTPException(status_code=404, detail="Quiz not found")
+            
+        # Start the evaluation process with the Evaluation Agent
+        agent_manager = AgentManager()
+        result = agent_manager.run_agent(
+            'evaluation_agent', 
+            {'quiz_id': quiz_id, 'user_id': quiz['user_id']}
+        )
+        
+        # Continue with Analytics Agent
+        if result['status'] == 'success' and result.get('next_agent') == 'analytics_agent':
+            analytics_result = agent_manager.run_agent(
+                'analytics_agent',
+                {'quiz_id': quiz_id, 'user_id': quiz['user_id'], 'evaluation_results': result.get('evaluation_results', {})}
+            )
+            
+            # Add Learning Plan Agent step to the workflow
+            if analytics_result['status'] == 'success' and analytics_result.get('next_agent') == 'learning_plan_agent':
+                learning_plan_result = agent_manager.run_agent(
+                    'learning_plan_agent',
+                    {'user_id': quiz['user_id'], 'analytics_results': analytics_result.get('analytics_results', {})}
+                )
+                
+                # Continue with Feedback Agent
+                if learning_plan_result['status'] == 'success' and learning_plan_result.get('next_agent') == 'feedback_agent':
+                    feedback_result = agent_manager.run_agent(
+                        'feedback_agent',
+                        {
+                            'user_id': quiz['user_id'], 
+                            'quiz_id': quiz_id,
+                            'evaluation_results': result.get('evaluation_results', {}),
+                            'analytics_results': analytics_result.get('analytics_results', {}),
+                            'learning_plan': learning_plan_result.get('learning_plan', {})
+                        }
+                    )
+                    
+                    return {
+                        "message": "Quiz evaluation complete",
+                        "evaluation_id": result.get('evaluation_id'),
+                        "analytics_id": analytics_result.get('analytics_id'),
+                        "learning_plan_id": learning_plan_result.get('plan_id'),
+                        "feedback_id": feedback_result.get('feedback_id')
+                    }
+            
+        return {"message": "Agent workflow interrupted", "result": result}
+    except Exception as e:
+        logger.error(f"Error evaluating quiz: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
-
+@router.post("/generate-learning-plan/{user_id}")
+async def generate_learning_plan(user_id: int):
+    """Endpoint to generate a learning plan for a user"""
+    try:
+        # Check if user exists
+        user = db_service.fetch_one(
+            "SELECT * FROM users WHERE id = %s",
+            (user_id,)
+        )
+        
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+            
+        # Get latest analytics results if available
+        analytics_results = db_service.fetch_one(
+            """
+            SELECT skill_gaps FROM user_quiz_results
+            WHERE user_id = %s
+            ORDER BY completed_at DESC
+            LIMIT 1
+            """,
+            (user_id,)
+        )
+        
+        # Setup input for Learning Plan Agent
+        inputs = {
+            'user_id': user_id,
+            'analytics_results': {
+                'skill_gaps': json.loads(analytics_results['skill_gaps']) if analytics_results and analytics_results['skill_gaps'] else {}
+            }
+        }
+        
+        # Run the Learning Plan Agent
+        agent_manager = AgentManager()
+        result = agent_manager.run_agent('learning_plan_agent', inputs)
+        
+        if result['status'] == 'success':
+            return {
+                "message": "Learning plan generated successfully",
+                "plan_id": result.get('plan_id'),
+                "learning_plan": result.get('learning_plan')
+            }
+        else:
+            return {"message": "Failed to generate learning plan", "result": result}
+    except Exception as e:
+        logger.error(f"Error generating learning plan: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 @router.post("/generate-quiz-crew")
 async def generate_quiz_crew(data: Dict[str, Any] = Body(...)):
     """Generate a quiz using CrewAI"""

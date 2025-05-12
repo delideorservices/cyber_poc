@@ -60,3 +60,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/results', [QuizResultController::class, 'index']);
     Route::get('/results/{result}', [QuizResultController::class, 'show']);
 });
+Route::middleware(['auth:sanctum'])->prefix('analytics')->group(function () {
+    Route::post('/enhanced', [AnalyticsController::class, 'getEnhancedAnalysis']);
+    Route::get('/skills/{userId}', [AnalyticsController::class, 'getSkillPerformance']);
+    Route::get('/peer-comparison/{userId}', [AnalyticsController::class, 'getPeerComparison']);
+});
+// Learning Plan routes
+Route::get('users/{userId}/learning-plan', 'LearningPlanController@getUserPlan');
+Route::patch('users/{userId}/learning-plan/milestones/{milestoneId}', 'LearningPlanController@updateMilestone');
+
+// Analytics routes
+Route::get('users/{userId}/analytics', 'AnalyticsController@getUserAnalytics');
+Route::get('users/{userId}/skills/{skillId}/improvement', 'AnalyticsController@getSkillImprovementActivities');
+
+// Practice routes
+Route::post('users/{userId}/skills/{skillId}/practice', 'PracticeController@startPractice');
+Route::get('practice-sessions/{sessionId}', 'PracticeController@getSessionData');
+Route::post('users/{userId}/practice-sessions/{sessionId}', 'PracticeController@savePracticeResults');
+
+// Recommendation routes
+Route::get('users/{userId}/recommendations', 'RecommendationController@getUserRecommendations');
+Route::post('users/{userId}/recommendations/{recommendationId}/interaction', 'RecommendationController@recordInteraction');

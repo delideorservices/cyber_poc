@@ -32,8 +32,8 @@ class CrewService:
     def __init__(self):
         """Initialize CrewService with LLM"""
         self.llm = ChatOpenAI(
-            model="gpt-4.1-mini",
-            temperature=0.7,
+            model="gpt-4.1-nano",
+            temperature=0.8,
             openai_api_key=OPENAI_API_KEY
         )
     

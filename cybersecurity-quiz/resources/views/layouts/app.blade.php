@@ -15,8 +15,24 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    
+    <!-- jQuery (required before other scripts) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Learning Enhancement JS Files -->
+    <script src="{{ asset('js/services/LearningEnhancementService.js') }}"></script>
+    <script src="{{ asset('js/services/AnalyticsService.js') }}"></script>
+    <script src="{{ asset('js/services/RecommendationService.js') }}"></script>
+    <script src="{{ asset('js/components/LearningPlan.js') }}"></script>
+    <script src="{{ asset('js/components/SkillGapVisualizer.js') }}"></script>
+    <script src="{{ asset('js/components/PracticeSession.js') }}"></script>
+    <script src="{{ asset('js/utils/SpacedRepetitionAlgorithm.js') }}"></script>
+    <script src="{{ asset('js/utils/ProgressiveDifficultyEngine.js') }}"></script>
 </head>
 <body>
+    <!-- User data element for JS access -->
+    <div id="user-data" data-user-id="{{ Auth::id() ?? '' }}"></div>
+    
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -76,5 +92,8 @@
             @yield('content')
         </main>
     </div>
+    
+    <!-- Page-specific scripts that should load at the end for performance -->
+    @stack('scripts')
 </body>
 </html>

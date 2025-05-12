@@ -4,37 +4,37 @@
       <div class="container nav-container">
         <div class="nav-logo">
           <router-link to="/" class="logo-link">
-            <span class="logo-icon">⚡</span> CyX 3.0
+            <span class="logo-icon"></span> CyX 3.0
           </router-link>
         </div>
         
         <div class="nav-links" :class="{ 'nav-active': mobileMenuOpen }">
           <router-link to="/dashboard" class="nav-link">
-            <i class="nav-icon">📊</i> Dashboard
+            <i class="nav-icon"></i> Dashboard
           </router-link>
-          <router-link to="/quizzes" class="nav-link">
+          <!-- <router-link to="/quizzes" class="nav-link">
             <i class="nav-icon">📝</i> Quizzes
           </router-link>
           <router-link to="/results" class="nav-link">
             <i class="nav-icon">📈</i> Results
-          </router-link>
+          </router-link> -->
           
           <div class="dropdown">
             <router-link to="/profile" class="nav-link profile-link">
-              <div class="avatar">
+              <!-- <div class="avatar">
                 <span class="avatar-text">{{ userInitials }}</span>
-              </div>
+              </div> -->
               Profile
             </router-link>
             <div class="dropdown-content">
               <router-link to="/settings" class="dropdown-item">
-                <i class="dropdown-icon">⚙️</i> Settings
+                <i class="dropdown-icon"></i> Settings
               </router-link>
               <router-link to="/help" class="dropdown-item">
-                <i class="dropdown-icon">❓</i> Help
+                <i class="dropdown-icon"></i> Help
               </router-link>
               <button @click="logout" class="dropdown-item logout-item">
-                <i class="dropdown-icon">🚪</i> Logout
+                <i class="dropdown-icon"></i> Logout
               </button>
             </div>
           </div>

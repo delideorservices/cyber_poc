@@ -8,6 +8,7 @@ from app.config import OPENAI_API_KEY
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage
+from app.services.progressive_difficulty_engine import ProgressiveDifficultyEngine
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +58,7 @@ class QuizGeneratorAgent(BaseAgent):
         logger.info(f"Generating quiz for user_id={user_id}, topic={topic_name}, sector={user_sector}, role={user_role}")
         
         # Insert quiz record
-        quiz_id = db_service.execute_returning(
+        quiz_id = db_service.execute_with_return(
             """
             INSERT INTO quizzes
             (title, description, user_id, topic_id, difficulty_level, created_at, updated_at)
@@ -97,24 +98,47 @@ class QuizGeneratorAgent(BaseAgent):
         }
     
     def _generate_quiz_content(self, topic_name: str, topic_description: str, 
-                           experience_level: int, user_role: str, 
-                           user_sector: str, focus_areas: List[str]) -> Dict:
+                      experience_level: int = None, user_role: str = None, 
+                      user_sector: str = None, focus_areas: List[str] = None,
+                      user_id: int = None, skill_id: int = None) -> Dict:
             """
-            Generate quiz content using ChatOpenAI
+            Generate quiz content using ChatOpenAI with adaptive difficulty.
             
             Args:
                 topic_name: Main topic name
                 topic_description: Topic description
-                experience_level: User experience level (1-5)
+                experience_level: User experience level (1-5) or None for adaptive
                 user_role: User's role
                 user_sector: User's sector
                 focus_areas: Focus areas for the quiz
+                user_id: ID of the user taking the quiz
+                skill_id: ID of the skill being tested
                 
             Returns:
                 Dictionary with generated quiz chapters and questions
             """
+            # Check if we should adjust difficulty based on user performance
+            if user_id is not None and skill_id is not None:
+                # Initialize difficulty engine
+                difficulty_engine = ProgressiveDifficultyEngine()
+                
+                # If no explicit difficulty level is provided, calculate based on performance
+                if experience_level is None:
+                    experience_level = difficulty_engine.calculate_next_difficulty(
+                        user_id,
+                        skill_id,
+                        experience_level or 3  # Default to medium if not specified
+                    )
+                    logger.info(f"Adjusted difficulty to {experience_level} based on user performance")
+            else:
+                # Default to user's experience level or medium difficulty
+                experience_level = experience_level or 3
+            
+            # Log the difficulty level being used
+            logger.info(f"Generating quiz content at difficulty level {experience_level}")
+            
             # Format focus areas as comma-separated string
-            focus_areas_str = ", ".join(focus_areas)
+            focus_areas_str = ", ".join(focus_areas or ["General Cybersecurity"])
             
             # Create formatted topic description
             topic_desc_text = f" ({topic_description})" if topic_description else ""

@@ -79,7 +79,7 @@ class AnalyticsAgent(BaseAgent):
             'improvement_suggestions': improvement_suggestions,
             'next_quiz_recommendations': next_quiz_recommendations,
             'status': 'success',
-            'next_agent': 'feedback'
+            'next_agent': 'learning_plan_agent'
         }
         
         return analytics
