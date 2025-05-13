@@ -1,161 +1,108 @@
-/**
- * cybersecurity-quiz/public/js/services/learningEnhancementService.js
- * Service for handling all learning enhancement API calls
- */
+// public/js/services/learningEnhancementService.js
+
 class LearningEnhancementService {
     constructor() {
         this.baseUrl = '/api';
-        this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        this.headers = {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+        };
     }
 
-    /**
-     * Get the user's learning plan
-     * @param {number} userId - The user ID
-     * @return {Promise} - Promise with learning plan data
-     */
-    getUserLearningPlan(userId) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/learning-plan`,
-            type: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json'
+    // Learning Plan Methods
+    async getLearningPlan() {
+        return this._request('GET', '/learning-plan');
+    }
+
+    async updateMilestoneProgress(milestoneId, status) {
+        return this._request('POST', `/learning-plan/milestone/${milestoneId}/progress`, { status });
+    }
+
+    async startLearningModule(moduleId) {
+        return this._request('POST', `/learning-plan/module/${moduleId}/start`);
+    }
+
+    // Analytics Methods
+    async getUserAnalytics() {
+        return this._request('GET', '/analytics/user');
+    }
+
+    async getSkillAnalytics(skillId) {
+        return this._request('GET', `/analytics/skill/${skillId}`);
+    }
+
+    async getPeerComparison() {
+        return this._request('GET', '/analytics/peer-comparison');
+    }
+
+    // Skill Improvement Methods
+    async getSkillImprovement(skillId) {
+        return this._request('GET', `/skill-improvement/${skillId}`);
+    }
+
+    async startPracticeSession(skillId) {
+        return this._request('POST', `/skill-improvement/${skillId}/practice/start`);
+    }
+
+    async submitPracticeResponse(practiceId, questionId, answer) {
+        return this._request('POST', `/skill-improvement/practice/${practiceId}/response`, {
+            questionId,
+            answer
+        });
+    }
+
+    async completePracticeSession(practiceId) {
+        return this._request('POST', `/skill-improvement/practice/${practiceId}/complete`);
+    }
+
+    // Recommendation Methods
+    async getRecommendations() {
+        return this._request('GET', '/recommendations');
+    }
+
+    async getSavedRecommendations() {
+        return this._request('GET', '/recommendations/saved');
+    }
+
+    async viewRecommendation(recommendationId) {
+        return this._request('POST', `/recommendations/${recommendationId}/view`);
+    }
+
+    async completeRecommendation(recommendationId) {
+        return this._request('POST', `/recommendations/${recommendationId}/complete`);
+    }
+
+    async saveRecommendation(recommendationId) {
+        return this._request('POST', `/recommendations/${recommendationId}/save`);
+    }
+
+    // Generic request method
+    async _request(method, endpoint, data = null) {
+        const url = this.baseUrl + endpoint;
+        const options = {
+            method,
+            headers: this.headers,
+            credentials: 'same-origin'
+        };
+
+        if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+            options.body = JSON.stringify(data);
+        }
+
+        try {
+            const response = await fetch(url, options);
+            
+            if (!response.ok) {
+                throw new Error(`API request failed: ${response.statusText}`);
             }
-        });
-    }
-
-    /**
-     * Update milestone completion status
-     * @param {number} userId - The user ID
-     * @param {number} milestoneId - The milestone ID
-     * @param {boolean} completed - Completion status
-     * @return {Promise} - Promise with updated milestone data
-     */
-    updateMilestoneStatus(userId, milestoneId, completed) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/learning-plan/milestones/${milestoneId}`,
-            type: 'PATCH',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: JSON.stringify({
-                completed: completed
-            })
-        });
-    }
-
-    /**
-     * Get user's skill analytics data
-     * @param {number} userId - The user ID
-     * @return {Promise} - Promise with analytics data
-     */
-    getUserAnalytics(userId) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/analytics`,
-            type: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json'
-            }
-        });
-    }
-
-    /**
-     * Get skill improvement activities for a specific skill
-     * @param {number} userId - The user ID
-     * @param {number} skillId - The skill ID to improve
-     * @return {Promise} - Promise with skill improvement activities
-     */
-    getSkillImprovementActivities(userId, skillId) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/skills/${skillId}/improvement`,
-            type: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json'
-            }
-        });
-    }
-
-    /**
-     * Start a skill practice session
-     * @param {number} userId - The user ID
-     * @param {number} skillId - The skill ID
-     * @param {number} difficultyLevel - Difficulty level (1-5)
-     * @return {Promise} - Promise with practice session data
-     */
-    startSkillPractice(userId, skillId, difficultyLevel) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/skills/${skillId}/practice`,
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: JSON.stringify({
-                difficulty_level: difficultyLevel
-            })
-        });
-    }
-
-    /**
-     * Save practice session results
-     * @param {number} userId - The user ID
-     * @param {number} sessionId - The practice session ID
-     * @param {Object} results - Session results data
-     * @return {Promise} - Promise with saved session data
-     */
-    savePracticeResults(userId, sessionId, results) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/practice-sessions/${sessionId}`,
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: JSON.stringify(results)
-        });
-    }
-
-    /**
-     * Get personalized learning resources and recommendations
-     * @param {number} userId - The user ID
-     * @return {Promise} - Promise with recommendations data
-     */
-    getUserRecommendations(userId) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/recommendations`,
-            type: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json'
-            }
-        });
-    }
-
-    /**
-     * Record user interaction with a recommendation
-     * @param {number} userId - The user ID
-     * @param {number} recommendationId - The recommendation ID
-     * @param {string} interactionType - Type of interaction (view, click, complete)
-     * @return {Promise} - Promise with interaction result
-     */
-    recordRecommendationInteraction(userId, recommendationId, interactionType) {
-        return $.ajax({
-            url: `${this.baseUrl}/users/${userId}/recommendations/${recommendationId}/interaction`,
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': this.csrfToken,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: JSON.stringify({
-                interaction_type: interactionType
-            })
-        });
+            
+            return await response.json();
+        } catch (error) {
+            console.error('API request error:', error);
+            throw error;
+        }
     }
 }
+
+// Export as global variable for access across files
+window.learningEnhancementService = new LearningEnhancementService();

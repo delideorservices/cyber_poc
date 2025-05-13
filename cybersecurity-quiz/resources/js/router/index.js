@@ -11,7 +11,12 @@ import QuizDetails from '../views/QuizDetails.vue';
 import QuizStart from '../views/QuizStart.vue';
 import ResultList from '../views/ResultList.vue';
 import ResultDetails from '../views/ResultDetails.vue';
-
+import LearningPlanView from '@/views/LearningPlanView.vue'
+import AnalyticsView from '@/views/AnalyticsView.vue'
+import SkillImprovementView from '@/views/SkillImprovementView.vue'
+import SkillPracticeView from '@/views/SkillPracticeView.vue'
+import RecommendationsView from '@/views/RecommendationsView.vue'
+// import ResourceView from '@/views/ResourceView.vue'
 // Create route configuration
 const routes = [
   {
@@ -74,7 +79,45 @@ const routes = [
     component: ResultDetails,
     meta: { requiresAuth: true },
     props: true
+  },
+   {
+    path: '/learning-plan',
+    name: 'LearningPlan',
+    component: LearningPlanView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/analytics',
+    name: 'Analytics',
+    component: AnalyticsView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/skill-improvement',
+    name: 'SkillImprovement',
+    component: SkillImprovementView,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/skill-improvement/practice/:id',
+    name: 'SkillPractice',
+    component: SkillPracticeView,
+    props: true,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/recommendations',
+    name: 'Recommendations',
+    component: RecommendationsView,
+    meta: { requiresAuth: true }
   }
+  // {
+  //   path: '/resources/:id',
+  //   name: 'Resource',
+  //   component: ResourceView,
+  //   props: true,
+  //   meta: { requiresAuth: true }
+  // }
 ];
 
 const router = createRouter({

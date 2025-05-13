@@ -32,7 +32,11 @@ return [
     ],
     'ai_backend' => [
         'url' => env('AI_BACKEND_URL', 'http://localhost:8001'),
-        'timeout' => env('AI_BACKEND_TIMEOUT', 30),
+        'timeout' => env('AI_BACKEND_TIMEOUT', 300),
+    ],
+    'agents' => [
+        'url' => env('AGENT_SERVICE_URL', 'http://localhost:8001'),
+        'timeout' => env('AGENT_SERVICE_TIMEOUT', 300),
     ],
 
 ];

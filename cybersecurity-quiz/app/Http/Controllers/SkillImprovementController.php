@@ -1,18 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Controllers\BaseApiController;
 
 use Illuminate\Http\Request;
-use App\Models\SkillImprovementSession;
-use App\Models\SpacedRepetitionSchedule;
-use App\Models\Skill;
-use App\Models\Question;
-use App\Models\UserResponse;
 use App\Services\AgentService;
-use Auth;
-use DB;
+use App\Models\Skill;
+use Illuminate\Support\Facades\Auth;
 
-class SkillImprovementController extends Controller
+class SkillImprovementController extends BaseApiController
 {
     protected $agentService;
     
@@ -22,346 +18,213 @@ class SkillImprovementController extends Controller
     }
     
     /**
-     * Display skill improvement dashboard
+     * Get skill improvement data for a specific skill
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getSkillImprovement($id)
     {
         $user = Auth::user();
+        $skill = Skill::findOrFail($id);
         
-        // Get user's skill gaps
-        $skillGaps = DB::table('user_quiz_results')
-            ->where('user_id', $user->id)
-            ->whereNotNull('skill_gaps')
-            ->orderBy('created_at', 'desc')
-            ->first();
-            
-        $skillGaps = $skillGaps ? json_decode($skillGaps->skill_gaps, true) : [];
-        
-        // Get active improvement sessions
-        $sessions = SkillImprovementSession::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
-            ->take(5)
-            ->get();
-            
-        // Get upcoming spaced repetition activities
-        $upcomingRepetitions = SpacedRepetitionSchedule::where('user_id', $user->id)
-            ->where('status', 'scheduled')
-            ->where('scheduled_date', '>=', now())
-            ->orderBy('scheduled_date', 'asc')
-            ->take(5)
-            ->get();
-            
-        return view('skills.improvement.index', [
-            'skillGaps' => $skillGaps,
-            'sessions' => $sessions,
-            'upcomingRepetitions' => $upcomingRepetitions
-        ]);
-    }
-    
-    /**
-     * Display a specific improvement session
-     */
-    public function showSession($id)
-    {
-        $session = SkillImprovementSession::findOrFail($id);
-        
-        // Authorization check
-        if ($session->user_id !== Auth::id()) {
-            abort(403);
-        }
-        
-        $activities = json_decode($session->activities, true);
-        
-        return view('skills.improvement.session', [
-            'session' => $session,
-            'activities' => $activities
-        ]);
-    }
-    
-    /**
-     * Start a new improvement session
-     */
-    public function startSession(Request $request)
-    {
-        $request->validate([
-            'skills' => 'required|array',
-            'skills.*' => 'exists:skills,id'
-        ]);
-        
-        $user = Auth::user();
-        $skillIds = $request->input('skills');
-        
-        // Get full skill information
-        $skills = Skill::whereIn('id', $skillIds)->get()->toArray();
-        
-        // Call the Skill Improvement Agent
-        $response = $this->agentService->callAgent('SkillImprovementAgent', [
+        // Get skill improvement data
+        $result = $this->agentService->executeAgent('skill_improvement_agent', [
             'user_id' => $user->id,
-            'specific_skills' => $skills
+            'data' => [
+                'action' => 'get_improvement_data',
+                'skill_id' => $id
+            ]
         ]);
         
-        if ($response['status'] === 'success') {
-            return redirect()->route('skills.improvement.session', $response['session_id'])
-                ->with('success', 'Skill improvement session created successfully');
+        if (!$result['success']) {
+            return $this->errorResponse(
+                'Failed to retrieve skill improvement data',
+                $result['details'] ?? null,
+                500
+            );
         }
         
-        return redirect()->route('skills.improvement')
-            ->with('error', 'Failed to create improvement session: ' . ($response['message'] ?? 'Unknown error'));
+        return $this->successResponse(array_merge(
+            $result['data'],
+            ['skill' => $skill]
+        ));
     }
     
     /**
-     * Retry a specific question
+     * Start a practice session for a skill
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function retryQuestion($questionId, Request $request)
+    public function startPracticeSession(Request $request, $id)
     {
-        $question = Question::findOrFail($questionId);
         $user = Auth::user();
+        $skill = Skill::findOrFail($id);
         
-        $request->validate([
-            'response' => 'required',
+        $validated = $request->validate([
+            'difficulty' => 'sometimes|integer|min:1|max:5',
+            'question_count' => 'sometimes|integer|min:3|max:20'
         ]);
         
-        $userResponse = $request->input('response');
-        $correctAnswer = json_decode($question->correct_answer, true);
+        // Set default values
+        $difficulty = $validated['difficulty'] ?? 3;
+        $questionCount = $validated['question_count'] ?? 5;
         
-        // Check if response is correct
-        $isCorrect = $this->checkResponse($question->type, $userResponse, $correctAnswer);
-        
-        // Calculate points earned
-        $pointsEarned = $isCorrect ? $question->points : 0;
-        
-        // Record the response
-        UserResponse::create([
+        // Start a practice session
+        $result = $this->agentService->executeAgent('skill_improvement_agent', [
             'user_id' => $user->id,
-            'question_id' => $question->id,
-            'response' => json_encode($userResponse),
-            'is_correct' => $isCorrect,
-            'points_earned' => $pointsEarned,
-            'answered_at' => now()
+            'data' => [
+                'action' => 'start_practice',
+                'skill_id' => $id,
+                'difficulty' => $difficulty,
+                'question_count' => $questionCount
+            ]
         ]);
         
-        // Update session progress if session_id is provided
-        if ($request->has('session_id')) {
-            $sessionId = $request->input('session_id');
-            $this->updateSessionProgress($sessionId, $questionId, $isCorrect);
+        if (!$result['success']) {
+            return $this->errorResponse(
+                'Failed to start practice session',
+                $result['details'] ?? null,
+                500
+            );
         }
         
-        return response()->json([
-            'success' => true,
-            'is_correct' => $isCorrect,
-            'points_earned' => $pointsEarned,
-            'explanation' => $question->explanation,
-            'correct_answer' => $correctAnswer
-        ]);
+        return $this->successResponse($result['data']);
     }
     
     /**
-     * Show improvement progress
+     * Submit a response for a practice question
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function progress()
+    public function submitPracticeResponse(Request $request, $id)
     {
         $user = Auth::user();
         
-        // Get completed sessions
-        $completedSessions = SkillImprovementSession::where('user_id', $user->id)
-            ->where('status', 'completed')
-            ->orderBy('created_at', 'desc')
-            ->get();
-            
-        // Get skill improvement metrics
-        $skillMetrics = $this->calculateSkillImprovementMetrics($user->id);
-        
-        return view('skills.improvement.progress', [
-            'completedSessions' => $completedSessions,
-            'skillMetrics' => $skillMetrics
+        $validated = $request->validate([
+            'question_id' => 'required|integer',
+            'answer' => 'required',
+            'time_spent' => 'sometimes|integer'
         ]);
+        
+        // Submit practice response
+        $result = $this->agentService->executeAgent('skill_improvement_agent', [
+            'user_id' => $user->id,
+            'data' => [
+                'action' => 'submit_response',
+                'practice_id' => $id,
+                'question_id' => $validated['question_id'],
+                'answer' => $validated['answer'],
+                'time_spent' => $validated['time_spent'] ?? null
+            ]
+        ]);
+        
+        if (!$result['success']) {
+            return $this->errorResponse(
+                'Failed to submit practice response',
+                $result['details'] ?? null,
+                500
+            );
+        }
+        
+        return $this->successResponse($result['data']);
     }
     
     /**
-     * Helper function to check if a response is correct
+     * Complete a practice session
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    private function checkResponse($questionType, $userResponse, $correctAnswer)
+    public function completePracticeSession($id)
     {
-        switch ($questionType) {
-            case 'mcq':
-                return $userResponse == $correctAnswer;
-                
-            case 'true_false':
-                return $userResponse == $correctAnswer;
-                
-            case 'fill_blank':
-                // Case-insensitive comparison for fill in the blank
-                return strtolower($userResponse) == strtolower($correctAnswer);
-                
-            case 'drag_drop':
-                // For drag and drop, check if arrays match
-                if (is_array($userResponse) && is_array($correctAnswer)) {
-                    return count(array_diff($userResponse, $correctAnswer)) === 0 &&
-                           count(array_diff($correctAnswer, $userResponse)) === 0;
-                }
-                return false;
-                
-            default:
-                return false;
+        $user = Auth::user();
+        
+        // Complete practice session
+        $result = $this->agentService->executeAgent('skill_improvement_agent', [
+            'user_id' => $user->id,
+            'data' => [
+                'action' => 'complete_practice',
+                'practice_id' => $id
+            ]
+        ]);
+        
+        if (!$result['success']) {
+            return $this->errorResponse(
+                'Failed to complete practice session',
+                $result['details'] ?? null,
+                500
+            );
         }
+        
+        return $this->successResponse($result['data']);
     }
     
     /**
-     * Update session progress
+     * Get due spaced repetition items
+     * 
+     * @return \Illuminate\Http\JsonResponse
      */
-    private function updateSessionProgress($sessionId, $questionId, $isCorrect)
+    public function getDueRepetitions()
     {
-        $session = SkillImprovementSession::findOrFail($sessionId);
+        $user = Auth::user();
         
-        // Only process if user authorized
-        if ($session->user_id !== Auth::id()) {
-            return;
+        // Get due repetitions
+        $result = $this->agentService->executeAgent('skill_improvement_agent', [
+            'user_id' => $user->id,
+            'data' => [
+                'action' => 'get_due_repetitions'
+            ]
+        ]);
+        
+        if (!$result['success']) {
+            return $this->errorResponse(
+                'Failed to retrieve due repetitions',
+                $result['details'] ?? null,
+                500
+            );
         }
         
-        $activities = json_decode($session->activities, true);
-        $updated = false;
-        
-        // Update question status in activities
-        foreach ($activities as &$activity) {
-            if (isset($activity['questions'])) {
-                foreach ($activity['questions'] as &$question) {
-                    if ($question['id'] == $questionId) {
-                        $question['retried'] = true;
-                        $question['successful'] = $isCorrect;
-                        $updated = true;
-                        break;
-                    }
-                }
-            }
-            
-            // Also update success metrics
-            if ($updated) {
-                $totalQuestions = count($activity['questions']);
-                $retriedQuestions = count(array_filter($activity['questions'], function($q) {
-                    return isset($q['retried']) && $q['retried'];
-                }));
-                $successfulRetries = count(array_filter($activity['questions'], function($q) {
-                    return isset($q['successful']) && $q['successful'];
-                }));
-                
-                $activity['progress'] = [
-                    'total' => $totalQuestions,
-                    'retried' => $retriedQuestions,
-                    'successful' => $successfulRetries,
-                    'completion_percentage' => $totalQuestions > 0 ? 
-                        round(($retriedQuestions / $totalQuestions) * 100) : 0,
-                    'success_rate' => $retriedQuestions > 0 ? 
-                        round(($successfulRetries / $retriedQuestions) * 100) : 0
-                ];
-                
-                break;
-            }
-        }
-        
-        if ($updated) {
-            $session->activities = json_encode($activities);
-            
-            // Check if all questions have been retried
-            $allRetried = true;
-            foreach ($activities as $activity) {
-                if (isset($activity['questions'])) {
-                    foreach ($activity['questions'] as $question) {
-                        if (!isset($question['retried']) || !$question['retried']) {
-                            $allRetried = false;
-                            break 2;
-                        }
-                    }
-                }
-            }
-            
-            if ($allRetried) {
-                $session->status = 'completed';
-                $session->completed_at = now();
-            }
-            
-            $session->save();
-        }
+        return $this->successResponse($result['data']);
     }
     
     /**
-     * Calculate skill improvement metrics
+     * Complete a spaced repetition item
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    private function calculateSkillImprovementMetrics($userId)
+    public function completeRepetition(Request $request, $id)
     {
-        $skills = Skill::all()->keyBy('id');
-        $metrics = [];
+        $user = Auth::user();
         
-        // Get all user responses
-        $responses = UserResponse::where('user_id', $userId)
-            ->orderBy('answered_at', 'asc')
-            ->get();
-            
-        // Group responses by skill and calculate improvement
-        foreach ($responses as $response) {
-            $question = Question::with(['chapter.quiz.topic.skills'])->find($response->question_id);
-            
-            if (!$question || !$question->chapter || !$question->chapter->quiz) {
-                continue;
-            }
-            
-            $topicSkills = $question->chapter->quiz->topic->skills;
-            
-            foreach ($topicSkills as $skill) {
-                $skillId = $skill->id;
-                
-                if (!isset($metrics[$skillId])) {
-                    $metrics[$skillId] = [
-                        'skill_id' => $skillId,
-                        'skill_name' => $skills[$skillId]->name,
-                        'total_attempts' => 0,
-                        'successful_attempts' => 0,
-                        'improvement_rate' => 0,
-                        'time_periods' => []
-                    ];
-                }
-                
-                $metrics[$skillId]['total_attempts']++;
-                if ($response->is_correct) {
-                    $metrics[$skillId]['successful_attempts']++;
-                }
-                
-                // Calculate success rate
-                $metrics[$skillId]['success_rate'] = round(
-                    ($metrics[$skillId]['successful_attempts'] / $metrics[$skillId]['total_attempts']) * 100
-                );
-                
-                // Group by month for trend analysis
-                $month = $response->answered_at->format('Y-m');
-                
-                if (!isset($metrics[$skillId]['time_periods'][$month])) {
-                    $metrics[$skillId]['time_periods'][$month] = [
-                        'total' => 0,
-                        'successful' => 0,
-                        'rate' => 0
-                    ];
-                }
-                
-                $metrics[$skillId]['time_periods'][$month]['total']++;
-                if ($response->is_correct) {
-                    $metrics[$skillId]['time_periods'][$month]['successful']++;
-                }
-                
-                $metrics[$skillId]['time_periods'][$month]['rate'] = 
-                    round(($metrics[$skillId]['time_periods'][$month]['successful'] / 
-                          $metrics[$skillId]['time_periods'][$month]['total']) * 100);
-            }
+        $validated = $request->validate([
+            'performance_rating' => 'required|integer|min:0|max:5'
+        ]);
+        
+        // Complete repetition
+        $result = $this->agentService->executeAgent('skill_improvement_agent', [
+            'user_id' => $user->id,
+            'data' => [
+                'action' => 'complete_repetition',
+                'repetition_id' => $id,
+                'performance_rating' => $validated['performance_rating']
+            ]
+        ]);
+        
+        if (!$result['success']) {
+            return $this->errorResponse(
+                'Failed to complete repetition',
+                $result['details'] ?? null,
+                500
+            );
         }
         
-        // Calculate improvement rates
-        foreach ($metrics as &$metric) {
-            $periods = array_values($metric['time_periods']);
-            if (count($periods) >= 2) {
-                $firstPeriod = $periods[0]['rate'];
-                $lastPeriod = $periods[count($periods) - 1]['rate'];
-                $metric['improvement_rate'] = $lastPeriod - $firstPeriod;
-            }
-        }
-        
-        return $metrics;
+        return $this->successResponse($result['data']);
     }
 }

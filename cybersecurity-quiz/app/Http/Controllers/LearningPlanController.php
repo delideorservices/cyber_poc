@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\BaseApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
@@ -12,122 +12,171 @@ use App\Models\Skill;
 use App\Models\Topic;
 use App\Models\UserSkill;
 
-class LearningPlanController extends Controller
+class LearningPlanController extends BaseApiController
 {
-    public function getUserPlan($userId)
+    protected $agentService;
+    
+    public function __construct(AgentService $agentService)
     {
-        try {
-            $user = User::findOrFail($userId);
-            
-            // Verify authorization
-            $this->authorize('view', $user);
-            
-            $learningPlan = LearningPlan::where('user_id', $userId)
-                ->with(['milestones' => function($query) {
-                    $query->orderBy('sequence', 'asc');
-                }])
-                ->first();
-            
-            if (!$learningPlan) {
-                // If no plan exists, create a default one
-                $learningPlan = $this->createDefaultPlan($userId);
-            }
-            
-            return response()->json($learningPlan);
-        } catch (\Exception $e) {
-            Log::error('Error retrieving learning plan: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to retrieve learning plan'], 500);
-        }
+        $this->agentService = $agentService;
     }
     
     /**
-     * Create a default learning plan for a user
-     *
-     * @param int $userId
-     * @return \App\Models\LearningPlan
-     */
-    private function createDefaultPlan($userId)
-    {
-        // This would normally call the LearningPlanAgent or service
-        // For now, we'll create a simple default plan
-        
-        $learningPlan = new LearningPlan();
-        $learningPlan->user_id = $userId;
-        $learningPlan->title = 'Your Cybersecurity Learning Journey';
-        $learningPlan->description = 'A personalized plan to improve your cybersecurity skills';
-        $learningPlan->save();
-        
-        // Create default milestones
-        $defaultMilestones = [
-            [
-                'title' => 'Complete Initial Assessment',
-                'description' => 'Take the initial assessment quiz to establish your baseline',
-                'sequence' => 1,
-                'activity_type' => 'quiz',
-                'activity_id' => 1, // ID of the baseline quiz
-            ],
-            [
-                'title' => 'Review Your Strengths and Weaknesses',
-                'description' => 'Analyze your assessment results',
-                'sequence' => 2,
-                'activity_type' => 'analytics',
-                'activity_id' => null,
-            ],
-            // Add more default milestones as needed
-        ];
-        
-        foreach ($defaultMilestones as $milestone) {
-            $newMilestone = new Milestone();
-            $newMilestone->learning_plan_id = $learningPlan->id;
-            $newMilestone->title = $milestone['title'];
-            $newMilestone->description = $milestone['description'];
-            $newMilestone->sequence = $milestone['sequence'];
-            $newMilestone->activity_type = $milestone['activity_type'];
-            $newMilestone->activity_id = $milestone['activity_id'];
-            $newMilestone->completed = false;
-            $newMilestone->save();
-        }
-        
-        return LearningPlan::where('id', $learningPlan->id)
-            ->with(['milestones' => function($query) {
-                $query->orderBy('sequence', 'asc');
-            }])
-            ->first();
-    }
-    
-    /**
-     * Update milestone completion status
-     *
-     * @param Request $request
-     * @param int $userId
-     * @param int $milestoneId
+     * Get the user's learning plan
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateMilestone(Request $request, $userId, $milestoneId)
+    public function index()
     {
-        try {
-            $user = User::findOrFail($userId);
+        $user = Auth::user();
+        $learningPlan = LearningPlan::with(['modules', 'modules.progress' => function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        }])
+        ->where('user_id', $user->id)
+        ->first();
             
-            // Verify authorization
-            $this->authorize('update', $user);
-            
-            $milestone = Milestone::findOrFail($milestoneId);
-            
-            // Verify milestone belongs to user's plan
-            $learningPlan = LearningPlan::where('user_id', $userId)->first();
-            if (!$learningPlan || $milestone->learning_plan_id !== $learningPlan->id) {
-                return response()->json(['error' => 'Unauthorized access to milestone'], 403);
-            }
-            
-            // Update completion status
-            $milestone->completed = $request->input('completed', false);
-            $milestone->completed_at = $milestone->completed ? now() : null;
-            $milestone->save();
-            
-            return response()->json($milestone);
-        } catch (\Exception $e) {
-            Log::error('Error updating milestone: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to update milestone'], 500);
+        return $this->successResponse($learningPlan);
+    }
+    
+    /**
+     * Generate a new learning plan for the user
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function generate(Request $request)
+    {
+        $user = Auth::user();
+        
+        // Check if user already has a learning plan
+        $existingPlan = LearningPlan::where('user_id', $user->id)->first();
+        if ($existingPlan) {
+            // Optionally archive existing plan
+            $existingPlan->status = 'archived';
+            $existingPlan->save();
         }
+        
+        // Call Python agent to generate learning plan
+        $result = $this->agentService->executeAgent('learning_plan_agent', [
+            'user_id' => $user->id,
+            'data' => $request->all()
+        ]);
+        
+        if (!$result['success']) {
+            return $this->errorResponse(
+                'Failed to generate learning plan',
+                $result['details'] ?? null,
+                500
+            );
+        }
+        
+        // The agent should have created the learning plan in the database
+        // Refresh and return it
+        $learningPlan = LearningPlan::with(['modules'])
+            ->where('user_id', $user->id)
+            ->where('status', 'active')
+            ->latest()
+            ->first();
+            
+        if (!$learningPlan) {
+            return $this->errorResponse('Learning plan was not properly created', null, 500);
+        }
+            
+        return $this->successResponse($learningPlan);
+    }
+    
+    /**
+     * Start a learning plan module
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function startModule($id)
+    {
+        $user = Auth::user();
+        $module = LearningPlanModule::findOrFail($id);
+        
+        // Create or update progress record
+        $progress = LearningPlanProgress::updateOrCreate(
+            ['user_id' => $user->id, 'learning_plan_module_id' => $id],
+            ['status' => 'in_progress', 'progress_percentage' => 0]
+        );
+        
+        return $this->successResponse([
+            'module' => $module,
+            'content_reference_id' => $module->content_reference_id,
+            'module_type' => $module->module_type
+        ]);
+    }
+    
+    /**
+     * Update module progress
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateProgress(Request $request, $id)
+    {
+        $user = Auth::user();
+        $module = LearningPlanModule::findOrFail($id);
+        
+        $validated = $request->validate([
+            'status' => 'required|in:not_started,in_progress,completed',
+            'progress_percentage' => 'sometimes|numeric|min:0|max:100'
+        ]);
+        
+        $progressData = [
+            'status' => $validated['status']
+        ];
+        
+        if (isset($validated['progress_percentage'])) {
+            $progressData['progress_percentage'] = $validated['progress_percentage'];
+        } else if ($validated['status'] === 'completed') {
+            $progressData['progress_percentage'] = 100;
+        }
+        
+        $progress = LearningPlanProgress::updateOrCreate(
+            ['user_id' => $user->id, 'learning_plan_module_id' => $id],
+            $progressData
+        );
+        
+        // Update overall learning plan progress
+        $this->updateLearningPlanProgress($module->learning_plan_id);
+        
+        return $this->successResponse($progress);
+    }
+    
+    /**
+     * Update the overall learning plan progress
+     * 
+     * @param int $learningPlanId
+     * @return \App\Models\LearningPlan
+     */
+    private function updateLearningPlanProgress($learningPlanId)
+    {
+        $learningPlan = LearningPlan::findOrFail($learningPlanId);
+        $modules = LearningPlanModule::where('learning_plan_id', $learningPlanId)->get();
+        $user = Auth::user();
+        
+        $totalModules = $modules->count();
+        $totalProgress = 0;
+        
+        foreach ($modules as $module) {
+            $progress = LearningPlanProgress::where('user_id', $user->id)
+                ->where('learning_plan_module_id', $module->id)
+                ->first();
+            
+            if ($progress) {
+                $totalProgress += $progress->progress_percentage;
+            }
+        }
+        
+        $overallProgress = $totalModules > 0 ? round($totalProgress / $totalModules) : 0;
+        
+        $learningPlan->overall_progress = $overallProgress;
+        $learningPlan->save();
+        
+        return $learningPlan;
     }
 }

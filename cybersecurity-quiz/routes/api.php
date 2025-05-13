@@ -12,6 +12,10 @@ use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\QuizResultController;
+use App\Http\Controllers\LearningPlanController;
+use App\Http\Controllers\AnalyticsController;
+use App\Http\Controllers\SkillImprovementController;
+use App\Http\Controllers\RecommendationController;
 
 // Public routes
 Route::post('/login', [LoginController::class, 'login']);
@@ -60,24 +64,45 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/results', [QuizResultController::class, 'index']);
     Route::get('/results/{result}', [QuizResultController::class, 'show']);
 });
-Route::middleware(['auth:sanctum'])->prefix('analytics')->group(function () {
-    Route::post('/enhanced', [AnalyticsController::class, 'getEnhancedAnalysis']);
-    Route::get('/skills/{userId}', [AnalyticsController::class, 'getSkillPerformance']);
-    Route::get('/peer-comparison/{userId}', [AnalyticsController::class, 'getPeerComparison']);
+Route::middleware('auth:sanctum')->group(function () {
+    // Direct Agent API routes
+    Route::prefix('agent')->group(function () {
+        Route::post('/execute/{agentName}', [AgentController::class, 'executeAgent']);
+    });
+
+    // Learning Plan routes
+    Route::prefix('learning-plan')->group(function () {
+        Route::get('/', [LearningPlanController::class, 'index']);
+        Route::post('/generate', [LearningPlanController::class, 'generate']);
+        Route::post('/module/{id}/start', [LearningPlanController::class, 'startModule']);
+        Route::post('/module/{id}/progress', [LearningPlanController::class, 'updateProgress']);
+    });
+
+    // Analytics routes
+    Route::prefix('analytics')->group(function () {
+        Route::get('/user', [AnalyticsController::class, 'getUserAnalytics']);
+        Route::get('/skill/{id}', [AnalyticsController::class, 'getSkillAnalytics']);
+        Route::get('/peer-comparison', [AnalyticsController::class, 'getPeerComparison']);
+        Route::get('/export', [AnalyticsController::class, 'exportAnalytics']);
+    });
+
+    // Skill Improvement routes
+    Route::prefix('skill-improvement')->group(function () {
+        Route::get('/{id}', [SkillImprovementController::class, 'getSkillImprovement']);
+        Route::post('/{id}/practice/start', [SkillImprovementController::class, 'startPracticeSession']);
+        Route::post('/practice/{id}/response', [SkillImprovementController::class, 'submitPracticeResponse']);
+        Route::post('/practice/{id}/complete', [SkillImprovementController::class, 'completePracticeSession']);
+        Route::get('/spaced-repetition/due', [SkillImprovementController::class, 'getDueRepetitions']);
+        Route::post('/spaced-repetition/{id}/complete', [SkillImprovementController::class, 'completeRepetition']);
+    });
+
+    // Recommendation routes
+    Route::prefix('recommendations')->group(function () {
+        Route::get('/', [RecommendationController::class, 'getRecommendations']);
+        Route::get('/saved', [RecommendationController::class, 'getSavedRecommendations']);
+        Route::post('/{id}/view', [RecommendationController::class, 'viewRecommendation']);
+        Route::post('/{id}/complete', [RecommendationController::class, 'completeRecommendation']);
+        Route::post('/{id}/save', [RecommendationController::class, 'saveRecommendation']);
+        Route::delete('/{id}/save', [RecommendationController::class, 'removeSavedRecommendation']);
+    });
 });
-// Learning Plan routes
-Route::get('users/{userId}/learning-plan', 'LearningPlanController@getUserPlan');
-Route::patch('users/{userId}/learning-plan/milestones/{milestoneId}', 'LearningPlanController@updateMilestone');
-
-// Analytics routes
-Route::get('users/{userId}/analytics', 'AnalyticsController@getUserAnalytics');
-Route::get('users/{userId}/skills/{skillId}/improvement', 'AnalyticsController@getSkillImprovementActivities');
-
-// Practice routes
-Route::post('users/{userId}/skills/{skillId}/practice', 'PracticeController@startPractice');
-Route::get('practice-sessions/{sessionId}', 'PracticeController@getSessionData');
-Route::post('users/{userId}/practice-sessions/{sessionId}', 'PracticeController@savePracticeResults');
-
-// Recommendation routes
-Route::get('users/{userId}/recommendations', 'RecommendationController@getUserRecommendations');
-Route::post('users/{userId}/recommendations/{recommendationId}/interaction', 'RecommendationController@recordInteraction');

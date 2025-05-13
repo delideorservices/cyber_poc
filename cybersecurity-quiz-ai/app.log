@@ -3375,3 +3375,245 @@ LiteLLM completion() model= gpt-4.1-nano; provider = openai
 2025-05-12 12:26:06,607 - app.services.crew_service - DEBUG - Created question 4 in chapter 101
 2025-05-12 12:26:06,767 - app.services.crew_service - DEBUG - Created question 5 in chapter 101
 2025-05-12 12:26:06,767 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-14 00:43:10,479 - app.routes.agents - INFO - Starting registration process for user banking@example.com
+2025-05-14 00:43:10,503 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-14 00:43:10,503 - app.services.crew_service - INFO - Creating registration crew for user: banking@example.com
+2025-05-14 00:43:12,417 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-14 00:43:12,702 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 00:43:15,418 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 00:43:15,587 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 00:43:17,655 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 00:43:17,688 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 00:43:20,100 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 00:43:20,132 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 2,
+      "topic_name": "Financial cybersecurity threats",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Fraud detection and prevention",
+      "relevance_score": 0.90
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Data privacy regulations in banking",
+      "relevance_score": 0.88
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Risk management frameworks",
+      "relevance_score": 0.85
+    },
+    {
+      "topic_id": 6,
+      "topic_name": "Cybersecurity policies for financial institutions",
+      "relevance_score": 0.83
+    }
+  ],
+  "sector_threats": [
+    "Phishing attacks targeting banking customers",
+    "Ransomware attacks on financial institutions",
+    "Account takeover frauds",
+    "Insider threats and fraud",
+    "Data breaches exposing sensitive customer information",
+    "Advanced persistent threats (APTs) aimed at financial data",
+    "Money laundering facilitated through cyber means"
+  ],
+  "focus_areas": [
+    "Advanced threat detection techniques in banking",
+    "Emerging cybersecurity threats in finance",
+    "Implementation of security controls and best practices",
+    "Incident response and recovery strategies",
+    "Regulatory compliance and adaptive security measures"
+  ],
+  "recommended_topic_id": 2
+}
+2025-05-14 00:43:20,133 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-14 00:43:20,135 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-14 00:43:20,137 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-14 00:43:20,137 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-14 00:43:20,313 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-14 00:43:20,313 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-14 00:43:20,313 - app.services.crew_service - WARNING - No user_id provided in quiz_data, attempting to find a valid user
+2025-05-14 00:43:20,369 - app.services.crew_service - INFO - Found valid user_id: 1
+2025-05-14 00:43:20,389 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-14 00:43:20,448 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 00:43:35,228 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 00:43:35,264 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 00:43:49,421 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 00:43:49,468 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 00:44:05,182 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 00:44:05,234 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 00:44:25,783 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 00:44:25,812 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_title": "Cybersecurity Fundamentals",
+  "chapter_count": 4,
+  "question_count": 20,
+  "com...
+2025-05-14 00:44:25,812 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-14 00:44:25,812 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-14 00:44:25,812 - app.services.crew_service - DEBUG - Result text first 200 chars: {
+  "quiz_title": "Cybersecurity Fundamentals",
+  "chapter_count": 4,
+  "question_count": 20,
+  "complete_quiz": {
+    "title": "Cybersecurity Fundamentals",
+    "description": "A comprehensive quiz d
+2025-05-14 00:44:25,812 - app.services.crew_service - DEBUG - Result text length: 12714
+2025-05-14 00:44:25,812 - app.services.crew_service - INFO - Successfully parsed result as direct JSON
+2025-05-14 00:44:25,812 - app.services.crew_service - INFO - Found complete quiz in result
+2025-05-14 00:44:25,998 - app.services.crew_service - INFO - Successfully inserted quiz with ID: 44
+2025-05-14 00:44:26,148 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 102
+2025-05-14 00:44:26,318 - app.services.crew_service - DEBUG - Created question 1 in chapter 102
+2025-05-14 00:44:26,485 - app.services.crew_service - DEBUG - Created question 2 in chapter 102
+2025-05-14 00:44:26,525 - app.services.crew_service - DEBUG - Created question 3 in chapter 102
+2025-05-14 00:44:26,572 - app.services.crew_service - DEBUG - Created question 4 in chapter 102
+2025-05-14 00:44:26,624 - app.services.crew_service - DEBUG - Created question 5 in chapter 102
+2025-05-14 00:44:26,672 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 103
+2025-05-14 00:44:26,704 - app.services.crew_service - DEBUG - Created question 1 in chapter 103
+2025-05-14 00:44:26,751 - app.services.crew_service - DEBUG - Created question 2 in chapter 103
+2025-05-14 00:44:26,799 - app.services.crew_service - DEBUG - Created question 3 in chapter 103
+2025-05-14 00:44:26,978 - app.services.crew_service - DEBUG - Created question 4 in chapter 103
+2025-05-14 00:44:27,024 - app.services.crew_service - DEBUG - Created question 5 in chapter 103
+2025-05-14 00:44:27,219 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 104
+2025-05-14 00:44:27,392 - app.services.crew_service - DEBUG - Created question 1 in chapter 104
+2025-05-14 00:44:27,557 - app.services.crew_service - DEBUG - Created question 2 in chapter 104
+2025-05-14 00:44:27,594 - app.services.crew_service - DEBUG - Created question 3 in chapter 104
+2025-05-14 00:44:27,644 - app.services.crew_service - DEBUG - Created question 4 in chapter 104
+2025-05-14 00:44:27,825 - app.services.crew_service - DEBUG - Created question 5 in chapter 104
+2025-05-14 00:44:27,864 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 105
+2025-05-14 00:44:27,912 - app.services.crew_service - DEBUG - Created question 1 in chapter 105
+2025-05-14 00:44:28,071 - app.services.crew_service - DEBUG - Created question 2 in chapter 105
+2025-05-14 00:44:28,231 - app.services.crew_service - DEBUG - Created question 3 in chapter 105
+2025-05-14 00:44:28,400 - app.services.crew_service - DEBUG - Created question 4 in chapter 105
+2025-05-14 00:44:28,555 - app.services.crew_service - DEBUG - Created question 5 in chapter 105
+2025-05-14 00:44:28,555 - app.routes.agents - INFO - CrewAI quiz generation result: success
+2025-05-14 02:38:19,273 - app.routes.agents - INFO - Starting registration process for user finance@example.com
+2025-05-14 02:38:19,292 - app.routes.agents - INFO - Using CrewAI for registration process
+2025-05-14 02:38:19,292 - app.services.crew_service - INFO - Creating registration crew for user: finance@example.com
+2025-05-14 02:38:19,395 - app.services.crew_service - INFO - Starting registration crew workflow
+2025-05-14 02:38:19,464 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 02:38:21,857 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 02:38:21,890 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 02:38:23,973 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 02:38:24,015 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 02:38:26,390 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 02:38:26,414 - app.services.crew_service - INFO - Crew result: {
+  "topic_priorities": [
+    {
+      "topic_id": 1,
+      "topic_name": "Financial Sector Regulations and Compliance",
+      "relevance_score": 0.95
+    },
+    {
+      "topic_id": 2,
+      "topic_name": "Fraud Detection and Prevention Techniques",
+      "relevance_score": 0.92
+    },
+    {
+      "topic_id": 3,
+      "topic_name": "Cybersecurity Measures in Financial Services",
+      "relevance_score": 0.89
+    },
+    {
+      "topic_id": 4,
+      "topic_name": "Data Analysis and Forensics in Finance",
+      "relevance_score": 0.87
+    },
+    {
+      "topic_id": 5,
+      "topic_name": "Emerging Threats in Financial Cybersecurity",
+      "relevance_score": 0.84
+    }
+  ],
+  "sector_threats": [
+    "Investment fraud and insider trading",
+    "Phishing attacks targeting financial data",
+    "Money laundering facilitated through digital channels",
+    "Cyber heists and unauthorized access to banking systems",
+    "Advanced persistent threats (APTs) aimed at financial institutions"
+  ],
+  "focus_areas": [
+    "Advanced investment fraud detection methods",
+    "Cybersecurity strategies for protecting financial transactions",
+    "Legal and regulatory frameworks for financial cybersecurity",
+    "Machine learning applications in fraud detection",
+    "Forensic techniques for financial data analysis"
+  ],
+  "recommended_topic_id": 1
+}
+2025-05-14 02:38:26,414 - app.services.crew_service - INFO - Registration crew completed successfully
+2025-05-14 02:38:26,414 - app.services.crew_service - INFO - Parsing registration crew result
+2025-05-14 02:38:26,414 - app.services.crew_service - INFO - Found JSON in text: dict_keys(['topic_priorities', 'sector_threats', 'focus_areas', 'recommended_topic_id'])
+2025-05-14 02:38:26,414 - app.routes.agents - INFO - CrewAI registration result: success
+2025-05-14 02:38:26,618 - app.routes.agents - INFO - Using CrewAI to generate quiz for topic: Cybersecurity Fundamentals
+2025-05-14 02:38:26,618 - app.services.crew_service - INFO - Creating quiz generation crew for topic: Cybersecurity Fundamentals
+2025-05-14 02:38:26,618 - app.services.crew_service - WARNING - No user_id provided in quiz_data, attempting to find a valid user
+2025-05-14 02:38:26,665 - app.services.crew_service - INFO - Found valid user_id: 1
+2025-05-14 02:38:26,673 - app.services.crew_service - INFO - Starting quiz generation crew workflow
+2025-05-14 02:38:26,690 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 02:38:37,357 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 02:38:37,373 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 02:38:47,247 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 02:38:47,298 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 02:38:59,569 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 02:38:59,607 - LiteLLM - INFO - 
+LiteLLM completion() model= gpt-4.1-nano; provider = openai
+2025-05-14 02:39:13,330 - LiteLLM - INFO - Wrapper: Completed Call, calling success_handler
+2025-05-14 02:39:13,363 - app.services.crew_service - INFO - Quiz generation crew completed successfully with result: {
+  "quiz_title": "Cybersecurity Fundamentals for Financial Transactions",
+  "chapter_count": 4,
+  "...
+2025-05-14 02:39:13,364 - app.services.crew_service - INFO - Quiz generation crew completed successfully
+2025-05-14 02:39:13,364 - app.services.crew_service - INFO - Parsing quiz generation crew result
+2025-05-14 02:39:13,364 - app.services.crew_service - DEBUG - Result text first 200 chars: {
+  "quiz_title": "Cybersecurity Fundamentals for Financial Transactions",
+  "chapter_count": 4,
+  "question_count": 20,
+  "complete_quiz": {
+    "title": "Cybersecurity Fundamentals for Financial Tra
+2025-05-14 02:39:13,367 - app.services.crew_service - DEBUG - Result text length: 12709
+2025-05-14 02:39:13,367 - app.services.crew_service - INFO - Successfully parsed result as direct JSON
+2025-05-14 02:39:13,367 - app.services.crew_service - INFO - Found complete quiz in result
+2025-05-14 02:39:13,446 - app.services.crew_service - INFO - Successfully inserted quiz with ID: 45
+2025-05-14 02:39:13,506 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 106
+2025-05-14 02:39:13,556 - app.services.crew_service - DEBUG - Created question 1 in chapter 106
+2025-05-14 02:39:13,717 - app.services.crew_service - DEBUG - Created question 2 in chapter 106
+2025-05-14 02:39:13,780 - app.services.crew_service - DEBUG - Created question 3 in chapter 106
+2025-05-14 02:39:13,834 - app.services.crew_service - DEBUG - Created question 4 in chapter 106
+2025-05-14 02:39:13,880 - app.services.crew_service - DEBUG - Created question 5 in chapter 106
+2025-05-14 02:39:13,937 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 107
+2025-05-14 02:39:13,987 - app.services.crew_service - DEBUG - Created question 1 in chapter 107
+2025-05-14 02:39:14,064 - app.services.crew_service - DEBUG - Created question 2 in chapter 107
+2025-05-14 02:39:14,211 - app.services.crew_service - DEBUG - Created question 3 in chapter 107
+2025-05-14 02:39:14,272 - app.services.crew_service - DEBUG - Created question 4 in chapter 107
+2025-05-14 02:39:14,323 - app.services.crew_service - DEBUG - Created question 5 in chapter 107
+2025-05-14 02:39:14,373 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 108
+2025-05-14 02:39:14,423 - app.services.crew_service - DEBUG - Created question 1 in chapter 108
+2025-05-14 02:39:14,491 - app.services.crew_service - DEBUG - Created question 2 in chapter 108
+2025-05-14 02:39:14,551 - app.services.crew_service - DEBUG - Created question 3 in chapter 108
+2025-05-14 02:39:14,717 - app.services.crew_service - DEBUG - Created question 4 in chapter 108
+2025-05-14 02:39:14,876 - app.services.crew_service - DEBUG - Created question 5 in chapter 108
+2025-05-14 02:39:14,939 - app.services.crew_service - INFO - Successfully inserted chapter with ID: 109
+2025-05-14 02:39:15,100 - app.services.crew_service - DEBUG - Created question 1 in chapter 109
+2025-05-14 02:39:15,279 - app.services.crew_service - DEBUG - Created question 2 in chapter 109
+2025-05-14 02:39:15,355 - app.services.crew_service - DEBUG - Created question 3 in chapter 109
+2025-05-14 02:39:15,423 - app.services.crew_service - DEBUG - Created question 4 in chapter 109
+2025-05-14 02:39:15,488 - app.services.crew_service - DEBUG - Created question 5 in chapter 109
+2025-05-14 02:39:15,488 - app.routes.agents - INFO - CrewAI quiz generation result: success

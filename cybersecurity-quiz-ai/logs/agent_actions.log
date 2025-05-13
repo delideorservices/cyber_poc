@@ -206,3 +206,11 @@
 2025-05-12 12:25:13 - CrewAI - register_user - success
 2025-05-12 12:26:04 - CrewService - quiz_generation_crew - success
 2025-05-12 12:26:06 - CrewAI - generate_quiz - success
+2025-05-14 00:43:20 - CrewService - registration_crew - success
+2025-05-14 00:43:20 - CrewAI - register_user - success
+2025-05-14 00:44:25 - CrewService - quiz_generation_crew - success
+2025-05-14 00:44:28 - CrewAI - generate_quiz - success
+2025-05-14 02:38:26 - CrewService - registration_crew - success
+2025-05-14 02:38:26 - CrewAI - register_user - success
+2025-05-14 02:39:13 - CrewService - quiz_generation_crew - success
+2025-05-14 02:39:15 - CrewAI - generate_quiz - success

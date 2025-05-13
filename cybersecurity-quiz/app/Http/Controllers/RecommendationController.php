@@ -3,307 +3,217 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Recommendation;
-use App\Models\LearningResource;
 use App\Services\AgentService;
+use App\Models\ResourceRecommendation;
+use App\Models\Resource;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
+use App\Http\Controllers\BaseApiController;
 
-class RecommendationController extends Controller
+class RecommendationController extends BaseApiController
 {
     protected $agentService;
-
+    
     public function __construct(AgentService $agentService)
     {
         $this->agentService = $agentService;
-        $this->middleware('auth');
-    }
-
-    /**
-     * Display user's recommendations
-     */
-    public function index()
-    {
-        $user = Auth::user();
-        $recommendations = Recommendation::with('learningResource')
-            ->where('user_id', $user->id)
-            ->orderBy('relevance_score', 'desc')
-            ->take(10)
-            ->get();
-
-        $skillGaps = $this->getUserSkillGaps($user->id);
-
-        return view('recommendations.index', [
-            'recommendations' => $recommendations,
-            'skillGaps' => $skillGaps
-        ]);
-    }
-
-    /**
-     * Generate new recommendations
-     */
-    public function generate()
-    {
-        $user = Auth::user();
-        $skillGaps = $this->getUserSkillGaps($user->id);
-
-        // Only proceed if we have skill gaps to work with
-        if (count($skillGaps) > 0) {
-            // Call the recommendation agent
-            $response = $this->agentService->executeAgent('recommendation', [
-                'user_id' => $user->id,
-                'skill_gaps' => $skillGaps
-            ]);
-
-            if ($response['status'] === 'success') {
-                return redirect()->route('recommendations.index')
-                    ->with('success', 'New recommendations generated successfully!');
-            }
-        }
-
-        return redirect()->route('recommendations.index')
-            ->with('error', 'Could not generate new recommendations at this time.');
-    }
-
-    /**
-     * Mark recommendation as viewed
-     */
-    public function markViewed($id)
-    {
-        $recommendation = Recommendation::findOrFail($id);
-        $this->authorize('update', $recommendation);
-
-        $recommendation->is_viewed = true;
-        $recommendation->save();
-
-        return response()->json(['success' => true]);
-    }
-
-    /**
-     * Mark recommendation as completed
-     */
-    public function markCompleted($id)
-    {
-        $recommendation = Recommendation::findOrFail($id);
-        $this->authorize('update', $recommendation);
-
-        $recommendation->is_completed = true;
-        $recommendation->completed_at = Carbon::now();
-        $recommendation->save();
-
-        return redirect()->back()->with('success', 'Resource marked as completed!');
-    }
-
-    /**
-     * Get user's skill gaps from analytics
-     */
-    private function getUserSkillGaps($userId)
-    {
-        // This would normally come from the AnalyticsAgent in Phase 3
-        // For now, we'll retrieve the most recent quiz results and extract skill gaps
-        $latestResult = \App\Models\UserQuizResult::where('user_id', $userId)
-            ->orderBy('completed_at', 'desc')
-            ->first();
-
-        if ($latestResult && $latestResult->skill_gaps) {
-            return json_decode($latestResult->skill_gaps, true);
-        }
-
-        // If no skill gaps found, return empty array
-        return [];
-    }
-    public function getUserRecommendations($userId)
-    {
-        try {
-            $user = User::findOrFail($userId);
-            
-            // Verify authorization
-            $this->authorize('view', $user);
-            
-            // Get user's skill levels to determine recommendations
-            $userSkills = UserSkill::where('user_id', $userId)
-                ->join('skills', 'user_skills.skill_id', '=', 'skills.id')
-                ->select(
-                    'user_skills.*',
-                    'skills.name as skill_name',
-                    'skills.description as skill_description'
-                )
-                ->get();
-            
-            // Get existing recommendations
-            $existingRecommendations = Recommendation::where('user_id', $userId)
-                ->where('status', 'active')
-                ->get();
-            
-            // If no recommendations or they're outdated, generate new ones
-            if ($existingRecommendations->isEmpty() || 
-                $existingRecommendations->first()->created_at->diffInDays(now()) > 7) {
-                
-                // Delete outdated recommendations
-                Recommendation::where('user_id', $userId)
-                    ->where('status', 'active')
-                    ->update(['status' => 'archived']);
-                
-                // Generate new recommendations
-                $recommendations = $this->generateRecommendations($user, $userSkills);
-            } else {
-                $recommendations = $existingRecommendations;
-            }
-            
-            // Format recommendations for response
-            $formattedRecommendations = [];
-            foreach ($recommendations as $recommendation) {
-                $resource = null;
-                
-                if ($recommendation->resource_type === 'learning_resource') {
-                    $resource = LearningResource::find($recommendation->resource_id);
-                } else if ($recommendation->resource_type === 'quiz') {
-                    $resource = \App\Models\Quiz::find($recommendation->resource_id);
-                }
-                
-                if ($resource) {
-                    $formattedRecommendations[] = [
-                        'id' => $recommendation->id,
-                        'title' => $resource->title,
-                        'description' => $resource->description,
-                        'type' => $recommendation->resource_type,
-                        'match_percentage' => $recommendation->match_percentage,
-                        'resource_id' => $recommendation->resource_id,
-                        'url' => $this->getResourceUrl($recommendation->resource_type, $recommendation->resource_id),
-                        'skill_id' => $recommendation->skill_id
-                    ];
-                }
-            }
-            
-            return response()->json([
-                'user_id' => $userId,
-                'resources' => $formattedRecommendations
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error retrieving recommendations: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to retrieve recommendations'], 500);
-        }
     }
     
     /**
-     * Generate personalized recommendations
-     *
-     * @param User $user
-     * @param Collection $userSkills
-     * @return Collection
-     */
-    private function generateRecommendations($user, $userSkills)
-    {
-        // In a real implementation, this would call the RecommendationAgent
-        // For now, we'll create sample recommendations
-        
-        $recommendations = collect();
-        
-        // Identify skills to improve (those with lowest proficiency)
-        $skillsToImprove = $userSkills->sortBy('proficiency_level')->take(3);
-        
-        // For each skill to improve, find resources
-        foreach ($skillsToImprove as $skill) {
-            // Find learning resources for this skill
-            // In a real implementation, this would query the database
-            // For now, we'll create sample recommendations
-            
-            // Add a learning resource recommendation
-            $recommendation = new Recommendation();
-            $recommendation->user_id = $user->id;
-            $recommendation->skill_id = $skill->skill_id;
-            $recommendation->resource_type = 'learning_resource';
-            $recommendation->resource_id = 1; // Sample resource ID
-            $recommendation->match_percentage = 85;
-            $recommendation->reason = 'Based on your skill gap in ' . $skill->skill_name;
-            $recommendation->status = 'active';
-            $recommendation->save();
-            
-            $recommendations->push($recommendation);
-            
-            // Add a quiz recommendation
-            $recommendation = new Recommendation();
-            $recommendation->user_id = $user->id;
-            $recommendation->skill_id = $skill->skill_id;
-            $recommendation->resource_type = 'quiz';
-            $recommendation->resource_id = 1; // Sample quiz ID
-            $recommendation->match_percentage = 90;
-            $recommendation->reason = 'Practice quiz for ' . $skill->skill_name;
-            $recommendation->status = 'active';
-            $recommendation->save();
-            
-            $recommendations->push($recommendation);
-        }
-        
-        return $recommendations;
-    }
-    
-    /**
-     * Get URL for a resource
-     *
-     * @param string $resourceType
-     * @param int $resourceId
-     * @return string
-     */
-    private function getResourceUrl($resourceType, $resourceId)
-    {
-        switch ($resourceType) {
-            case 'learning_resource':
-                $resource = LearningResource::find($resourceId);
-                return $resource ? $resource->url : '#';
-                
-            case 'quiz':
-                return '/quizzes/' . $resourceId;
-                
-            case 'course':
-                return '/courses/' . $resourceId;
-                
-            default:
-                return '#';
-        }
-    }
-    
-    /**
-     * Record user interaction with a recommendation
-     *
+     * Get personalized recommendations for the user
+     * 
      * @param Request $request
-     * @param int $userId
-     * @param int $recommendationId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function recordInteraction(Request $request, $userId, $recommendationId)
+    public function getRecommendations(Request $request)
     {
-        try {
-            $user = User::findOrFail($userId);
+        $user = Auth::user();
+        
+        // Check for filtering and paging
+        $type = $request->input('type');
+        $limit = $request->input('limit', 10);
+        
+        // First check existing recommendations
+        $query = ResourceRecommendation::with('resource')
+            ->where('user_id', $user->id)
+            ->where('status', 'new');
             
-            // Verify authorization
-            $this->authorize('update', $user);
-            
-            $recommendation = Recommendation::findOrFail($recommendationId);
-            
-            // Verify recommendation belongs to user
-            if ($recommendation->user_id !== $user->id) {
-                return response()->json(['error' => 'Unauthorized access to recommendation'], 403);
-            }
-            
-            // Get interaction type
-            $interactionType = $request->input('interaction_type', 'view');
-            
-            // Record interaction
-            $interaction = new RecommendationInteraction();
-            $interaction->recommendation_id = $recommendationId;
-            $interaction->user_id = $userId;
-            $interaction->interaction_type = $interactionType;
-            $interaction->save();
-            
-            return response()->json([
-                'message' => 'Interaction recorded successfully',
-                'interaction_id' => $interaction->id
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error recording recommendation interaction: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to record interaction'], 500);
+        if ($type) {
+            $query->whereHas('resource', function ($q) use ($type) {
+                $q->where('resource_type', $type);
+            });
         }
+        
+        $recommendations = $query->latest()->take($limit)->get();
+        
+        // If no recommendations exist or fewer than requested, generate new ones
+        if ($recommendations->count() < $limit) {
+            $result = $this->agentService->executeAgent('recommendation_agent', [
+                'user_id' => $user->id,
+                'data' => [
+                    'action' => 'generate_recommendations',
+                    'count' => $limit - $recommendations->count(),
+                    'type' => $type
+                ]
+            ]);
+            
+            if (!$result['success']) {
+                // Continue with existing recommendations even if new generation fails
+                // but log the error
+                \Log::error('Failed to generate new recommendations', [
+                    'user_id' => $user->id,
+                    'error' => $result['error'] ?? 'Unknown error'
+                ]);
+            } else {
+                // Refresh recommendations after generation
+                $query = ResourceRecommendation::with('resource')
+                    ->where('user_id', $user->id)
+                    ->where('status', 'new');
+                    
+                if ($type) {
+                    $query->whereHas('resource', function ($q) use ($type) {
+                        $q->where('resource_type', $type);
+                    });
+                }
+                
+                $recommendations = $query->latest()->take($limit)->get();
+            }
+        }
+        
+        // Get resource types for filtering
+        $resourceTypes = Resource::distinct('resource_type')->pluck('resource_type');
+        
+        return $this->successResponse([
+            'recommendations' => $recommendations,
+            'resource_types' => $resourceTypes
+        ]);
+    }
+    
+    /**
+     * Get saved recommendations
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSavedRecommendations()
+    {
+        $user = Auth::user();
+        
+        $savedRecommendations = ResourceRecommendation::with('resource')
+            ->where('user_id', $user->id)
+            ->where('status', 'saved')
+            ->latest()
+            ->get();
+            
+        return $this->successResponse($savedRecommendations);
+    }
+    
+    /**
+     * Mark a recommendation as viewed
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function viewRecommendation($id)
+    {
+        $user = Auth::user();
+        
+        $recommendation = ResourceRecommendation::where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+            
+        $recommendation->status = 'viewed';
+        $recommendation->viewed_at = now();
+        $recommendation->save();
+        
+        return $this->successResponse($recommendation);
+    }
+    
+    /**
+     * Mark a recommendation as completed
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function completeRecommendation(Request $request, $id)
+    {
+        $user = Auth::user();
+        
+        $validated = $request->validate([
+            'rating' => 'sometimes|integer|min:1|max:5',
+            'feedback' => 'sometimes|string|max:500'
+        ]);
+        
+        $recommendation = ResourceRecommendation::where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+            
+        $recommendation->status = 'completed';
+        $recommendation->completed_at = now();
+        
+        if (isset($validated['rating'])) {
+            $recommendation->user_rating = $validated['rating'];
+        }
+        
+        if (isset($validated['feedback'])) {
+            $recommendation->user_feedback = $validated['feedback'];
+        }
+        
+        $recommendation->save();
+        
+        // If we have feedback, send it to the recommendation agent for improvement
+        if (isset($validated['rating']) || isset($validated['feedback'])) {
+            $this->agentService->executeAgent('recommendation_agent', [
+                'user_id' => $user->id,
+                'data' => [
+                    'action' => 'process_feedback',
+                    'recommendation_id' => $id,
+                    'rating' => $validated['rating'] ?? null,
+                    'feedback' => $validated['feedback'] ?? null
+                ]
+            ]);
+        }
+        
+        return $this->successResponse($recommendation);
+    }
+    
+    /**
+     * Save a recommendation for later
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function saveRecommendation($id)
+    {
+        $user = Auth::user();
+        
+        $recommendation = ResourceRecommendation::where('user_id', $user->id)
+            ->where('id', $id)
+            ->firstOrFail();
+            
+        $recommendation->status = 'saved';
+        $recommendation->save();
+        
+        return $this->successResponse($recommendation);
+    }
+    
+    /**
+     * Remove a saved recommendation
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeSavedRecommendation($id)
+    {
+        $user = Auth::user();
+        
+        $recommendation = ResourceRecommendation::where('user_id', $user->id)
+            ->where('id', $id)
+            ->where('status', 'saved')
+            ->firstOrFail();
+            
+        $recommendation->status = 'dismissed';
+        $recommendation->save();
+        
+        return $this->successResponse(null, 'Recommendation removed from saved items');
     }
 }

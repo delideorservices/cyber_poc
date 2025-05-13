@@ -12,6 +12,10 @@
           <router-link to="/dashboard" class="nav-link">
             <i class="nav-icon"></i> Dashboard
           </router-link>
+          <router-link to="/learning-plan" class="nav-link">Learning Plan</router-link>
+          <router-link to="/analytics" class="nav-link">Analytics</router-link>
+          <router-link to="/skill-improvement" class="nav-link">Skill Improvement</router-link>
+          <router-link to="/recommendations" class="nav-link">Recommendations</router-link>
           <!-- <router-link to="/quizzes" class="nav-link">
             <i class="nav-icon">📝</i> Quizzes
           </router-link>
