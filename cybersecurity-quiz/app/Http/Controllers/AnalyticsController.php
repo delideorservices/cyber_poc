@@ -16,156 +16,192 @@ class AnalyticsController extends BaseApiController
         $this->agentService = $agentService;
     }
     
-    /**
-     * Get user analytics dashboard data
-     * 
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getUserAnalytics()
-    {
-        $user = Auth::user();
-        
-        // Get the user's skill analytics
-        $skillAnalytics = SkillAnalytic::where('user_id', $user->id)->get();
-        
-        // If no analytics exist, generate them using the analytics agent
-        if ($skillAnalytics->isEmpty()) {
-            $result = $this->agentService->executeAgent('analytics_agent', [
-                'user_id' => $user->id,
-                'data' => [
-                    'action' => 'generate_analytics'
-                ]
-            ]);
-            
-            if (!$result['success']) {
-                return $this->errorResponse(
-                    'Failed to generate user analytics',
-                    $result['details'] ?? null,
-                    500
-                );
-            }
-            
-            // Refresh skill analytics after generation
-            $skillAnalytics = SkillAnalytic::where('user_id', $user->id)->get();
-        }
-        
-        // Get recent quiz results
-        $recentQuizzes = UserQuizResult::with('quiz', 'quiz.topic')
-            ->where('user_id', $user->id)
-            ->latest()
-            ->take(5)
-            ->get();
-            
-        return $this->successResponse([
-            'skill_analytics' => $skillAnalytics,
-            'recent_quizzes' => $recentQuizzes,
-            'strengths' => $skillAnalytics->where('is_strength', true)->values(),
-            'weaknesses' => $skillAnalytics->where('is_weakness', true)->values(),
-        ]);
-    }
     
-    /**
-     * Get detailed analytics for a specific skill
-     * 
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getSkillAnalytics($id)
-    {
-        $user = Auth::user();
-        
-        // Get detailed analytics for the specific skill
+   public function getUserAnalytics()
+{
+    $user = Auth::user();
+    
+    // Get the user's skill analytics
+    $skillAnalytics = SkillAnalytic::where('user_id', $user->id)->get();
+    
+    // If no analytics exist, generate them using the analytics agent
+    if ($skillAnalytics->isEmpty()) {
         $result = $this->agentService->executeAgent('analytics_agent', [
             'user_id' => $user->id,
             'data' => [
-                'action' => 'get_skill_analytics',
-                'skill_id' => $id
+                'action' => 'generate_analytics'
             ]
         ]);
         
         if (!$result['success']) {
             return $this->errorResponse(
-                'Failed to retrieve skill analytics',
+                'Failed to generate user analytics',
                 $result['details'] ?? null,
                 500
             );
         }
         
-        return $this->successResponse($result['data']);
-    }
-    
-    /**
-     * Get peer comparison data
-     * 
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getPeerComparison()
-    {
-        $user = Auth::user();
-        
-        // Get peer comparison data
-        $result = $this->agentService->executeAgent('analytics_agent', [
-            'user_id' => $user->id,
-            'data' => [
-                'action' => 'get_peer_comparison'
-            ]
-        ]);
-        
-        if (!$result['success']) {
-            return $this->errorResponse(
-                'Failed to retrieve peer comparison data',
-                $result['details'] ?? null,
-                500
-            );
-        }
-        
-        return $this->successResponse($result['data']);
-    }
-    
-    /**
-     * Export user analytics as CSV
-     * 
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function exportAnalytics()
-    {
-        $user = Auth::user();
-        
-        // Get user skill analytics
+        // Refresh skill analytics after generation
         $skillAnalytics = SkillAnalytic::where('user_id', $user->id)->get();
+    }
+    
+    // Get recent quiz results
+    $recentQuizzes = UserQuizResult::with('quiz', 'quiz.topic')
+        ->where('user_id', $user->id)
+        ->latest()
+        ->take(5)
+        ->get();
         
-        // Generate CSV file
-        $fileName = 'skill_analytics_' . $user->id . '_' . date('Y-m-d') . '.csv';
-        $headers = [
-            "Content-type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=$fileName",
-            "Pragma" => "no-cache",
-            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
-            "Expires" => "0"
+    // Get domain-specific scoring
+    $domainScores = $this->getDomainScores($user->id);
+    
+    // Get benchmark comparisons
+    $benchmarks = $this->getBenchmarkComparisons($user->id);
+    
+    // Get performance trends
+    $trends = $this->getPerformanceTrends($user->id);
+    
+    return $this->successResponse([
+        'skill_analytics' => $skillAnalytics,
+        'recent_quizzes' => $recentQuizzes,
+        'strengths' => $skillAnalytics->where('is_strength', true)->values(),
+        'weaknesses' => $skillAnalytics->where('is_weakness', true)->values(),
+        'domain_scores' => $domainScores,
+        'benchmarks' => $benchmarks,
+        'trends' => $trends,
+        'total_quizzes' => UserQuizResult::where('user_id', $user->id)->count(),
+        'avg_score' => UserQuizResult::where('user_id', $user->id)->avg('score') ?? 0,
+        'skill_domains' => $this->getSkillDomains($user->id)
+    ]);
+}
+
+/**
+ * Get domain-specific scoring data
+ *
+ * @param int $userId
+ * @return array
+ */
+private function getDomainScores($userId)
+{
+    // Call analytics agent to get domain scores
+    $result = $this->agentService->executeAgent('analytics_agent', [
+        'user_id' => $userId,
+        'data' => [
+            'action' => 'get_domain_scores'
+        ]
+    ]);
+    
+    if (!$result['success']) {
+        return [];
+    }
+    
+    return $result['data']['domain_scores'] ?? [];
+}
+
+/**
+ * Get benchmark comparison data
+ *
+ * @param int $userId
+ * @return array
+ */
+private function getBenchmarkComparisons($userId)
+{
+    // Call analytics agent to get benchmark comparisons
+    $result = $this->agentService->executeAgent('analytics_agent', [
+        'user_id' => $userId,
+        'data' => [
+            'action' => 'get_benchmark_comparisons'
+        ]
+    ]);
+    
+    if (!$result['success']) {
+        return [];
+    }
+    
+    return $result['data']['benchmarks'] ?? [];
+}
+
+/**
+ * Get performance trends over time
+ *
+ * @param int $userId
+ * @return array
+ */
+private function getPerformanceTrends($userId)
+{
+    // Get quiz results over time
+    $results = UserQuizResult::where('user_id', $userId)
+        ->orderBy('created_at')
+        ->get()
+        ->groupBy(function($date) {
+            return Carbon::parse($date->created_at)->format('Y-m'); // Group by month
+        });
+    
+    $trendData = [];
+    
+    foreach ($results as $month => $monthResults) {
+        $trendData[] = [
+            'month' => $month,
+            'avg_score' => $monthResults->avg('score'),
+            'quiz_count' => $monthResults->count()
         ];
-        
-        $columns = ['Skill', 'Proficiency Score', 'Strength Level', 'Is Strength', 'Is Weakness', 'Benchmark Percentile'];
-        
-        $callback = function() use($skillAnalytics, $columns) {
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
-            
-            foreach ($skillAnalytics as $analytics) {
-                $row = [
-                    $analytics->skill->name ?? "Skill #$analytics->skill_id",
-                    $analytics->proficiency_score,
-                    $analytics->strength_level,
-                    $analytics->is_strength ? 'Yes' : 'No',
-                    $analytics->is_weakness ? 'Yes' : 'No',
-                    $analytics->benchmark_percentile
-                ];
-                
-                fputcsv($file, $row);
-            }
-            
-            fclose($file);
-        };
-        
-        return response()->stream($callback, 200, $headers);
     }
+    
+    return $trendData;
+}
+
+/**
+ * Get skill domains with scores
+ *
+ * @param int $userId
+ * @return array
+ */
+private function getSkillDomains($userId)
+{
+    // Call analytics agent to get skill domains
+    $result = $this->agentService->executeAgent('analytics_agent', [
+        'user_id' => $userId,
+        'data' => [
+            'action' => 'get_skill_domains'
+        ]
+    ]);
+    
+    if (!$result['success']) {
+        return [];
+    }
+    
+    return $result['data']['skill_domains'] ?? [];
+
+ }
+ public function getThreatAwarenessScoring()
+{
+    $user = Auth::user();
+    
+    // Get user's sector
+    $sector = Sector::find($user->sector_id);
+    
+    if (!$sector) {
+        return $this->errorResponse('User sector not found', null, 404);
+    }
+    
+    // Call analytics agent to get threat awareness scoring
+    $result = $this->agentService->executeAgent('analytics_agent', [
+        'user_id' => $user->id,
+        'data' => [
+            'action' => 'get_threat_awareness',
+            'sector_id' => $user->sector_id,
+            'sector_name' => $sector->name
+        ]
+    ]);
+    
+    if (!$result['success']) {
+        return $this->errorResponse(
+            'Failed to retrieve threat awareness scoring',
+            $result['details'] ?? null,
+            500
+        );
+    }
+    
+    return $this->successResponse($result['data']);
+}
 }

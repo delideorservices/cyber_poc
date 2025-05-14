@@ -15,7 +15,7 @@ class UserProfileController extends Controller
     public function show(Request $request)
     {
         $user = $request->user();
-        
+        // dd($user);
         // Load relationships
         $user->load(['sector', 'role', 'skills', 'certifications']);
         

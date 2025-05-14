@@ -1,86 +1,68 @@
-import logging
-import sys
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel
+from typing import Dict, Any, Optional
+from app.agents.learning_plan_agent import LearningPlanAgent
+from app.agents.analytics_agent import AnalyticsAgent
 from app.agents.skill_improvement_agent import SkillImprovementAgent
-from app.services.progressive_difficulty_engine import ProgressiveDifficultyEngine
-from app.services.spaced_repetition_scheduler import SpacedRepetitionScheduler
-from fastapi import Request
+from app.agents.recommendation_agent import RecommendationAgent
 
-# Configure more detailed logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('app.log'),
-        logging.StreamHandler(sys.stdout)
-    ]
-)
+app = FastAPI(title="CYX3.0 Agent Service API")
 
-# Set logging levels
-logging.getLogger('httpx').setLevel(logging.WARNING)  # Reduce noise from HTTP requests
-logging.getLogger('app').setLevel(logging.DEBUG)     # More details for app logs
-
-# Initialize FastAPI app
-app = FastAPI()
-
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Import and include routers
-from app.routes import agents, quizzes
-
-app.include_router(agents.router, prefix="/api/agents", tags=["agents"])
-app.include_router(quizzes.router, prefix="/api/quizzes", tags=["quizzes"])
+class AgentRequest(BaseModel):
+    user_id: int
+    data: Dict[str, Any]
 
 @app.get("/")
 async def root():
-    return {"message": "Cybersecurity Quiz AI Backend"}
+    return {"message": "CYX3.0 Agent Service API is running"}
 
-@app.get("/health")
-async def health():
+@app.get("/api/health")
+async def health_check():
     return {"status": "healthy"}
 
-@app.post("/api/skill-improvement")
-async def generate_skill_improvement(request: Request):
-    """Generate skill improvement activities"""
-    data = await request.json()
-    result = agent_executor.execute_agent("SkillImprovementAgent", data)
-    return result
-@app.post("/api/spaced-repetition/schedule")
-async def schedule_repetition(request: Request):
-    """Schedule a spaced repetition session"""
-    data = await request.json()
-    scheduler = SpacedRepetitionScheduler()
-    result = scheduler.schedule_repetition(
-        data.get('user_id'),
-        data.get('skill_id'),
-        data.get('difficulty', 3),
-        data.get('performance_rating')
-    )
-    return {"status": "success", "schedule": result}
+@app.post("/api/agent/learning_plan_agent")
+async def execute_learning_plan_agent(request: AgentRequest):
+    try:
+        agent = LearningPlanAgent()
+        result = agent.execute(request.user_id, request.data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/spaced-repetition/complete")
-async def complete_repetition(request: Request):
-    """Complete a spaced repetition session"""
-    data = await request.json()
-    scheduler = SpacedRepetitionScheduler()
-    result = scheduler.complete_repetition(
-        data.get('schedule_id'),
-        data.get('performance_rating')
-    )
-    return {"status": "success", "next_schedule": result}
-def setup_agents():
-    # Register existing agents
-    # ...
+@app.post("/api/agent/analytics_agent")
+async def execute_analytics_agent(request: AgentRequest):
+    try:
+        agent = AnalyticsAgent()
+        result = agent.execute(request.user_id, request.data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/agent/skill_improvement_agent")
+async def execute_skill_improvement_agent(request: AgentRequest):
+    try:
+        agent = SkillImprovementAgent()
+        result = agent.execute(request.user_id, request.data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/agent/recommendation_agent")
+async def execute_recommendation_agent(request: AgentRequest):
+    try:
+        agent = RecommendationAgent()
+        result = agent.execute(request.user_id, request.data)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/agent/test/{agent_name}")
+async def test_agent(agent_name: str):
+    """Test endpoint to verify agent availability"""
+    valid_agents = ["learning_plan_agent", "analytics_agent", 
+                  "skill_improvement_agent", "recommendation_agent"]
     
-    # Register new agent
-    agent_executor.register_agent(SkillImprovementAgent())
-    
-    return agent_executor
+    if agent_name not in valid_agents:
+        raise HTTPException(status_code=404, detail=f"Agent {agent_name} not found")
+        
+    return {"status": "success", "message": f"Agent {agent_name} is available"}

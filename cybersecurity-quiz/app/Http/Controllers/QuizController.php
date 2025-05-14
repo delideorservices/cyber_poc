@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class QuizController extends Controller
 {
@@ -91,7 +92,7 @@ class QuizController extends Controller
         }
         
         $user = $request->user();
-        
+        // dd(Auth::user());
         // Prepare data for AI backend
         $requestData = [
             'user_id' => $user->id, 
@@ -133,7 +134,7 @@ class QuizController extends Controller
         // Call AI backend to generate quiz
         try {
             $response = Http::timeout(300)->post(config('services.ai_backend.url') . '/api/agents/register', $requestData);
-            
+            // dd(config('services.ai_backend.url') . '/api/agents/register');
             if ($response->successful()) {
                 $result = $response->json();
                 
@@ -230,65 +231,104 @@ class QuizController extends Controller
         }
     }
     
-    public function submit(Request $request, Quiz $quiz)
-    {
-        // Check if quiz belongs to user
-        if ($quiz->user_id !== $request->user()->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+   public function submit(Request $request, Quiz $quiz)
+{
+    // Check if quiz belongs to user
+    if ($quiz->user_id !== $request->user()->id) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+    
+    $validator = Validator::make($request->all(), [
+        'responses' => 'required|array',
+        'responses.*.question_id' => 'required|exists:questions,id',
+        'responses.*.answer' => 'required',
+    ]);
+    
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
+    
+    // Prepare data for AI backend
+    $requestData = [
+        'user_id' => $request->user()->id,
+        'quiz_id' => $quiz->id,
+        'responses' => $request->responses
+    ];
+    
+    // Call AI backend to evaluate quiz
+    try {
+        $response = Http::post(config('services.ai_backend.url') . '/api/agents/evaluate', $requestData);
         
-        $validator = Validator::make($request->all(), [
-            'responses' => 'required|array',
-            'responses.*.question_id' => 'required|exists:questions,id',
-            'responses.*.answer' => 'required',
-        ]);
-        
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-        
-        // Prepare data for AI backend
-        $requestData = [
-            'user_id' => $request->user()->id,
-            'quiz_id' => $quiz->id,
-            'responses' => $request->responses
-        ];
-        
-        // Call AI backend to evaluate quiz
-        try {
-            $response = Http::post(config('services.ai_backend.url') . '/api/agents/evaluate', $requestData);
+        if ($response->successful()) {
+            $result = $response->json();
             
-            if ($response->successful()) {
-                $result = $response->json();
+            if (isset($result['result_id'])) {
+                // Store the quiz result in the database
+                $quizResult = new UserQuizResult([
+                    'user_id' => $request->user()->id,
+                    'quiz_id' => $quiz->id,
+                    'score' => $result['percentage_score'],
+                    'feedback' => $result['feedback'],
+                    'external_result_id' => $result['result_id']
+                ]);
+                $quizResult->save();
                 
-                if (isset($result['result_id'])) {
-                    // Quiz successfully evaluated
-                    return response()->json([
-                        'status' => 'success',
-                        'result_id' => $result['result_id'],
-                        'percentage_score' => $result['percentage_score'],
-                        'feedback' => $result['feedback']
+                // After successful quiz submission, trigger analytics process
+                try {
+                    // Trigger analytics processing
+                    $analyticsResponse = Http::post(config('services.agents.url') . '/api/agent/analytics_agent', [
+                        'user_id' => $request->user()->id,
+                        'data' => [
+                            'action' => 'process_quiz_results',
+                            'quiz_id' => $quiz->id,
+                            'result_id' => $result['result_id']
+                        ]
                     ]);
-                } else {
-                    // Something went wrong
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Failed to evaluate quiz: Invalid response format'
-                    ], 500);
+                    
+                    // If analytics successful, trigger learning plan generation
+                    if ($analyticsResponse->successful()) {
+                        Http::post(config('services.agents.url') . '/api/agent/learning_plan_agent', [
+                            'user_id' => $request->user()->id,
+                            'data' => [
+                                'action' => 'generate_plan',
+                                'quiz_id' => $quiz->id,
+                                'result_id' => $result['result_id']
+                            ]
+                        ]);
+                    }
+                } catch (\Exception $e) {
+                    // Log the error but don't fail the quiz submission
+                    Log::error("Failed to trigger analytics: " . $e->getMessage());
                 }
+                
+                // Original success response
+                return response()->json([
+                    'status' => 'success',
+                    'result_id' => $result['result_id'],
+                    'quiz_result_id' => $quizResult->id,
+                    'percentage_score' => $result['percentage_score'],
+                    'feedback' => $result['feedback']
+                ]);
             } else {
-                // Error response from AI backend
+                // Something went wrong
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Failed to evaluate quiz: ' . ($response->json()['detail'] ?? 'Unknown error')
-                ], $response->status());
+                    'message' => 'Failed to evaluate quiz: Invalid response format'
+                ], 500);
             }
-        } catch (\Exception $e) {
-            // Exception during API call
+        } else {
+            // Error response from AI backend
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to communicate with AI backend: ' . $e->getMessage()
-            ], 500);
+                'message' => 'Failed to evaluate quiz: ' . ($response->json()['detail'] ?? 'Unknown error')
+            ], $response->status());
         }
+    } catch (\Exception $e) {
+        // Exception during API call
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Failed to communicate with AI backend: ' . $e->getMessage()
+        ], 500);
     }
+}
 }

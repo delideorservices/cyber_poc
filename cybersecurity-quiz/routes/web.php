@@ -12,6 +12,7 @@ Route::middleware(['auth'])->prefix('analytics')->name('analytics.')->group(func
     Route::get('/quiz/{quizResultId}', [AnalyticsController::class, 'quizAnalytics'])->name('quiz');
     Route::get('/skills', [AnalyticsController::class, 'skillAnalytics'])->name('skills');
 });
+
 Route::middleware(['auth'])->group(function () {
     // Skill improvement routes
     Route::prefix('skills')->group(function () {
