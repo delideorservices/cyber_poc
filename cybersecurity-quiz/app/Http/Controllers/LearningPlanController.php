@@ -11,6 +11,12 @@ use App\Models\User;
 use App\Models\Skill;
 use App\Models\Topic;
 use App\Models\UserSkill;
+use App\Models\LearningPlan;
+use App\Models\LearningPlanModule;
+use App\Models\LearningPlanProgress;
+use App\Models\SkillAnalytic;
+use App\Models\Certification;
+use App\Services\AgentService;
 
 class LearningPlanController extends BaseApiController
 {

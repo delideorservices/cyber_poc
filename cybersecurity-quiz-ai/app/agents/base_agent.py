@@ -1,180 +1,102 @@
-import os
-import logging
-from typing import Dict, Any, Optional, List
-from abc import ABC, abstractmethod
-import openai
-from langchain.llms import OpenAI
-from crewai import Agent, Task, Crew
-from dotenv import load_dotenv
+from langchain.agents import AgentExecutor
+from langchain.schema import HumanMessage
+from app.services.db_service import db_service
+from typing import Dict, Any, List, Optional
 
-# Import utility functions
-from utils.db_connector import DatabaseConnector
-
-# Load environment variables
-load_dotenv()
-
-# Configure logging
-logger = logging.getLogger(__name__)
-
-class BaseAgent(ABC):
-    """
-    Base agent class that provides common functionality for all agents.
-    All specific agents should inherit from this class.
-    """
+class BaseAgent:
+    """Base class for all agents in the system"""
     
-    def __init__(self):
+    def __init__(self, name: str, description: str):
+        self.name = name
+        self.description = description
+        
+    def run(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Initialize the base agent with common configurations.
-        """
-        # Set up OpenAI API key
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        
-        # Initialize database connector
-        self.db = DatabaseConnector()
-        
-        # Set up LangChain LLM
-        self.llm = OpenAI(
-            temperature=0.7,
-            openai_api_key=os.getenv("OPENAI_API_KEY")
-        )
-        
-        # Set up agent name
-        self.agent_name = self.__class__.__name__
-        
-        logger.info(f"Initialized {self.agent_name}")
-    
-    def build_crew_agent(self, name: str, role: str, goal: str):
-        """
-        Create a CrewAI agent with the given parameters.
+        Execute agent's main functionality
         
         Args:
-            name: The name of the agent
-            role: The role of the agent
-            goal: The goal of the agent
-        
+            inputs: Dictionary of input parameters
+            
         Returns:
-            Agent: A CrewAI agent
+            Dictionary containing results
         """
-        return Agent(
-            name=name,
-            role=role,
-            goal=goal,
-            backstory=f"You are an AI assistant specialized in {role.lower()}.",
-            verbose=True,
-            llm=self.llm
-        )
-    
-    def create_task(self, agent, description: str, expected_output: str):
+        try:
+            # Log the start of agent execution
+            db_service.log_agent_action(
+                agent_name=self.name,
+                action="execute",
+                input_data=inputs,
+                status="running"
+            )
+            
+            # Execute agent logic - to be implemented by subclasses
+            result = self._execute(inputs)
+            
+            # Log successful completion
+            db_service.log_agent_action(
+                agent_name=self.name,
+                action="execute",
+                input_data=inputs,
+                output_data=result,
+                status="success"
+            )
+            
+            return result
+            
+        except Exception as e:
+            # Log error
+            db_service.log_agent_action(
+                agent_name=self.name,
+                action="execute",
+                input_data=inputs,
+                status="error",
+                error_message=str(e)
+            )
+            
+            # Re-raise the exception
+            raise
+        
+    def _execute(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Create a task for a CrewAI agent.
+        Main execution logic - to be implemented by subclasses
         
         Args:
-            agent: The CrewAI agent
-            description: The task description
-            expected_output: The expected output format
-        
+            inputs: Dictionary of input parameters
+            
         Returns:
-            Task: A CrewAI task
+            Dictionary containing results
         """
-        return Task(
-            description=description,
-            expected_output=expected_output,
-            agent=agent
-        )
-    
-    def execute_crew(self, agents: List, tasks: List):
+        raise NotImplementedError("Subclasses must implement _execute method")
+        
+    def _validate_inputs(self, inputs: Dict[str, Any], required_keys: List[str]) -> None:
         """
-        Execute a crew of agents with the given tasks.
+        Validate that the inputs dictionary contains all required keys with valid values
         
         Args:
-            agents: List of CrewAI agents
-            tasks: List of CrewAI tasks
-        
-        Returns:
-            Any: The result of the crew execution
+            inputs: Dictionary of inputs to validate
+            required_keys: List of required keys
+            
+        Raises:
+            ValueError: If any required key is missing or has an invalid value
         """
-        crew = Crew(
-            agents=agents,
-            tasks=tasks,
-            verbose=2
-        )
-        return crew.kickoff()
-    
-    def get_user_data(self, user_id: int) -> Dict[str, Any]:
-        """
-        Get user data from the database.
+        print(f"Validating inputs: {list(inputs.keys())}")
+        print(f"Required keys: {required_keys}")
         
-        Args:
-            user_id: The user ID
+        for key in required_keys:
+            if key not in inputs:
+                print(f"Missing required input: {key}")
+                raise ValueError(f"Missing required input: {key}")
+            
+            # Check if the value is None or empty string
+            value = inputs.get(key)
+            print(f"Checking key '{key}' with value: {value}")
+            
+            if value is None:
+                print(f"Required input '{key}' is None")
+                raise ValueError(f"Required input '{key}' is None")
+                
+            if isinstance(value, str) and value.strip() == '':
+                print(f"Required input '{key}' is empty string")
+                raise ValueError(f"Required input '{key}' is empty string")
         
-        Returns:
-            Dict: User data
-        """
-        return self.db.get_user_data(user_id)
-    
-    def get_user_skills(self, user_id: int) -> List[Dict[str, Any]]:
-        """
-        Get user skills from the database.
-        
-        Args:
-            user_id: The user ID
-        
-        Returns:
-            List[Dict]: User skills
-        """
-        return self.db.get_user_skills(user_id)
-    
-    def get_user_quiz_results(self, user_id: int, limit: Optional[int] = None) -> List[Dict[str, Any]]:
-        """
-        Get user quiz results from the database.
-        
-        Args:
-            user_id: The user ID
-            limit: Optional limit on the number of results
-        
-        Returns:
-            List[Dict]: User quiz results
-        """
-        return self.db.get_user_quiz_results(user_id, limit)
-    
-    def save_to_database(self, table: str, data: Dict[str, Any]) -> int:
-        """
-        Save data to the database.
-        
-        Args:
-            table: The database table
-            data: The data to save
-        
-        Returns:
-            int: The ID of the inserted record
-        """
-        return self.db.insert(table, data)
-    
-    def update_in_database(self, table: str, record_id: int, data: Dict[str, Any]) -> bool:
-        """
-        Update data in the database.
-        
-        Args:
-            table: The database table
-            record_id: The ID of the record to update
-            data: The data to update
-        
-        Returns:
-            bool: Whether the update was successful
-        """
-        return self.db.update(table, record_id, data)
-    
-    @abstractmethod
-    def execute(self, user_id: int, data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Execute the agent's main functionality.
-        This method must be implemented by all subclasses.
-        
-        Args:
-            user_id: The user ID
-            data: Additional data for the agent
-        
-        Returns:
-            Dict: The result of the agent execution
-        """
-        pass
+        print("All required inputs validated successfully")

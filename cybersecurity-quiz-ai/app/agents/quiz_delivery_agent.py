@@ -14,6 +14,10 @@ class QuizDeliveryAgent:
     
     def _validate_inputs(self, inputs: Dict[str, Any], required_keys: list) -> None:
         """Validate that required keys are present in inputs"""
+        # print("Extracted data from delivery:")
+        # for key, value in inputs.items():
+        #             print(f"  {key}: {value}")
+            # Validate required inputs
         for key in required_keys:
             if key not in inputs:
                 raise ValueError(f"Missing required input: {key}")
@@ -39,7 +43,14 @@ class QuizDeliveryAgent:
             # Validate required inputs - quiz_data must come from CrewAI output context
             if 'quiz' not in inputs and 'quiz_data' in inputs:
                 inputs['quiz'] = inputs['quiz_data']
-            
+            if 'quiz' not in inputs:
+                # Try to find quiz inside quiz_data
+                if 'quiz_data' in inputs:
+                    inputs['quiz'] = inputs['quiz_data']
+                # Try to find quiz inside formatted_quiz
+                elif 'formatted_quiz' in inputs and 'quiz' in inputs['formatted_quiz']:
+                    inputs['quiz'] = inputs['formatted_quiz']['quiz']
+                    print(f"Extracted quiz from formatted_quiz: {inputs['quiz'].get('title', 'No title')}")
             self._validate_inputs(inputs, ['quiz'])
             
             # Import dependencies here to avoid circular imports

@@ -6,7 +6,11 @@ use App\Models\Quiz;
 use App\Models\Chapter;
 use App\Models\Question;
 use App\Models\User;
+use App\Models\Topic;
+
 use App\Models\UserResponse;
+use App\Models\UserQuizResult;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
@@ -27,58 +31,75 @@ class QuizController extends Controller
     }
     
     public function show(Quiz $quiz, Request $request)
-    {
-        // Check if quiz belongs to user
-        // if ($quiz->user_id !== $request->user()->id && !$request->user()->is_admin) {
-        //     return response()->json(['error' => 'Unauthorized'], 403);
-        // }
-        // dd($quiz);
-        // Load quiz relationships
-        $quiz->load(['chapters.questions', 'topic', 'sector', 'role']);
-        
-        // Format quiz for frontend display
-        $formattedQuiz = [
-            'id' => $quiz->id,
-            'title' => $quiz->title,
-            'description' => $quiz->description,
-            'topic' => $quiz->topic->name,
-            'difficulty_level' => $quiz->difficulty_level,
-            'created_at' => $quiz->created_at 
-                ? $quiz->created_at->format('Y-m-d H:i:s') 
-                : null,
-            'chapters' => []
+{
+    // Load quiz relationships
+    $quiz->load(['chapters.questions', 'topic', 'sector', 'role']);
+    
+    // Format quiz for frontend display
+    $formattedQuiz = [
+        'id' => $quiz->id,
+        'title' => $quiz->title,
+        'description' => $quiz->description,
+        'topic' => $quiz->topic->name,
+        'difficulty_level' => $quiz->difficulty_level,
+        'created_at' => $quiz->created_at 
+            ? $quiz->created_at->format('Y-m-d H:i:s') 
+            : null,
+        'chapters' => []
+    ];
+    
+    foreach ($quiz->chapters as $chapter) {
+        $formattedChapter = [
+            'id' => $chapter->id,
+            'title' => $chapter->title,
+            'description' => $chapter->description,
+            'sequence' => $chapter->sequence,
+            'questions' => []
         ];
         
-        foreach ($quiz->chapters as $chapter) {
-            $formattedChapter = [
-                'id' => $chapter->id,
-                'title' => $chapter->title,
-                'description' => $chapter->description,
-                'sequence' => $chapter->sequence,
-                'questions' => []
-            ];
-            
-            foreach ($chapter->questions as $question) {
-                $formattedQuestion = [
-                    'id' => $question->id,
-                    'type' => $question->type,
-                    'content' => $question->content,
-                    'options' => $question->options,
-                    'correct_answer' => $question->correct_answer, // Added correct answer
-                    'explanation' => $question->explanation, // Added explanation
-                    'sequence' => $question->sequence,
-                    'points' => $question->points
-                ];
-                
-                $formattedChapter['questions'][] = $formattedQuestion;
+        foreach ($chapter->questions as $question) {
+            // Ensure options is properly decoded as array
+            $options = $question->options;
+            if (is_string($options)) {
+                $options = json_decode($options, true);
             }
             
-            $formattedQuiz['chapters'][] = $formattedChapter;
+            // Ensure correct_answer is properly extracted from JSON if needed
+            $correctAnswer = $question->correct_answer;
+            if (is_string($correctAnswer) && $this->isJsonString($correctAnswer)) {
+                $correctAnswer = json_decode($correctAnswer, true);
+            }
+            
+            $formattedQuestion = [
+                'id' => $question->id,
+                'type' => $question->type,
+                'content' => $question->content,
+                'options' => $options,
+                'correct_answer' => $correctAnswer,
+                'explanation' => $question->explanation,
+                'sequence' => $question->sequence,
+                'points' => $question->points
+            ];
+            
+            $formattedChapter['questions'][] = $formattedQuestion;
         }
         
-        return response()->json($formattedQuiz);
+        $formattedQuiz['chapters'][] = $formattedChapter;
+    }
+    // dd(response()->json($formattedQuiz));
+    return response()->json($formattedQuiz);
+}
+
+// Helper function to detect JSON strings
+private function isJsonString($string) {
+    if (!is_string($string)) {
+        return false;
     }
     
+    json_decode($string);
+    return (json_last_error() == JSON_ERROR_NONE);
+}
+
     public function generate(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -90,7 +111,9 @@ class QuizController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        
+        $topic = Topic::find($request->topic_id);
+         $topicName = $topic ? $topic->name : '';
+         
         $user = $request->user();
         // dd(Auth::user());
         // Prepare data for AI backend
@@ -106,10 +129,11 @@ class QuizController extends Controller
             'learning_goal' => $user->learning_goal,
             'preferred_language' => $user->preferred_language,
             'topic_id' => $request->topic_id,
+            'topic_name' => $topicName,
             'skills' => [],
             'certifications' => []
         ];
-        
+        // dd($requestData );
         // Add user skills
         foreach ($user->skills as $skill) {
             $requestData['skills'][] = [
@@ -130,7 +154,7 @@ class QuizController extends Controller
                     : null,
             ];
         }
-        
+        // dd(config('services.ai_backend.url'));
         // Call AI backend to generate quiz
         try {
             $response = Http::timeout(300)->post(config('services.ai_backend.url') . '/api/agents/register', $requestData);

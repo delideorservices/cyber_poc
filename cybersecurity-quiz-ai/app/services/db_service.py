@@ -5,7 +5,7 @@ import os
 from typing import Dict, Any, List, Optional, Tuple
 from datetime import datetime
 from dotenv import load_dotenv
-
+import psycopg2.extras
 # Load environment variables
 load_dotenv()
 
@@ -68,29 +68,55 @@ class DatabaseService:
         """Fetch a single row as a dictionary"""
         try:
             with self.get_connection() as conn:
-                with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
-                    cursor.execute(query, params)
-                    result = cursor.fetchone()
-                    
-                    if result:
-                        return dict(result)
-                    return None
+                try:
+                    # Try to use DictCursor if available
+                    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
+                        cursor.execute(query, params)
+                        result = cursor.fetchone()
+                        
+                        if result:
+                            return dict(result)
+                        return None
+                except AttributeError:
+                    # Fall back to regular cursor if extras is not available
+                    with conn.cursor() as cursor:
+                        cursor.execute(query, params)
+                        result = cursor.fetchone()
+                        
+                        if result:
+                            # If we don't have DictCursor, construct a dict manually
+                            # by getting column names from cursor.description
+                            column_names = [desc[0] for desc in cursor.description]
+                            return dict(zip(column_names, result))
+                        return None
         except Exception as e:
             logger.error(f"Error fetching one row: {str(e)}")
             return None
-    
+
     def fetch_all(self, query: str, params=None) -> List[Dict[str, Any]]:
         """Fetch all rows as dictionaries"""
         try:
             with self.get_connection() as conn:
-                with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
-                    cursor.execute(query, params)
-                    results = cursor.fetchall()
-                    
-                    return [dict(row) for row in results]
+                try:
+                    # Try to use DictCursor if available
+                    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
+                        cursor.execute(query, params)
+                        results = cursor.fetchall()
+                        
+                        return [dict(row) for row in results]
+                except AttributeError:
+                    # Fall back to regular cursor if extras is not available
+                    with conn.cursor() as cursor:
+                        cursor.execute(query, params)
+                        results = cursor.fetchall()
+                        
+                        # If we don't have DictCursor, construct dicts manually
+                        column_names = [desc[0] for desc in cursor.description]
+                        return [dict(zip(column_names, row)) for row in results]
         except Exception as e:
             logger.error(f"Error fetching all rows: {str(e)}")
             return []
+
     
     def log_agent_action(self, agent_name: str, action: str, input_data: Dict[str, Any], 
                         output_data: Optional[Dict[str, Any]] = None, status: str = "success", 
@@ -190,6 +216,37 @@ class DatabaseService:
         """
         
         return self.fetch_all(query, tuple(skill_ids))
+    def execute_returning(self, query: str, params=None) -> Any:
+        """Execute a query and return a single value from the RETURNING clause"""
+        try:
+            with self.get_connection() as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(query, params)
+                    result = cursor.fetchone()
+                    conn.commit()
+                    
+                    # Debug the result
+                    print(f"execute_returning result: {result}, type: {type(result)}")
+                    
+                    # If result is a tuple, return the first element
+                    if result and isinstance(result, tuple) and len(result) > 0:
+                        print(f"Returning first element: {result[0]}, type: {type(result[0])}")
+                        return result[0]
+                    
+                    # If result is a list, return the first element
+                    if result and isinstance(result, list) and len(result) > 0:
+                        print(f"Returning first element of list: {result[0]}, type: {type(result[0])}")
+                        return result[0]
+                    
+                    return result
+        except Exception as e:
+            logger.error(f"Error in execute_returning: {str(e)}")
+            print(f"Error in execute_returning: {str(e)}")
+            # Print the full traceback for debugging
+            import traceback
+            traceback.print_exc()
+            raise
+
 
     def get_peer_performance(self, user_id, similar_criteria):
         """

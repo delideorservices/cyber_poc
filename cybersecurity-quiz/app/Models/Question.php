@@ -20,9 +20,10 @@ class Question extends Model
         'sequence'
     ];
     
-    protected $casts = [
+     protected $casts = [
         'options' => 'array',
-        'correct_answer' => 'array',
+        'correct_answer' => 'string', // This is crucial - make sure it's not cast as array
+        'metadata' => 'array'
     ];
 
     public function chapter()

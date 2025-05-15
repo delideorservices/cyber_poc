@@ -38,9 +38,18 @@ class QuizGeneratorAgent(BaseAgent):
         Returns:
             Dictionary with generated quiz data
         """
+        if 'mapping_data' in inputs and isinstance(inputs['mapping_data'], dict):
+            mapping_data = inputs['mapping_data']
+            
+            # Bring nested data to the top level
+            for key, value in mapping_data.items():
+                if key not in inputs:
+                    inputs[key] = value
+            
+        
         # Validate required inputs
         self._validate_inputs(inputs, ['user_id', 'topic_id', 'topic_name', 'experience_level'])
-        
+        # print("i am here")
         # Extract key parameters
         user_id = inputs['user_id']
         topic_id = inputs['topic_id']
@@ -304,56 +313,91 @@ class QuizGeneratorAgent(BaseAgent):
         """
         chapters = quiz_content.get('chapters', [])
         
+        # Debug the quiz_id
+        print(f"Starting _save_quiz_content with quiz_id: {quiz_id}, type: {type(quiz_id)}")
+        
+        # Extract quiz_id if it's wrapped in a list or tuple
+        if isinstance(quiz_id, list):
+            quiz_id = quiz_id[0]
+            print(f"Extracted quiz_id from list: {quiz_id}")
+            
+        # If it's a tuple, extract the first element
+        if isinstance(quiz_id, tuple):
+            quiz_id = quiz_id[0]
+            print(f"Extracted quiz_id from tuple: {quiz_id}")
+        
+        # If it's still not an integer, try to convert it
+        if not isinstance(quiz_id, int):
+            try:
+                quiz_id = int(quiz_id)
+                print(f"Converted quiz_id to int: {quiz_id}")
+            except (ValueError, TypeError):
+                print(f"Failed to convert quiz_id to int: {quiz_id}")
+        
         for chapter_idx, chapter in enumerate(chapters):
             # Insert chapter
-            chapter_id = db_service.execute_returning(
-                """
+            try:
+                # Use a simple query with proper parameter types
+                insert_query = """
                 INSERT INTO chapters
                 (quiz_id, title, description, sequence, created_at, updated_at)
                 VALUES (%s, %s, %s, %s, NOW(), NOW())
                 RETURNING id
-                """,
-                (
-                    quiz_id,
+                """
+                
+                params = (
+                    int(quiz_id),  # Ensure quiz_id is an integer
                     chapter.get('title', f"Chapter {chapter_idx + 1}"),
                     chapter.get('description', ''),
                     chapter_idx + 1
                 )
-            )
-            
-            # Insert questions
-            questions = chapter.get('questions', [])
-            for question_idx, question in enumerate(questions):
-                # Ensure options is a list
-                options = question.get('options', [])
-                if question.get('type') == 'true_false':
-                    options = ['True', 'False']
                 
-                # Format correct answer based on question type
-                correct_answer = question.get('correct_answer')
-                if isinstance(correct_answer, int) or (isinstance(correct_answer, str) and correct_answer.isdigit()):
-                    # Handle index-based answer (convert to string for consistency)
-                    correct_answer = str(correct_answer)
+                print(f"Chapter insert params: {params}")
                 
-                db_service.execute(
-                    """
-                    INSERT INTO questions
-                    (chapter_id, type, content, options, correct_answer, explanation, sequence, points, created_at, updated_at)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
-                    """,
-                    (
-                        chapter_id,
-                        question.get('type', 'mcq'),
-                        question.get('content', ''),
-                        json.dumps(options),
-                        json.dumps(correct_answer),
-                        question.get('explanation', ''),
-                        question_idx + 1,
-                        1  # Default point value
+                # Insert chapter
+                chapter_id = db_service.execute_returning(insert_query, params)
+                print(f"Inserted chapter with ID: {chapter_id}")
+                
+                # Insert questions
+                questions = chapter.get('questions', [])
+                for question_idx, question in enumerate(questions):
+                    # Ensure options is a list
+                    options = question.get('options', [])
+                    if question.get('type') == 'true_false':
+                        options = ['True', 'False']
+                    
+                    # Format correct answer based on question type
+                    correct_answer = question.get('correct_answer')
+                    if isinstance(correct_answer, int) or (isinstance(correct_answer, str) and correct_answer.isdigit()):
+                        # Handle index-based answer (convert to string for consistency)
+                        correct_answer = str(correct_answer)
+                    
+                    db_service.execute(
+                        """
+                        INSERT INTO questions
+                        (chapter_id, type, content, options, correct_answer, explanation, sequence, points, created_at, updated_at)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
+                        """,
+                        (
+                            chapter_id,
+                            question.get('type', 'mcq'),
+                            question.get('content', ''),
+                            json.dumps(options),
+                            json.dumps(correct_answer),
+                            question.get('explanation', ''),
+                            question_idx + 1,
+                            1  # Default point value
+                        )
                     )
-                )
+                    
+                logger.info(f"Saved chapter '{chapter.get('title')}' with {len(questions)} questions")
                 
-            logger.info(f"Saved chapter '{chapter.get('title')}' with {len(questions)} questions")
+            except Exception as e:
+                print(f"Error inserting chapter: {str(e)}")
+                logger.error(f"Error inserting chapter: {str(e)}")
+                # Continue with next chapter instead of failing the entire operation
+                continue
+
     
     def _generate_fallback_quiz(self, topic_name: str, user_role: str, user_sector: str) -> Dict:
         """

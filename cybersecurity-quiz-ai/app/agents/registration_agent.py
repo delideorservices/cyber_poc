@@ -10,7 +10,33 @@ class RegistrationAgent(BaseAgent):
             name="RegistrationAgent",
             description="Handles user registration and topic input"
         )
-    
+    def execute(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Main execution method required by the BaseAgent class.
+        This method delegates to the _execute method.
+        
+        Args:
+            inputs: Dictionary containing user registration data
+            
+        Returns:
+            Dictionary with user_id and status
+        """
+        try:
+            # Validate inputs
+            if not isinstance(inputs, dict):
+                raise ValueError("Inputs must be a dictionary")
+            
+            # Call the internal _execute method
+            return self._execute(inputs)
+        except Exception as e:
+            # Log the error
+            print(f"Error in RegistrationAgent.execute: {str(e)}")
+            # Return error response
+            return {
+                "status": "error",
+                "message": str(e)
+            }
+
     def _execute(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         """
         Process user registration data and store in database
@@ -37,7 +63,7 @@ class RegistrationAgent(BaseAgent):
             update_values = []
             
             for field in ['name', 'gender', 'age', 'sector_id', 'role_id', 'years_experience', 
-                          'learning_goal', 'preferred_language']:
+                        'learning_goal', 'preferred_language']:
                 if field in inputs:
                     update_fields.append(f"{field} = %s")
                     update_values.append(inputs[field])
@@ -47,28 +73,51 @@ class RegistrationAgent(BaseAgent):
                 update_values.append(user_id)
                 db_service.execute(query, tuple(update_values))
         else:
-            # Create new user with hashed password
-            user_id = db_service.execute_returning(
-                """
-                INSERT INTO users 
-                (name, email, password, gender, age, sector_id, role_id, 
-                years_experience, learning_goal, preferred_language, created_at, updated_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
-                RETURNING id
-                """,
-                (
-                    inputs['name'],
-                    inputs['email'],
-                    inputs.get('password', ''),  # In a real app, hash this password
-                    inputs.get('gender'),
-                    inputs.get('age'),
-                    inputs['sector_id'],
-                    inputs['role_id'],
-                    inputs.get('years_experience'),
-                    inputs.get('learning_goal'),
-                    inputs.get('preferred_language', 'en')
+            # Log attempt to create user
+            print(f"Creating new user with email: {inputs['email']}")
+            
+            try:
+                # Create new user with hashed password
+                user_id = db_service.execute_returning(
+                    """
+                    INSERT INTO users 
+                    (name, email, password, gender, age, sector_id, role_id, 
+                    years_experience, learning_goal, preferred_language, created_at, updated_at)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
+                    RETURNING id
+                    """,
+                    (
+                        inputs['name'],
+                        inputs['email'],
+                        inputs.get('password', ''),  # In a real app, hash this password
+                        inputs.get('gender'),
+                        inputs.get('age'),
+                        inputs['sector_id'],
+                        inputs['role_id'],
+                        inputs.get('years_experience'),
+                        inputs.get('learning_goal'),
+                        inputs.get('preferred_language', 'en')
+                    )
                 )
-            )
+            except Exception as e:
+                # If we get a duplicate key error, try to fetch the existing user
+                if "duplicate key" in str(e) and "users_email_unique" in str(e):
+                    print(f"Duplicate key error, trying to fetch existing user with email: {inputs['email']}")
+                    
+                    existing_user = db_service.fetch_one(
+                        "SELECT id FROM users WHERE email = %s",
+                        (inputs['email'],)
+                    )
+                    
+                    if existing_user:
+                        user_id = existing_user['id']
+                        print(f"Found existing user with ID: {user_id}")
+                    else:
+                        print(f"Failed to find existing user after duplicate key error")
+                        raise e
+                else:
+                    print(f"Error creating user: {str(e)}")
+                    raise e
         
         # Process skills if provided
         if 'skills' in inputs and inputs['skills']:

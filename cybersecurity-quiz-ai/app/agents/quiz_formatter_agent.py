@@ -21,8 +21,25 @@ class QuizFormatterAgent(BaseAgent):
         Returns:
             Dictionary with formatted quiz data
         """
-        # Validate required inputs
+        # print("hi")
+        
+        if 'quiz_id' not in inputs and 'quiz_content' in inputs:
+            # Try to get quiz_id from inside quiz_content
+            if isinstance(inputs['quiz_content'], dict) and 'quiz_id' in inputs['quiz_content']:
+                nested_quiz_id = inputs['quiz_content']['quiz_id']
+                
+                # Handle complex nesting
+                if isinstance(nested_quiz_id, list) and len(nested_quiz_id) > 0:
+                    nested_quiz_id = nested_quiz_id[0]
+                if isinstance(nested_quiz_id, tuple) and len(nested_quiz_id) > 0:
+                    nested_quiz_id = nested_quiz_id[0]
+                    
+                # Add extracted quiz_id to top level
+                inputs['quiz_id'] = nested_quiz_id
+                print(f"Extracted quiz_id from quiz_content: {inputs['quiz_id']}")
         self._validate_inputs(inputs, ['quiz_id'])
+        # print("hello")
+        
         
         quiz_id = inputs['quiz_id']
         
@@ -77,6 +94,8 @@ class QuizFormatterAgent(BaseAgent):
                     'options': question['options'],
                     'sequence': question['sequence'],
                     'points': question['points'],
+                    'correct_answer': question['correct_answer'],  # Add this line
+                    'explanation': question['explanation']  
                     # Don't include correct answer in frontend data
                 }
                 
